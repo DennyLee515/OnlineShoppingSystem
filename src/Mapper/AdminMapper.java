@@ -17,27 +17,24 @@ import java.util.List;
  **/
 public class AdminMapper extends DataMapper {
     @Override
-    public boolean insert(DomainObject domainObject) {
+    public boolean insert(DomainObject domainObject) throws Exception {
         Admin admin = (Admin) domainObject;
         String insertAdmin = "INSERT INTO public.admin " +
                 "(admin_id, admin_username, admin_email,admin_firstname,admin_lastname, " +
                 "admin_password, department_id) VALUES (?,?,?,?,?,?,?);";
         int result = 0;
-        try {
-            PreparedStatement preparedStatement = DBConnection.prepare(insertAdmin);
-            preparedStatement.setString(1, admin.getAdminId());
-            preparedStatement.setString(2, admin.getAdminUsername());
-            preparedStatement.setString(3, admin.getAdminEmail());
-            preparedStatement.setString(4, admin.getAdminFname());
-            preparedStatement.setString(5, admin.getAdminLname());
-            preparedStatement.setString(6, admin.getAdminPassword());
-            preparedStatement.setInt(7, admin.getDepartmentId());
-            result = preparedStatement.executeUpdate();
-            DBConnection.close(preparedStatement);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        PreparedStatement preparedStatement = DBConnection.prepare(insertAdmin);
+        preparedStatement.setString(1, admin.getAdminId());
+        preparedStatement.setString(2, admin.getAdminUsername());
+        preparedStatement.setString(3, admin.getAdminEmail());
+        preparedStatement.setString(4, admin.getAdminFname());
+        preparedStatement.setString(5, admin.getAdminLname());
+        preparedStatement.setString(6, admin.getAdminPassword());
+        preparedStatement.setInt(7, admin.getDepartmentId());
+        result = preparedStatement.executeUpdate();
+        DBConnection.close(preparedStatement);
+
         return result != 0;
     }
 
@@ -46,15 +43,13 @@ public class AdminMapper extends DataMapper {
         Admin admin = (Admin) domainObject;
         String deleteAdminById = "DELETE FROM public.admin WHERE admin_id = ?";
         int result = 0;
-        try {
-            PreparedStatement preparedStatement = DBConnection.prepare(deleteAdminById);
-            preparedStatement.setString(1, admin.getAdminId());
 
-            result = preparedStatement.executeUpdate();
-            DBConnection.close(preparedStatement);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        PreparedStatement preparedStatement = DBConnection.prepare(deleteAdminById);
+        preparedStatement.setString(1, admin.getAdminId());
+
+        result = preparedStatement.executeUpdate();
+        DBConnection.close(preparedStatement);
+
         return result != 0;
     }
 
@@ -74,7 +69,7 @@ public class AdminMapper extends DataMapper {
 
         result = preparedStatement.executeUpdate();
         DBConnection.close(preparedStatement);
-        return result!=0;
+        return result != 0;
     }
 
     public List<Admin> findAdminById(Admin admin) {

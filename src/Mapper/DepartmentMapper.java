@@ -10,7 +10,7 @@ import Domain.DomainObject;
  **/
 public class DepartmentMapper extends DataMapper{
     @Override
-    public boolean insert(DomainObject domainObject) {
+    public boolean insert(DomainObject domainObject) throws Exception{
         return false;
     }
 

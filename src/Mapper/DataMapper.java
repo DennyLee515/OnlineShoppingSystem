@@ -9,7 +9,7 @@ import Domain.DomainObject;
  * @create: 2019-09-02 00:25
  **/
 public abstract class DataMapper {
-    public abstract boolean insert(DomainObject domainObject);
+    public abstract boolean insert(DomainObject domainObject) throws Exception;
     
     public abstract boolean delete(DomainObject domainObject) throws Exception;
     

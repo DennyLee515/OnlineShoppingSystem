@@ -18,13 +18,13 @@ import java.util.List;
  **/
 public class UserMapper extends DataMapper {
     @Override
-    public boolean insert(DomainObject domainObject) {
+    public boolean insert(DomainObject domainObject) throws Exception{
         User user = (User) domainObject;
         String insertUser = "INSERT INTO public.user " +
                 "(user_id, user_firstname, user_lastname,username,user_password, birthday, " +
                 "user_email, user_address) VALUES (?,?,?,?,?,?,?,?);";
         int result = 0;
-        try {
+
             PreparedStatement preparedStatement = DBConnection.prepare(insertUser);
             preparedStatement.setString(1, user.getUserId());
             preparedStatement.setString(2, user.getuFname());
@@ -36,9 +36,7 @@ public class UserMapper extends DataMapper {
             preparedStatement.setString(8, user.getAddress());
 
             result = preparedStatement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         if (result == 0)
             return false;
         else
@@ -50,15 +48,13 @@ public class UserMapper extends DataMapper {
         User user = (User) domainObject;
         String deleteAdminById = "DELETE FROM public.user WHERE user_id = ?";
         int result = 0;
-        try {
+
             PreparedStatement preparedStatement = DBConnection.prepare(deleteAdminById);
             preparedStatement.setString(1, user.getUserId());
 
             result = preparedStatement.executeUpdate();
             DBConnection.close(preparedStatement);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         return result != 0;
     }
 

@@ -18,16 +18,18 @@ public class Product extends DomainObject{
     private double price;
     private int weight;
     private Date createdAt;
+    private int categoryId;
     public Product() {
     }
 
-    public Product(String pName, String info, double price, int weight) {
+    public Product(String pName, String info, double price, int weight, int categoryId) {
         this.productId = UUID.randomUUID().toString();
         this.productName = pName;
         this.info = info;
         this.price = price;
         this.weight = weight;
         this.createdAt = new Date();
+        this.categoryId = categoryId;
     }
 
     public String getProductId() {
@@ -76,5 +78,13 @@ public class Product extends DomainObject{
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 }

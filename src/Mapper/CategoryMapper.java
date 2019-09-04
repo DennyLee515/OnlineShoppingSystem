@@ -13,6 +13,8 @@ import java.sql.PreparedStatement;
  * @create: 2019-09-02 23:54
  **/
 public class CategoryMapper extends DataMapper {
+
+
     @Override
     public boolean insert(DomainObject domainObject) throws Exception {
         Category category = (Category) domainObject;

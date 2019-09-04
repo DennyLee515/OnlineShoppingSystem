@@ -9,6 +9,8 @@ import Domain.DomainObject;
  * @create: 2019-09-02 23:54
  **/
 public class CartMapper extends DataMapper {
+
+
     @Override
     public boolean insert(DomainObject domainObject) throws Exception{
         return false;

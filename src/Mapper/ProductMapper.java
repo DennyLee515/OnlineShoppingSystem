@@ -111,4 +111,32 @@ public class ProductMapper extends DataMapper {
     }
 
 
+    public List<Product> findAll(){
+        String findProductByCategoryId = "SELECT * FROM public.product";
+        List<Product> result = new ArrayList<>();
+
+        try{
+            PreparedStatement preparedStatement = DBConnection.prepare(findProductByCategoryId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                Product product1 = new Product();
+
+                product1.setProductId(resultSet.getString(1));
+                product1.setProductName(resultSet.getString(2));
+                product1.setInfo(resultSet.getString(3));
+                product1.setPrice(resultSet.getDouble(4));
+                product1.setWeight(resultSet.getInt(5));
+                product1.setCreatedAt(resultSet.getTimestamp(6));
+                product1.setCategoryId(resultSet.getInt(7));
+
+                result.add(product1);
+            }
+            DBConnection.close(preparedStatement);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
 }

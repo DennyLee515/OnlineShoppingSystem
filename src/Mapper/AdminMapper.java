@@ -3,6 +3,7 @@ package Mapper;
 import Domain.Admin;
 import Domain.DomainObject;
 import Util.DBConnection;
+import Util.IdentityMap;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -72,26 +73,29 @@ public class AdminMapper extends DataMapper {
         return result != 0;
     }
 
-    public List<Admin> findAdminById(Admin admin) {
+    public Admin findAdminById(Admin admin) {
         String findUserById = "SELECT * From public.admin WHERE admin_id = ?";
-        List<Admin> result = new ArrayList<>();
+        Admin result = new Admin();
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(findUserById);
             preparedStatement.setString(1, admin.getAdminId());
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-                Admin admin1 = new Admin();
-                admin1.setAdminId(resultSet.getString(1));
-                admin1.setAdminUsername(resultSet.getString(2));
-                admin1.setAdminEmail(resultSet.getString(3));
-                admin1.setAdminFname(resultSet.getString(4));
-                admin1.setAdminLname(resultSet.getString(5));
-                admin1.setAdminPassword(resultSet.getString(6));
-                admin1.setDepartmentId(resultSet.getInt(7));
-                result.add(admin1);
-                DBConnection.close(preparedStatement);
-            }
+            resultSet.next();
+            Admin admin1 = new Admin();
+            IdentityMap<Admin> identityMap = IdentityMap.getInstance(admin1);
+            admin1.setAdminId(resultSet.getString(1));
+            admin1.setAdminUsername(resultSet.getString(2));
+            admin1.setAdminEmail(resultSet.getString(3));
+            admin1.setAdminFname(resultSet.getString(4));
+            admin1.setAdminLname(resultSet.getString(5));
+            admin1.setAdminPassword(resultSet.getString(6));
+            admin1.setDepartmentId(resultSet.getInt(7));
+
+            identityMap.put(admin1.getAdminId(),admin1);
+
+            DBConnection.close(preparedStatement);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

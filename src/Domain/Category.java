@@ -10,22 +10,22 @@ package Domain;/**
  **/
 public class Category extends DomainObject {
 
-    private int categoryId;
+    private String categoryId;
     private String categoryName;
 
     public Category() {
     }
 
-    public Category(int categoryId, String categoryName) {
+    public Category(String categoryId, String categoryName) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
     }
 
-    public int getCategoryId() {
+    public String getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 

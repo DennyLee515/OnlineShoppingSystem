@@ -24,7 +24,7 @@ public class CategoryMapper extends DataMapper {
         int result = 0;
 
         PreparedStatement preparedStatement = DBConnection.prepare(insertNewCategory);
-        preparedStatement.setInt(1, category.getCategoryId());
+        preparedStatement.setString(1, category.getCategoryId());
         preparedStatement.setString(2, category.getCategoryName());
         result = preparedStatement.executeUpdate();
         DBConnection.close(preparedStatement);
@@ -39,7 +39,7 @@ public class CategoryMapper extends DataMapper {
         int result = 0;
 
         PreparedStatement preparedStatement = DBConnection.prepare(deletCategoryById);
-        preparedStatement.setInt(1, category.getCategoryId());
+        preparedStatement.setString(1, category.getCategoryId());
         result = preparedStatement.executeUpdate();
 
         return result != 0;
@@ -54,7 +54,7 @@ public class CategoryMapper extends DataMapper {
 
         PreparedStatement preparedStatement = DBConnection.prepare(updateCategoryById);
         preparedStatement.setString(1,category.getCategoryName());
-        preparedStatement.setInt(2,category.getCategoryId());
+        preparedStatement.setString(2,category.getCategoryId());
         result = preparedStatement.executeUpdate();
 
         DBConnection.close(preparedStatement);

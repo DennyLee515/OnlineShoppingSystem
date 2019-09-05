@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class IdentityMap<E> {
 
-    private Map<Long, E> map = new HashMap<Long, E>();
+    private Map<String, E> map = new HashMap<String, E>();
 
     private static Map<Class, IdentityMap> singletons = new HashMap<Class, IdentityMap>();
 
@@ -20,12 +20,12 @@ public class IdentityMap<E> {
         return result;
     }
 
-    public void put(Long id, E obj){
+    public void put(String id, E obj){
         map.put(id, obj);
 
     }
 
-    public E get(long id){
+    public E get(String id){
         return map.get(id);
     }
 }

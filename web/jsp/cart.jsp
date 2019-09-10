@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: DennyLee
-  Date: 2019/9/6
-  Time: 0:19
+  Date: 2019/9/7
+  Time: 15:25
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -11,11 +11,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>York Way Coffee</title>
+    <title>My Cart</title>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div id="welcome">Products</div>
+<div id="welcome">My Cart</div>
 <div id="navi">
     <ul>
         <li><a href="index.jsp">Home</a></li>
@@ -41,27 +41,22 @@
 <div id="product">
     <table width="100%" align="left">
         <tr>
-            <th width="15%"><b>Product Name</b></th>
-            <th width="40%"><b>Info</b></th>
-            <th width="15%"><b>Origin</b></th>
-            <th width="15"><b>Price</b></th>
-            <th width="15%"><b>Weight</b></th>
-            <th><b></b></th>
+            <th width="40%"><b>Product Name</b></th>
+            <th width="30%"><b>Amount</b></th>
+            <th width="30%"><b>Price</b></th>
         </tr>
-        <c:forEach var="product" items="${products}">
+        <c:forEach var="cart" items="${carts}">
             <tr>
-                <td align="center">${product.productName}</td>
-                <td align="center">${product.info}</td>
-                <td align="center">${product.categoryId}</td>
-                <td align="center">${product.price}</td>
-                <td align="center">${product.weight}</td>
+                <td align="center">${cart.product.productName}</td>
+                <td align="center">${cart.productAmount}</td>
+                <td align="center">${cart.totalPrice}</td>
                 <td>
-                    <form action="frontservlet?command=AddToCart&&product=${product.productId}"
-                          method=
-                                  "post">
-                        Amount: <input id="name" type="text" name="amount" align="left" value="0">
-                        <input type="submit" value="Add to cart">
-                    </form>
+<%--                    <form action="frontservlet?command=AddToCart&&product=${product.productId}"--%>
+<%--                          method=--%>
+<%--                                  "post">--%>
+<%--                        Amount: <input id="name" type="text" name="amount" align="left" value="0">--%>
+<%--                        <input type="submit" value="Add to cart">--%>
+<%--                    </form>--%>
                 </td>
             </tr>
         </c:forEach>

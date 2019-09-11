@@ -110,4 +110,34 @@ public class CategoryMapper extends DataMapper {
         }
         return result;
     }
+
+
+    public List<Category> findCategoryByName(String name) {
+        String findCategoryByCategoryId = "SELECT * FROM public.category WHERE category_name = ?";
+        List<Category> result = new ArrayList<>();
+
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(findCategoryByCategoryId);
+            preparedStatement.setString(1,name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Category category1 = new Category();
+                IdentityMap<Category> identityMap = IdentityMap.getInstance(category1);
+
+                category1.setCategoryId(resultSet.getString(1));
+                category1.setCategoryName(resultSet.getString(2));
+
+                //register it into identityMap
+                identityMap.put(category1.getId(),category1);
+                result.add(category1);
+            }
+            DBConnection.close(preparedStatement);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
 }

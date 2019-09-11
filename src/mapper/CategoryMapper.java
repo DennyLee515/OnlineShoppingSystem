@@ -113,11 +113,11 @@ public class CategoryMapper extends DataMapper {
 
 
     public List<Category> findCategoryByName(String name) {
-        String findCategoryByCategoryId = "SELECT * FROM public.category WHERE category_name = ?";
+        String findCategoryByCategoryName = "SELECT * FROM public.category WHERE category_name = ?";
         List<Category> result = new ArrayList<>();
 
         try {
-            PreparedStatement preparedStatement = DBConnection.prepare(findCategoryByCategoryId);
+            PreparedStatement preparedStatement = DBConnection.prepare(findCategoryByCategoryName);
             preparedStatement.setString(1,name);
             ResultSet resultSet = preparedStatement.executeQuery();
 

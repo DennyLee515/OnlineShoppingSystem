@@ -23,7 +23,7 @@ public class AddToCartCommand extends FrontCommand{
     public void process() throws ServletException, IOException {
         String id = request.getParameter("product");
         int amount = Integer.valueOf(request.getParameter("amount"));
-        ProductService productService =new ProductService();
+        ProductService productService = new ProductService();
         Product product = new Product();
         product.setProductId(id);
         product = productService.findProductByID(product);

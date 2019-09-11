@@ -1,5 +1,8 @@
 package servlet;
 
+import domain.Category;
+import service.CategoryService;
+
 import javax.servlet.ServletException;
 import java.io.IOException;
 
@@ -7,29 +10,21 @@ public class AdminAddCategoryCommand extends FrontCommand{
 
     @Override
     public void process() throws ServletException, IOException {
+        String categoryName = request.getParameter("add_category");
+        Category category = new Category();
+        category.setCategoryName(categoryName);
 
+        CategoryService categoryService = new CategoryService();
+        categoryService.insertCategory(category);
+
+        //return add category result to front-end ?
 
     }
-
-
-
-//    public void process() throws ServletException, IOException {
-//        String id = request.getParameter("product");
-//        int amount = Integer.valueOf(request.getParameter("amount"));
-//        ProductService productService =new ProductService();
-//        Product product = new Product();
-//        product.setProductId(id);
-//        product = productService.findProductByID(product);
-//        CartService cartService = new CartService();
 //
-//        //TODO: update user by using session.
-//        User user = new User();
-//        user.setUsername("username");
-//        UserService userService = new UserService();
-//        user = userService.findUserByName(user);
-//        cartService.AddToCart(user,product,amount);
-//        List<Cart> carts = cartService.findCartByUser(user);
-//        System.out.println(carts.toString());
-//        request.setAttribute("carts", carts);
-//        forward("/jsp/cart.jsp");
+//    String productName= request.getParameter("name");
+//    List<Product> products = new ArrayList<>();
+//    ProductService productService = new ProductService();
+//    products = productService.findProductByName(productName);
+//        request.setAttribute("products", products);
+//    forward("/jsp/viewProducts.jsp");
 }

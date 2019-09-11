@@ -58,11 +58,28 @@ public class CategoryService {
         }
     }
 
-    public boolean updateCategory(Category category){
-        return false;
+    public boolean updateCategory(Category category) {
+
+        Boolean result;
+        try {
+            result = categoryMapper.update(category);
+            return result;
+        } catch (Exception e) {
+            System.out.println("Fail to update category.");
+            return false;
+        }
     }
 
     public boolean deleteCategory(Category category){
-        return false;
+        Boolean result;
+        try{
+            result = categoryMapper.delete(category);
+            return result;
+        } catch (Exception e){
+            System.out.println("Fail to delete category.");
+            return false;
+        }
     }
+
+
 }

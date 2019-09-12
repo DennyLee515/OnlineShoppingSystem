@@ -30,4 +30,8 @@ public abstract class FrontCommand {
         RequestDispatcher dispatcher = context.getRequestDispatcher(target);
         dispatcher.forward(request,response);
     }
+
+    protected void redirect(String target) throws ServletException,IOException{
+        response.sendRedirect(target);
+    }
 }

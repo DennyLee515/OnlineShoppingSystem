@@ -10,10 +10,8 @@
 <div id="welcome">Welcome to York Way Coffee!</div>
 <div id="navi">
     <ul>
-        <li><a href="index.jsp">Home</a></li>
-        <li><a href="frontservlet?command=ViewShop">Shop Coffee</a></li>
-        <li><a href="frontservlet?command=ViewCart">Cart</a></li>
-        <li><a href="">My Account</a> </li>
+        <li><a href="frontservlet?command=UserLogin">Login as Customer</a></li>
+        <li><a href="frontservlet?command=AdminLogin">Login as Admin</a></li>
     </ul>
 </div>
 </body>

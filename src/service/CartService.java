@@ -40,6 +40,7 @@ public class CartService {
         try {
             return cartMapper.insert(cart);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Insert cart service fail.");
             return false;
         }
@@ -63,6 +64,7 @@ public class CartService {
         try {
             return cartMapper.findCartByUserId(user);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Find cart by user service fail.");
         }
         return null;

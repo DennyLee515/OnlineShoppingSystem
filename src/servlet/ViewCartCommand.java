@@ -8,7 +8,7 @@ public class ViewCartCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
 
-        forward("/jsp/cart.jsp");
+        forward("/jsp/user/cart.jsp");
     }
 
 }

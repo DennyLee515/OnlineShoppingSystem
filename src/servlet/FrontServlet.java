@@ -47,10 +47,10 @@ public class FrontServlet extends HttpServlet {
 
         final String commandClassName = "servlet." + (String)req.getParameter("command")+ "Command";
 
-        System.out.println(commandClassName);
+//        System.out.println(commandClassName);
         try {
             result = Class.forName(commandClassName);
-            System.out.println(commandClassName);
+//            System.out.println(commandClassName);
         }catch (ClassNotFoundException e){
             System.out.println("Get Command Class Fail.");
             result = null;

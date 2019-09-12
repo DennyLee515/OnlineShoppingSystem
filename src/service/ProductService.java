@@ -1,6 +1,7 @@
 package service;
 
 import domain.Category;
+import domain.DomainObject;
 import domain.Product;
 import mapper.ProductMapper;
 import util.IdentityMap;
@@ -49,16 +50,26 @@ public class ProductService {
         return result;
     }
 
-    public boolean insertProduct() {
+    public boolean insertProduct(Product product) {
+        return productMapper.insert(product);
+    }
+
+    public boolean deleteProduct(Product product) {
+        try {
+            return productMapper.delete(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
-    public boolean deleteProduct() {
-        return false;
-    }
-
-    public boolean UpdateProduct() {
-        return false;
+    public boolean updateProduct(Product product) {
+        try {
+            return productMapper.update(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

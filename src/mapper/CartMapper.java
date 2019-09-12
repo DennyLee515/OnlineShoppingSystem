@@ -25,7 +25,7 @@ public class CartMapper extends DataMapper {
     public boolean insert(DomainObject domainObject) throws Exception {
         Cart cart = (Cart) domainObject;
         String insertCart = "INSERT INTO public.cart " +
-                "(cart_id, product_id, product_amount, total_price, user_id)" +
+                "(cart_id, product_id, amount, sub_total, user_id)" +
                 "VALUES(?,?,?,?,?)";
         int result = 0;
 
@@ -56,7 +56,7 @@ public class CartMapper extends DataMapper {
     public boolean update(DomainObject domainObject) throws Exception {
         Cart cart = (Cart) domainObject;
         String updateCartById = "UPDATE public.cart SET " +
-                "product_id = ?, product_amount = ?, total_price = ?, user_id = ?" +
+                "product_id = ?, amount = ?, sub_total = ?, user_id = ?" +
                 "WHERE cart_id = ?";
         int result = 0;
 

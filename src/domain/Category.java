@@ -2,6 +2,8 @@ package domain;/**
  * Created by DennyLee on 2019/9/1.
  */
 
+import java.util.UUID;
+
 /**
  * @program: CoffeeWeb
  * @description: Category
@@ -16,8 +18,8 @@ public class Category extends DomainObject {
     public Category() {
     }
 
-    public Category(String categoryId, String categoryName) {
-        this.categoryId = categoryId;
+    public Category(String categoryName) {
+        this.categoryId = UUID.randomUUID().toString();
         this.categoryName = categoryName;
     }
 

@@ -2,11 +2,12 @@ package servlet;
 
 import domain.Category;
 import service.CategoryService;
+import servlet.FrontCommand;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
 
-public class AdminDeleteCategoryCommand extends FrontCommand{
+public class AdminManageCategoryCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {

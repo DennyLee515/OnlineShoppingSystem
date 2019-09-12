@@ -45,12 +45,12 @@ public class test {
 
 
 //            System.out.println(productMapper.findAll().get(0).getProductName());
-//            ProductService productService = new ProductService();
-//            Product product = productService.findProductByName("product2").get(0);
+            ProductService productService = new ProductService();
+            Product product = productService.findProductByName("product2").get(0);
 
 //            CartService cartService = new CartService();
-//            cartService.AddToCart(user,product,1);
-//            System.out.println(productService.getAll().get(0).getProductName());
+            cartService.AddToCart(user,product,1);
+            System.out.println(productService.getAll().get(0).getProductName());
 //        AdminMapper adminMapper1 = new AdminMapper();
 //        List<Admin> result = adminMapper1.findUserById(2);
 //        System.out.println(result.get(0).getAdminLname());

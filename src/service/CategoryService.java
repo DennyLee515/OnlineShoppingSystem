@@ -14,48 +14,58 @@ import java.util.List;
  **/
 public class CategoryService {
     private CategoryMapper categoryMapper;
-    public CategoryService(){
+
+    public CategoryService() {
         categoryMapper = new CategoryMapper();
     }
 
-    public List<Category> getAllCategories(){
-        return categoryMapper.findAll();
-    }
-
-    public Category getCategroyById(Category category) throws Exception{
-        IdentityMap<Category> identityMap = new IdentityMap<>();
-        Category categoryFinded = identityMap.get(category.getId());
-
-        if (categoryFinded != null){
-            return categoryFinded;
+    public List<Category> getAllCategories() {
+        try {
+            return categoryMapper.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        return categoryMapper.findCategoryById(category);
+        return null;
     }
+
+    public Category getCategroyById(Category category) {
+        try {
+            IdentityMap<Category> identityMap = new IdentityMap<>();
+            Category categoryFinded = identityMap.get(category.getId());
+
+            if (categoryFinded != null) {
+                return categoryFinded;
+            } else {
+                return categoryMapper.findCategoryById(category);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Category findCategoryByName(Category category) {
+        try {
+            return categoryMapper.findCategoryByName(category);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     public boolean insertCategory(Category category) {
-
         try {
-            Category cateFinded = (Category) categoryMapper.findCategoryByName(category.getCategoryName());
-            Boolean result;
+            Category cateFinded = findCategoryByName(category);
 
-            // find cate by name; if exist , Mapper  update
-        if (cateFinded != null) {
-            cateFinded.setCategoryName(category.getCategoryName());
-            result = updateCategory(cateFinded);
-        }
-            // if not exist, new cate obj, Mapper insert
-        else {
-            Category newCate = category;
-            result = insertCategory(category);
-        }
-        return result;
-        }
-             // catch fail add, prompt->
-        catch (Exception e){
+            if (cateFinded == null) {
+                return categoryMapper.insert(category);
+            }
+
+        } catch (Exception e) {
             System.out.println("Fail to add the new category.");
-            return false;
         }
+        return false;
     }
 
     public boolean updateCategory(Category category) {
@@ -70,12 +80,12 @@ public class CategoryService {
         }
     }
 
-    public boolean deleteCategory(Category category){
+    public boolean deleteCategory(Category category) {
         Boolean result;
-        try{
+        try {
             result = categoryMapper.delete(category);
             return result;
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Fail to delete category.");
             return false;
         }

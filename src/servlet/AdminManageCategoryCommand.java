@@ -1,7 +1,9 @@
 package servlet;
 
 import domain.Category;
+import domain.Product;
 import service.CategoryService;
+import service.ProductService;
 import servlet.FrontCommand;
 
 import javax.servlet.ServletException;
@@ -11,31 +13,40 @@ public class AdminManageCategoryCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        String method = request.getParameter("method");
+        String categoryId;
+        Category category;
+        CategoryService categoryService;
 
-        // get delete category id
-        // cate service findById
-        // delete
-        String id = request.getParameter("del_category");
-        CategoryService categoryService = new CategoryService();
-        Category category = new Category();
-        category.setCategoryId(id);
-        try {
-            category = categoryService.getCategroyById(category);
-            categoryService.deleteCategory(category);
-            //prompt to front?
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        switch (method) {
+            case "create":
+                forward("/jsp/admin/newCategory.jsp");
+                break;
+            case "delete":
+                categoryId = request.getParameter("category");
+                category = new Category();
+                category.setCategoryId(categoryId);
+                categoryService = new CategoryService();
+                boolean result = categoryService.deleteCategory(category);
+                if (result){
+                    redirect("frontservlet?command=AdminCategory");
+                }else{
+                    //todo:redirect to error page
+                    System.out.println("Delete category failed");
+                }
+                break;
+            case "edit":
+                categoryId = request.getParameter("category");
+                category = new Category();
+                category.setCategoryId(categoryId);
+                categoryService = new CategoryService();
+                category = categoryService.findCategroyById(category);
+                request.setAttribute("category", category);
+                forward("/jsp/admin/editCategory.jsp");
+                break;
+            default:
+                System.out.println("Wrong category manage method input");
         }
-
-
-//        String id = request.getParameter("product");
-//        int amount = Integer.valueOf(request.getParameter("amount"));
-//        ProductService productService = new ProductService();
-//        Product product = new Product();
-//        product.setProductId(id);
-//        product = productService.findProductByID(product);
-//        CartService cartService = new CartService();
 
     }
 }

@@ -18,7 +18,7 @@ public class AdminEditProductCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         String productId = request.getParameter("product");
-        String name = request.getParameter("name");
+        String name = request.getParameter("productName");
         String info = request.getParameter("info");
         String categoryName = request.getParameter("category");
         double price = Double.parseDouble(request.getParameter("price"));
@@ -33,16 +33,15 @@ public class AdminEditProductCommand extends FrontCommand {
         product.setPrice(price);
         product.setWeight(weight);
 
-        Category category = new Category();
-        category.setCategoryName(categoryName);
+        Category category = new Category(categoryName);
         CategoryService categoryService = new CategoryService();
+        categoryService.insertCategory(category);
         category = categoryService.findCategoryByName(category);
-
         product.setCategory(category);
 
         boolean result = productService.updateProduct(product);
         if (result) {
-            redirect("frontservlet?command=AdminProductManage");
+            redirect("frontservlet?command=AdminProduct");
         } else {
             //todo:foward to error page
             System.out.println("Edit product fail.");

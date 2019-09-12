@@ -36,7 +36,6 @@ public class AddToCartCommand extends FrontCommand{
         user = userService.findUserByName(user);
         cartService.AddToCart(user,product,amount);
         List<Cart> carts = cartService.findCartByUser(user);
-        System.out.println(carts.toString());
         request.setAttribute("carts", carts);
         forward("/jsp/user/cart.jsp");
     }

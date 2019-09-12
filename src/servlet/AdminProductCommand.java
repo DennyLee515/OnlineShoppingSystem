@@ -14,7 +14,7 @@ import java.util.List;
  * @author: DennyLee
  * @create: 2019-09-12 15:46
  **/
-public class AdminProductManageCommand extends FrontCommand {
+public class AdminProductCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         ProductService productService = new ProductService();

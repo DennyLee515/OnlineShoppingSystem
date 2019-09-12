@@ -46,8 +46,11 @@ public class ProductService {
     }
 
     public List<Product> findProductByCategory(Category category) {
-        List<Product> result = new ArrayList<>();
-        return result;
+        try {
+            return productMapper.findProductByCategory(category);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }return null;
     }
 
     public boolean insertProduct(Product product) {

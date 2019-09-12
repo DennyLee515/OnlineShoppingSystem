@@ -28,7 +28,7 @@ public class CategoryService {
         return null;
     }
 
-    public Category getCategroyById(Category category) {
+    public Category findCategroyById(Category category) {
         try {
             IdentityMap<Category> identityMap = new IdentityMap<>();
             Category categoryFinded = identityMap.get(category.getId());
@@ -70,7 +70,7 @@ public class CategoryService {
 
     public boolean updateCategory(Category category) {
 
-        Boolean result;
+        boolean result;
         try {
             result = categoryMapper.update(category);
             return result;
@@ -81,7 +81,7 @@ public class CategoryService {
     }
 
     public boolean deleteCategory(Category category) {
-        Boolean result;
+        boolean result;
         try {
             result = categoryMapper.delete(category);
             return result;

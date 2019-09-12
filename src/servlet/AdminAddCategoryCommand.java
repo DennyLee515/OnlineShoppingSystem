@@ -11,15 +11,19 @@ public class AdminAddCategoryCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
-        String categoryName = request.getParameter("add_category");
-        Category category = new Category();
-        category.setCategoryName(categoryName);
+        String categoryName = request.getParameter("categoryName");
+        Category category = new Category(categoryName);
 
         CategoryService categoryService = new CategoryService();
-        categoryService.insertCategory(category);
+        boolean result = categoryService.insertCategory(category);
 
         //return add category result to front-end ?
-
+        if (result){
+            redirect("frontservlet?command=AdminCategory");
+        }else {
+            //todo:foward to error page
+            System.out.println("Add category fail.");
+        }
     }
 
 }

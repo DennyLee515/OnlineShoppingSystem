@@ -23,9 +23,12 @@ public class Category extends DomainObject {
         this.categoryName = categoryName;
     }
 
+    @Override
     public String getId() {
         return categoryId;
     }
+
+    public String getCategoryId(){return categoryId;}
 
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;

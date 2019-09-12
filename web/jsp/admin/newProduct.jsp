@@ -9,7 +9,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Edit Product</title>
+    <title>Add Product</title>
     <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>

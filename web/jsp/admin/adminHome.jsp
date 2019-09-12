@@ -17,9 +17,9 @@
 <div id="welcome">Manage Platform</div>
 <div id="navi">
     <ul>
-        <li><a href="frontservlet?command=AdminProductManage">Product Management</a></li>
-        <li><a href="frontservlet?command=AdminCategoryManage">Category Management</a></li>
-        <li><a href="frontservlet?command=AdminOrderManage">OrderManagement</a></li>
+        <li><a href="frontservlet?command=AdminProduct">Product Management</a></li>
+        <li><a href="frontservlet?command=AdminCategory">Category Management</a></li>
+        <li><a href="frontservlet?command=AdminOrder">OrderManagement</a></li>
         <li><a href="index.jsp">Logout</a> </li>
     </ul>
 </div>

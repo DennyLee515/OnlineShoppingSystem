@@ -14,11 +14,11 @@
 </head>
 <body>
 <div id="welcome">Edit Product</div>
-<form action="frontServlet?command=AdminEditProduct&product=${product.productId}" method="POST">
+<form action="frontservlet?command=AdminEditProduct&product=${product.productId}" method="POST">
     <div class="form-group row">
         <label for="inputProductName" class="col-sm-2 col-form-label">Product Name</label>
         <div class="col-sm-10">
-            <input type="text" readonly class="form-control-plaintext" id="inputProductName"
+            <input type="text" class="form-control" id="inputProductName"
                    name="productName" value="${product.productName}">
         </div>
     </div>

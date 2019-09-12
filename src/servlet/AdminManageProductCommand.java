@@ -26,7 +26,7 @@ public class AdminManageProductCommand extends FrontCommand {
                 productService = new ProductService();
                 boolean result = productService.deleteProduct(product);
                 if (result){
-                    redirect("frontservlet?command=AdminProductManage");
+                    redirect("frontservlet?command=AdminProduct");
                 }else{
                     //todo:redirect to error page
                     System.out.println("Delete product failed");

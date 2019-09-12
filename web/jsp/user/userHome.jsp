@@ -20,7 +20,7 @@
         <li><a href="">Home</a></li>
         <li><a href="frontservlet?command=ViewShop">Shop Coffee</a></li>
         <li><a href="frontservlet?command=ViewCart">Cart</a></li>
-        <li><a href="">My Account(Feture2)</a> </li>
+        <li><a href=""></a> </li>
         <li><a href="index.jsp">Logout</a> </li>
     </ul>
 </div>

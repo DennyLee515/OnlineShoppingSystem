@@ -52,7 +52,7 @@ public class CategoryMapper extends DataMapper {
     @Override
     public boolean update(DomainObject domainObject) throws Exception {
         Category category = (Category) domainObject;
-        String updateCategoryById = "UPDATE public.category SET" +
+        String updateCategoryById = "UPDATE public.category SET " +
                 "category_name=? WHERE category_id = ?";
         int result = 0;
 
@@ -68,25 +68,20 @@ public class CategoryMapper extends DataMapper {
     public Category findCategoryById(DomainObject domainObject) throws Exception {
         Category category = (Category) domainObject;
         String findCategoryById = "SELECT * FROM public.category WHERE category_id = ?";
-        Category result = new Category();
 
-        try {
-            PreparedStatement preparedStatement = DBConnection.prepare(findCategoryById);
-            preparedStatement.setString(1, category.getId());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                IdentityMap<Category> identityMap = IdentityMap.getInstance(result);
-                result.setCategoryId(resultSet.getString(1));
-                result.setCategoryName(resultSet.getString(2));
-
-                identityMap.put(result.getId(), result);
-            } else {
-                result = null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        PreparedStatement preparedStatement = DBConnection.prepare(findCategoryById);
+        preparedStatement.setString(1, category.getId());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            Category result = new Category();
+            IdentityMap<Category> identityMap = IdentityMap.getInstance(result);
+            result.setCategoryId(resultSet.getString(1));
+            result.setCategoryName(resultSet.getString(2));
+            identityMap.put(result.getId(), result);
+            return result;
+        } else {
+            return null;
         }
-        return result;
     }
 
 
@@ -105,10 +100,8 @@ public class CategoryMapper extends DataMapper {
 
             identityMap.put(category1.getId(), category1);
             result.add(category1);
-
-            return result;
         }
-        return null;
+        return result;
     }
 
 
@@ -116,26 +109,26 @@ public class CategoryMapper extends DataMapper {
         String findCategoryByCategoryName = "SELECT * FROM public.category WHERE " +
                 "category_name = ?";
 
-            PreparedStatement preparedStatement =
-                    DBConnection.prepare(findCategoryByCategoryName);
-            preparedStatement.setString(1, category.getCategoryName());
-            ResultSet resultSet = preparedStatement.executeQuery();
+        PreparedStatement preparedStatement =
+                DBConnection.prepare(findCategoryByCategoryName);
+        preparedStatement.setString(1, category.getCategoryName());
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
-                Category result = new Category();
-                IdentityMap<Category> identityMap = IdentityMap.getInstance(result);
+        if (resultSet.next()) {
+            Category result = new Category();
+            IdentityMap<Category> identityMap = IdentityMap.getInstance(result);
 
-                result.setCategoryId(resultSet.getString(1));
-                result.setCategoryName(resultSet.getString(2));
+            result.setCategoryId(resultSet.getString(1));
+            result.setCategoryName(resultSet.getString(2));
 
-                //register it into identityMap
-                identityMap.put(result.getId(), result);
-                DBConnection.close(preparedStatement);
-                return result;
-            } else {
-                DBConnection.close(preparedStatement);
-                return null;
-            }
+            //register it into identityMap
+            identityMap.put(result.getId(), result);
+            DBConnection.close(preparedStatement);
+            return result;
+        } else {
+            DBConnection.close(preparedStatement);
+            return null;
+        }
     }
 
 

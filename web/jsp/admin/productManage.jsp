@@ -18,9 +18,9 @@
 <div id="welcome">Product Management</div>
 <div id="navi">
     <ul>
-        <li><a href="frontservlet?command=AdminProductManage">Product Management</a></li>
-        <li><a href="frontservlet?command=AdminCategoryManage">Category Management</a></li>
-        <li><a href="frontservlet?command=AdminOrderManage">OrderManagement</a></li>
+        <li><a href="frontservlet?command=AdminProduct">Product Management</a></li>
+        <li><a href="frontservlet?command=AdminCategory">Category Management</a></li>
+        <li><a href="frontservlet?command=AdminOrder">OrderManagement</a></li>
         <li><a href="index.jsp">Logout</a></li>
     </ul>
 </div>
@@ -41,15 +41,19 @@
                 <td align="center">${product.category.categoryName}</td>
                 <td align="center">${product.price}</td>
                 <td align="center">${product.weight}</td>
-                <td><a href="frontservlet?command=AdminManageProduct&method=edit&product=${product.productId}"
-                        methods="post" role="button">Edit</a></td>
-                <td><a href="frontservlet?command=AdminManageProduct&method=delete&product=${product.productId}"
+                <td>
+                    <a href="frontservlet?command=AdminManageProduct&method=edit&product=${product.productId}"
+                       methods="post" role="button">Edit</a></td>
+                <td>
+                    <a href="frontservlet?command=AdminManageProduct&method=delete&product=${product.productId}"
                        methods="post" role="button">Delete</a></td>
             </tr>
         </c:forEach>
-        <a href="frontservlet?command=AdminManageProduct&method=create"
-           methods="post" role="button">Add new product</a></td>
+
     </table>
+    <br>
+    <a href="frontservlet?command=AdminManageProduct&method=create"
+       methods="post" role="button">Add new product</a>
 </div>
 </body>
 </html>

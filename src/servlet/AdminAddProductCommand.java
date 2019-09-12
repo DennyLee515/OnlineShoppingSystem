@@ -26,7 +26,7 @@ public class AdminAddProductCommand extends FrontCommand {
         ProductService productService = new ProductService();
         boolean result = productService.insertProduct(product);
         if (result) {
-            redirect("frontservlet?command=AdminProductManage");
+            redirect("frontservlet?command=AdminProduct");
         } else {
             //todo:foward to error page
             System.out.println("Add product fail.");

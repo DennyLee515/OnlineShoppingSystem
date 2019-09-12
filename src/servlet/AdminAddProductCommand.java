@@ -16,13 +16,14 @@ public class AdminAddProductCommand extends FrontCommand {
         String categoryName = request.getParameter("category");
         double price = Double.parseDouble(request.getParameter("price"));
         int weight = Integer.parseInt(request.getParameter("weight"));
+        int inventory = Integer.parseInt(request.getParameter("inventory"));
 
         Category category = new Category(categoryName);
         CategoryService categoryService = new CategoryService();
         categoryService.insertCategory(category);
         category = categoryService.findCategoryByName(category);
 
-        Product product = new Product(name,info,price,weight,category);
+        Product product = new Product(name,info,price,weight,inventory);
         ProductService productService = new ProductService();
         boolean result = productService.insertProduct(product);
         if (result) {

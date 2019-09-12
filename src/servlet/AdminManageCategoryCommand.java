@@ -8,6 +8,7 @@ import servlet.FrontCommand;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.List;
 
 public class AdminManageCategoryCommand extends FrontCommand {
 
@@ -43,6 +44,18 @@ public class AdminManageCategoryCommand extends FrontCommand {
                 category = categoryService.findCategroyById(category);
                 request.setAttribute("category", category);
                 forward("/jsp/admin/editCategory.jsp");
+                break;
+            case"view":
+                categoryId = request.getParameter("category");
+                category = new Category();
+                category.setCategoryId(categoryId);
+                categoryService = new CategoryService();
+                category = categoryService.findCategroyById(category);
+                ProductService productService = new ProductService();
+                List<Product> products = productService.findProductByCategory(category);
+                request.setAttribute("category",category);
+                request.setAttribute("products",products);
+                forward("/jsp/admin/viewCategoryProducts.jsp");
                 break;
             default:
                 System.out.println("Wrong category manage method input");

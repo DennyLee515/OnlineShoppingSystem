@@ -1,6 +1,7 @@
 package service;
 
 import domain.Cart;
+import domain.Category;
 import domain.Product;
 import domain.User;
 import mapper.CartMapper;
@@ -18,15 +19,15 @@ public class CartService {
         userMapper = new UserMapper();
     }
 
-    public boolean AddToCart(User user, Product product, int amount) {
+    public boolean AddToCart(User user, Product product, int amount, Category category) {
         try {
-            Cart cartFinded = cartMapper.findProductInCart(user, product);
+            Cart cartFinded = cartMapper.findProductInCart(user, product,category);
             Boolean result;
             if (cartFinded != null) {
                 cartFinded.setProductAmount(cartFinded.getProductAmount() + amount);
                 result = updateCart(cartFinded);
             } else {
-                Cart newCart = new Cart(product, amount, product.getPrice() * amount, user);
+                Cart newCart = new Cart(product, amount, product.getPrice() * amount, user,category);
                 result = insertCart(newCart);
             }
             return result;

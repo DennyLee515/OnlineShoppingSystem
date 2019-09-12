@@ -33,12 +33,6 @@ public class AdminEditProductCommand extends FrontCommand {
         product.setPrice(price);
         product.setWeight(weight);
 
-        Category category = new Category(categoryName);
-        CategoryService categoryService = new CategoryService();
-        categoryService.insertCategory(category);
-        category = categoryService.findCategoryByName(category);
-        product.setCategory(category);
-
         boolean result = productService.updateProduct(product);
         if (result) {
             redirect("frontservlet?command=AdminProduct");

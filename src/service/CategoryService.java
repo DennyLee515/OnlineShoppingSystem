@@ -1,6 +1,7 @@
 package service;
 
 import domain.Category;
+import domain.Product;
 import mapper.CategoryMapper;
 import util.IdentityMap;
 
@@ -91,5 +92,13 @@ public class CategoryService {
         }
     }
 
+    public List<Category> findCategoryByProduct(Product product){
+        try {
+            return categoryMapper.findCategoryByProduct(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

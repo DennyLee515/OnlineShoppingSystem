@@ -2,6 +2,7 @@ package mapper;
 
 import domain.Category;
 import domain.DomainObject;
+import domain.Product;
 import util.DBConnection;
 import util.IdentityMap;
 
@@ -105,7 +106,8 @@ public class CategoryMapper extends DataMapper {
     }
 
 
-    public Category findCategoryByName(Category category) throws Exception {
+    public Category findCategoryByName(DomainObject domainObject) throws Exception {
+        Category category = (Category)domainObject;
         String findCategoryByCategoryName = "SELECT * FROM public.category WHERE " +
                 "category_name = ?";
 
@@ -131,5 +133,21 @@ public class CategoryMapper extends DataMapper {
         }
     }
 
+    public List<Category> findCategoryByProduct(DomainObject domainObject) throws Exception{
+        Product product = (Product)domainObject;
+        String findCategoryByProduct = "SELECT category_id FROM public.product_category WHERE " +
+                "product_id = ?";
+        PreparedStatement preparedStatement = DBConnection.prepare(findCategoryByProduct);
+        preparedStatement.setString(1,product.getId());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Category> result = new ArrayList<>();
+        while (resultSet.next()){
+            Category category = new Category();
+            category.setCategoryId(resultSet.getString(1));
+
+            result.add(findCategoryById(category));
+        }
+        return result;
+    }
 
 }

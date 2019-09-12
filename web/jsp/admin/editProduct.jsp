@@ -30,13 +30,6 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="inputCategoryName" class="col-sm-2 col-form-label">Category</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputCategoryName" name="category"
-                   value="${product.category.categoryName}">
-        </div>
-    </div>
-    <div class="form-group row">
         <label for="inputPrice" class="col-sm-2 col-form-label">Category</label>
         <div class="col-sm-10">
             <input type="text" class="form-control" id="inputPrice" name="price"

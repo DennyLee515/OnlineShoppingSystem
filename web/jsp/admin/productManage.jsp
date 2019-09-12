@@ -29,7 +29,6 @@
         <tr>
             <th width="15%"><b>Product Name</b></th>
             <th width="40%"><b>Info</b></th>
-            <th width="15%"><b>Origin</b></th>
             <th width="15"><b>Price</b></th>
             <th width="15%"><b>Weight</b></th>
             <th><b></b></th>
@@ -38,12 +37,14 @@
             <tr>
                 <td align="center">${product.productName}</td>
                 <td align="center">${product.info}</td>
-                <td align="center">${product.category.categoryName}</td>
                 <td align="center">${product.price}</td>
                 <td align="center">${product.weight}</td>
                 <td>
                     <a href="frontservlet?command=AdminManageProduct&method=edit&product=${product.productId}"
                        methods="post" role="button">Edit</a></td>
+                <td><a
+                        href="frontservlet?command=AdminManageProduct&method=add&product=${product.productId}"
+                   methods="post" role="button">Add to Category</a></td>
                 <td>
                     <a href="frontservlet?command=AdminManageProduct&method=delete&product=${product.productId}"
                        methods="post" role="button">Delete</a></td>

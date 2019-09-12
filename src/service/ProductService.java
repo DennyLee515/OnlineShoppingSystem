@@ -50,11 +50,17 @@ public class ProductService {
             return productMapper.findProductByCategory(category);
         } catch (Exception e) {
             e.printStackTrace();
-        }return null;
+        }
+        return null;
     }
 
     public boolean insertProduct(Product product) {
-        return productMapper.insert(product);
+        try {
+            return productMapper.insert(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public boolean deleteProduct(Product product) {
@@ -75,4 +81,21 @@ public class ProductService {
         }
     }
 
+    public boolean deleteRelation(Product product,Category category){
+        try {
+            return productMapper.deleteRelation(product,category);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean addRelation(Product product, Category category){
+        try{
+            return productMapper.addRelation(product,category);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

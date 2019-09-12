@@ -23,13 +23,12 @@ import java.util.List;
 public class ProductMapper extends DataMapper {
 
     @Override
-    public boolean insert(DomainObject domainObject) {
+    public boolean insert(DomainObject domainObject) throws Exception{
         Product product = (Product) domainObject;
         String insertProduct = "INSERT INTO public.product " +
-                "(product_id, product_name, info, price, weight, created_at, category_id)" +
+                "(product_id, product_name, info, price, weight, created_at,inventory)" +
                 "VALUES(?,?,?,?,?,?,?)";
         int result = 0;
-        try {
             PreparedStatement preparedStatement = DBConnection.prepare(insertProduct);
             preparedStatement.setString(1, product.getId());
             preparedStatement.setString(2, product.getProductName());
@@ -37,13 +36,11 @@ public class ProductMapper extends DataMapper {
             preparedStatement.setDouble(4, product.getPrice());
             preparedStatement.setInt(5, product.getWeight());
             preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
-            preparedStatement.setString(7, product.getCategory().getId());
+            preparedStatement.setInt(7,product.getInventory());
             result = preparedStatement.executeUpdate();
 
             DBConnection.close(preparedStatement);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         return result != 0;
     }
 
@@ -66,7 +63,7 @@ public class ProductMapper extends DataMapper {
     public boolean update(DomainObject domainObject) throws Exception {
         Product product = (Product) domainObject;
         String updateProductById = "UPDATE public.product SET " +
-                "product_name=?, info=?, price=?, weight=?, created_at=?, category_id=?" +
+                "product_name=?, info=?, price=?, weight=?, created_at=? ,inventory=?" +
                 "WHERE product_id=?";
         int result = 0;
 
@@ -76,8 +73,8 @@ public class ProductMapper extends DataMapper {
         preparedStatement.setDouble(3, product.getPrice());
         preparedStatement.setInt(4, product.getWeight());
         preparedStatement.setTimestamp(5, new Timestamp(product.getCreatedAt().getTime()));
-        preparedStatement.setString(6, product.getCategory().getId());
-        preparedStatement.setString(7, product.getId());
+        preparedStatement.setString(6, product.getId());
+        preparedStatement.setInt(7,product.getInventory());
         result = preparedStatement.executeUpdate();
 
         DBConnection.close(preparedStatement);
@@ -85,7 +82,8 @@ public class ProductMapper extends DataMapper {
     }
 
     public List<Product> findProductByCategory(Category category) throws Exception {
-        String findProductByCategoryId = "SELECT * FROM public.product WHERE category_id = ?";
+        String findProductByCategoryId = "SELECT product_id FROM public.product_category WHERE " +
+                "category_id = ?";
         List<Product> result = new ArrayList<>();
 
         PreparedStatement preparedStatement = DBConnection.prepare(findProductByCategoryId);
@@ -93,22 +91,10 @@ public class ProductMapper extends DataMapper {
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
-            Product product1 = new Product();
-            IdentityMap<Product> identityMap = IdentityMap.getInstance(product1);
-
-            product1.setProductId(resultSet.getString(1));
-            product1.setProductName(resultSet.getString(2));
-            product1.setInfo(resultSet.getString(3));
-            product1.setPrice(resultSet.getDouble(4));
-            product1.setWeight(resultSet.getInt(5));
-            product1.setCreatedAt(resultSet.getTimestamp(6));
-            Category category1 = new Category();
-            category1.setCategoryId(resultSet.getString(7));
-            CategoryMapper categoryMapper = new CategoryMapper();
-            product1.setCategory(categoryMapper.findCategoryById(category1));
-
-            identityMap.put(product1.getId(), product1);
-            result.add(product1);
+            Product product = new Product();
+            product.setProductId(resultSet.getString(1));
+            product = findProductById(product);
+            result.add(product);
         }
         DBConnection.close(preparedStatement);
 
@@ -135,10 +121,7 @@ public class ProductMapper extends DataMapper {
                 product1.setPrice(resultSet.getDouble(4));
                 product1.setWeight(resultSet.getInt(5));
                 product1.setCreatedAt(resultSet.getTimestamp(6));
-                Category category1 = new Category();
-                category1.setCategoryId(resultSet.getString(7));
-                CategoryMapper categoryMapper = new CategoryMapper();
-                product1.setCategory(categoryMapper.findCategoryById(category1));
+                product1.setInventory(resultSet.getInt(7));
 
                 identityMap.put(product1.getId(), product1);
                 result.add(product1);
@@ -167,10 +150,7 @@ public class ProductMapper extends DataMapper {
                 result.setPrice(resultSet.getDouble(4));
                 result.setWeight(resultSet.getInt(5));
                 result.setCreatedAt(resultSet.getTimestamp(6));
-                Category category1 = new Category();
-                category1.setCategoryId(resultSet.getString(7));
-                CategoryMapper categoryMapper = new CategoryMapper();
-                result.setCategory(categoryMapper.findCategoryById(category1));
+                result.setInventory(resultSet.getInt(7));
             } else {
                 result = null;
             }
@@ -201,10 +181,7 @@ public class ProductMapper extends DataMapper {
                 product1.setPrice(resultSet.getDouble(4));
                 product1.setWeight(resultSet.getInt(5));
                 product1.setCreatedAt(resultSet.getTimestamp(6));
-                Category category1 = new Category();
-                category1.setCategoryId(resultSet.getString(7));
-                CategoryMapper categoryMapper = new CategoryMapper();
-                product1.setCategory(categoryMapper.findCategoryById(category1));
+                product1.setInventory(resultSet.getInt(7));
 
                 identityMap.put(product1.getId(), product1);
                 result.add(product1);
@@ -214,6 +191,35 @@ public class ProductMapper extends DataMapper {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public boolean deleteRelation(Product product,Category category) throws Exception{
+        String deleteRelationByProduct = "DELETE FROM public.product_category WHERE " +
+                "category_id = ? and product_id = ?";
+        int result = 0;
+
+        PreparedStatement preparedStatement = DBConnection.prepare(deleteRelationByProduct);
+        preparedStatement.setString(1, category.getId());
+        preparedStatement.setString(2,product.getId());
+        result = preparedStatement.executeUpdate();
+
+        DBConnection.close(preparedStatement);
+        return result != 0;
+    }
+
+    public boolean addRelation(Product product,Category category) throws Exception{
+        String deleteRelationByProduct = "INSERT INTO public.product_category " +
+                "(category_id, product_id) " +
+                "VALUES (?,?)";
+        int result = 0;
+
+        PreparedStatement preparedStatement = DBConnection.prepare(deleteRelationByProduct);
+        preparedStatement.setString(1, category.getId());
+        preparedStatement.setString(2,product.getId());
+        result = preparedStatement.executeUpdate();
+
+        DBConnection.close(preparedStatement);
+        return result != 0;
     }
 }
 

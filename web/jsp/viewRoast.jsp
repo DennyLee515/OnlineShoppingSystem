@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: DennyLee
-  Date: 2019/9/6
-  Time: 0:19
+  Date: 2019/9/12
+  Time: 22:13
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -15,7 +15,7 @@
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div id="welcome">Products</div>
+<div id="welcome">Select Roast</div>
 <div id="shop">
     <ul>
         <li><a href="frontservlet?command=UserLogin">Home</a></li>
@@ -41,25 +41,26 @@
             <th width="40%"><b>Info</b></th>
             <th width="15"><b>Price</b></th>
             <th width="15%"><b>Weight</b></th>
+            <th><b>Roast</b></th>
             <th><b></b></th>
         </tr>
-        <c:forEach var="product" items="${products}">
+        <c:forEach var="category" items="${categories}">
             <tr>
                 <td align="center">${product.productName}</td>
                 <td align="center">${product.info}</td>
                 <td align="center">${product.price}</td>
                 <td align="center">${product.weight}</td>
-                <td> <form
-                        action="frontservlet?command=ViewProductCategory&&product=${product.productId}"
-                           method="post">
-                    <input type="submit" value="Select Roast">
-                </form></td>
-<%--                    <form action="frontservlet?command=AddToCart&&product=${product.productId}"--%>
-<%--                          method=--%>
-<%--                                  "post">--%>
-<%--                        Amount: <input id="name" type="text" name="amount" align="left" value="0">--%>
-<%--                        <input type="submit" value="Add to cart">--%>
-<%--                    </form>--%>
+                <td align="center">${category.categoryName}</td>
+                <td>
+                    <form
+                            action="frontservlet?command=AddToCart&&product=${product.productId}&category=${category.categoryId}"
+                          method=
+                                  "post">
+                        Amount: <input id="name" type="text" name="amount" align="left" value="0">
+                        <input type="submit" value="Add to cart">
+                    </form>
+                </td>
+
             </tr>
         </c:forEach>
     </table>

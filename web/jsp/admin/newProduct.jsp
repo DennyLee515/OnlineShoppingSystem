@@ -45,6 +45,12 @@
             <input type="text" class="form-control" id="inputWeight" name="weight">
         </div>
     </div>
+    <div class="form-group row">
+        <label for="inputWeight" class="col-sm-2 col-form-label">Inventory</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputInventory" name="inventory">
+        </div>
+    </div>
     <button type="submit" class="btn btn-primary">Confirm</button>
     <button type="button" class="btn btn-light" onclick="history.go(-1);">Cancel</button>
 </form>

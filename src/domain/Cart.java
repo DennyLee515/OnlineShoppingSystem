@@ -16,15 +16,17 @@ public class Cart extends DomainObject {
     private int productAmount;
     private double totalPrice;
     private User user;
+    private Category category;
 
     public Cart(){}
 
-    public Cart(Product product, int productAmount, double totalPrice,User user) {
+    public Cart(Product product, int productAmount, double totalPrice,User user, Category category) {
         this.cartId = UUID.randomUUID().toString();
         this.product = product;
         this.productAmount = productAmount;
         this.totalPrice = totalPrice;
         this.user  = user;
+        this.category = category;
     }
 
     @Override
@@ -66,5 +68,17 @@ public class Cart extends DomainObject {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getCartId() {
+        return cartId;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

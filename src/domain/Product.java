@@ -18,20 +18,21 @@ public class Product extends DomainObject{
     private double price;
     private int weight;
     private Date createdAt;
-    private Category category;
+    private int inventory;
+
     public Product() {
     }
 
 
 
-    public Product(String pName, String info, double price, int weight, Category category) {
+    public Product(String pName, String info, double price, int weight,int inventory) {
         this.productId = UUID.randomUUID().toString();
         this.productName = pName;
         this.info = info;
         this.price = price;
         this.weight = weight;
         this.createdAt = new Date();
-        this.category = category;
+        this.inventory = inventory;
     }
 
     @Override
@@ -87,11 +88,11 @@ public class Product extends DomainObject{
         this.createdAt = createdAt;
     }
 
-    public Category getCategory() {
-        return category;
+    public int getInventory() {
+        return inventory;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setInventory(int inventory) {
+        this.inventory = inventory;
     }
 }

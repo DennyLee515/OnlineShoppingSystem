@@ -4,23 +4,38 @@ import domain.DomainObject;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Data mapper for order
  * @author: DennyLee
  * @create: 2019-09-02 23:55
  **/
+
+// TODO: Implement in feature 2
 public class OrderMapper extends DataMapper {
     @Override
-    public boolean insert(DomainObject domainObject) throws Exception{
+    public boolean insert(DomainObject domainObject){
+        try{
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return fa
+    @Override
+    public boolean delete(DomainObject domainObject){
+        try{
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return false;
     }
 
     @Override
-    public boolean delete(DomainObject domainObject) throws Exception {
-        return false;
-    }
+    public boolean update(DomainObject domainObject) {
+        try{
 
-    @Override
-    public boolean update(DomainObject domainObject) throws Exception {
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return false;
     }
 }

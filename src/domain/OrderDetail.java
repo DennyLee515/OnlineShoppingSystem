@@ -6,31 +6,48 @@ import java.util.UUID;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Order details of an order
  * @author: DennyLee
  * @create: 2019-09-01 23:28
  **/
-public class OrderDetail extends DomainObject{
-    private String OrderId;
+public class OrderDetail extends DomainObject {
+    //Order an order detail belongs to
+    private Order order;
+    //order detail id
+    private String orderDetailId;
+    //the product of the order detail item
     private Product product;
+    //the product amount of the detail item
     private int productAmount;
 
+    //constructor
     public OrderDetail() {
     }
 
-    public OrderDetail(Product product, int productAmount) {
-        OrderId = UUID.randomUUID().toString();
+    //constructor with order, product, product amount
+    public OrderDetail(Order order, Product product, int productAmount) {
+        this.order = order;
+        orderDetailId = UUID.randomUUID().toString();
         this.product = product;
         this.productAmount = productAmount;
     }
 
-    @Override
-    public String getId() {
-        return OrderId;
+    //getter and setter methods
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(String orderId) {
-        OrderId = orderId;
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    @Override
+    public String getId() {
+        return orderDetailId;
+    }
+
+    public void setOrderDetailId(String orderDetailId) {
+        this.orderDetailId = orderDetailId;
     }
 
     public Product getProduct() {

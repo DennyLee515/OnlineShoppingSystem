@@ -7,25 +7,32 @@ import java.util.UUID;
 
 /**
  * @program: CoffeeWeb
- * @description: Product
+ * @description: Product object
  * @author: DennyLee
  * @create: 2019-09-01 20:11
  **/
-public class Product extends DomainObject{
+public class Product extends DomainObject {
+    //product id
     private String productId;
+    //product name
     private String productName;
+    //product info
     private String info;
+    //product price
     private double price;
+    //product weight
     private int weight;
+    //product create time
     private Date createdAt;
+    //product inventory
     private int inventory;
 
+    //constructor
     public Product() {
     }
 
-
-
-    public Product(String pName, String info, double price, int weight,int inventory) {
+    //constructor with product name, info, price, weight, inventory
+    public Product(String pName, String info, double price, int weight, int inventory) {
         this.productId = UUID.randomUUID().toString();
         this.productName = pName;
         this.info = info;
@@ -35,6 +42,7 @@ public class Product extends DomainObject{
         this.inventory = inventory;
     }
 
+    //getter and setter methods
     @Override
     public String getId() {
         return productId;

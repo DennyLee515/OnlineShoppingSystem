@@ -6,29 +6,39 @@ import java.util.UUID;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Shopping cart item object
  * @author: DennyLee
  * @create: 2019-09-01 23:30
  **/
 public class Cart extends DomainObject {
+    //cart id
     private String cartId;
+    //product in the cart
     private Product product;
+    //amount of the product
     private int productAmount;
+    //total price of the product
     private double totalPrice;
+    //the user own the cart
     private User user;
+    //the category of the product
     private Category category;
 
-    public Cart(){}
+    //constructor
+    public Cart() {
+    }
 
-    public Cart(Product product, int productAmount, double totalPrice,User user, Category category) {
+    //constructor with product, amount, price, user, category
+    public Cart(Product product, int productAmount, double totalPrice, User user, Category category) {
         this.cartId = UUID.randomUUID().toString();
         this.product = product;
         this.productAmount = productAmount;
         this.totalPrice = totalPrice;
-        this.user  = user;
+        this.user = user;
         this.category = category;
     }
 
+    //getter and setter methods
     @Override
     public String getId() {
         return cartId;

@@ -1,7 +1,6 @@
 package service;
 
 import domain.Category;
-import domain.DomainObject;
 import domain.Product;
 import mapper.ProductMapper;
 import util.IdentityMap;
@@ -23,7 +22,7 @@ public class ProductService {
     }
 
     public List<Product> getAll() {
-        return productMapper.findAll();
+        return productMapper.getAllProducts();
     }
 
     public List<Product> findAvailableProduct() {
@@ -47,7 +46,7 @@ public class ProductService {
 
     public List<Product> findProductByCategory(Category category) {
         try {
-            return productMapper.findProductByCategory(category);
+            return productMapper.findProductsByCategory(category);
         } catch (Exception e) {
             e.printStackTrace();
         }

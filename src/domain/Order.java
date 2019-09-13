@@ -7,19 +7,25 @@ import java.util.UUID;
 
 /**
  * @program: CoffeeWeb
- * @description: Order
+ * @description: Order object
  * @author: DennyLee
  * @create: 2019-09-01 22:51
  **/
-public class Order extends DomainObject{
+public class Order extends DomainObject {
+    //order id
     private String orderId;
+    //the user a order belongs to
     private User user;
+    //total price of order
     private double totalPrice;
+    //date of the order
     private Date orderTime;
 
+    //constructor
     public Order() {
     }
 
+    //constructor with user, total price, order time
     public Order(User user, double totalPrice, Date orderTime) {
         this.orderId = UUID.randomUUID().toString();
         this.user = user;
@@ -27,6 +33,8 @@ public class Order extends DomainObject{
         this.orderTime = orderTime;
     }
 
+    //getter and setter method
+    @Override
     public String getId() {
         return orderId;
     }

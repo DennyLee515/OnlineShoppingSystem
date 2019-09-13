@@ -6,11 +6,11 @@ import java.util.UUID;
 
 /**
  * @program: CoffeeWeb
- * @description: administer
+ * @description: Admin object
  * @author: DennyLee
  * @create: 2019-09-01 22:55
  **/
-public class Admin extends DomainObject{
+public class Admin extends DomainObject {
     private String aId;
     private String aUsername;
     private String adminEmail;
@@ -21,6 +21,7 @@ public class Admin extends DomainObject{
 
     public Admin() {
     }
+
     public Admin(String adminUsername, String adminEmail, String adminFname, String
             adminLname, String adminPassword, int departmentId) {
         this.aId = UUID.randomUUID().toString();

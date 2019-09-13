@@ -7,7 +7,7 @@ import java.util.UUID;
 
 /**
  * @program: CoffeeWeb
- * @description: Users
+ * @description: User object
  * @author: DennyLee
  * @create: 2019-09-01 19:31
  **/
@@ -21,12 +21,15 @@ public class User extends DomainObject {
     private String userEmail;
     private String address;
 
+    //constructor
     public User() {
     }
 
+    //constructor with firstname, lastname, username, password, birthday, email, address
     public User(String uFname, String uLname, String username, String uPassword, Date
             birthday, String userEmail, String address) {
-        this.userId = UUID.randomUUID().toString();;
+        this.userId = UUID.randomUUID().toString();
+        ;
         this.uFname = uFname;
         this.uLname = uLname;
         this.username = username;
@@ -36,6 +39,7 @@ public class User extends DomainObject {
         this.address = address;
     }
 
+    //getter and setter methods
     @Override
     public String getId() {
         return userId;

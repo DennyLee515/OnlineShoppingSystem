@@ -11,38 +11,53 @@ import java.util.List;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Data mapper for cart
  * @author: DennyLee
  * @create: 2019-09-02 23:54
  **/
 public class CartMapper extends DataMapper {
 
-
+    /**
+     * insert a cart item to table cart
+     *
+     * @param domainObject
+     * @return
+     * @throws Exception
+     */
     @Override
-    public boolean insert(DomainObject domainObject) throws Exception {
+    public boolean insert(DomainObject domainObject) {
         Cart cart = (Cart) domainObject;
         String insertCart = "INSERT INTO public.cart " +
                 "(cart_id, product_id, amount, sub_total, user_id, category_id)" +
                 "VALUES(?,?,?,?,?,?)";
         int result = 0;
+        try{
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         PreparedStatement preparedStatement = DBConnection.prepare(insertCart);
         preparedStatement.setString(1, cart.getId());
         preparedStatement.setString(2, cart.getProduct().getId());
         preparedStatement.setInt(3, cart.getProductAmount());
         preparedStatement.setDouble(4, cart.getTotalPrice());
         preparedStatement.setString(5, cart.getUser().getId());
-        preparedStatement.setString(6,cart.getCategory().getId());
+        preparedStatement.setString(6, cart.getCategory().getId());
         result = preparedStatement.executeUpdate();
 
         return result != 0;
     }
 
     @Override
-    public boolean delete(DomainObject domainObject) throws Exception {
+    public boolean delete(DomainObject domainObject) {
         Cart cart = (Cart) domainObject;
         String deleteCart = "DELETE FROM public.cart WHERE cart_id = ?";
         int result = 0;
+        try{
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         PreparedStatement preparedStatement = DBConnection.prepare(deleteCart);
         preparedStatement.setString(1, cart.getId());
         result = preparedStatement.executeUpdate();
@@ -51,26 +66,35 @@ public class CartMapper extends DataMapper {
     }
 
     @Override
-    public boolean update(DomainObject domainObject) throws Exception {
+    public boolean update(DomainObject domainObject) {
         Cart cart = (Cart) domainObject;
         String updateCartById = "UPDATE public.cart SET " +
                 "product_id = ?, amount = ?, sub_total = ?, user_id = ?, category_id = ?" +
                 "WHERE cart_id = ?";
         int result = 0;
+        try{
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         PreparedStatement preparedStatement = DBConnection.prepare(updateCartById);
         preparedStatement.setString(1, cart.getProduct().getId());
         preparedStatement.setInt(2, cart.getProductAmount());
         preparedStatement.setDouble(3, cart.getTotalPrice());
         preparedStatement.setString(4, cart.getUser().getId());
         preparedStatement.setString(5, cart.getId());
-        preparedStatement.setString(6,cart.getCategory().getId());
+        preparedStatement.setString(6, cart.getCategory().getId());
         result = preparedStatement.executeUpdate();
 
         return result != 0;
     }
 
-    public Cart findCartById(DomainObject domainObject) throws Exception {
+    public Cart findCartById(DomainObject domainObject) {
+        try{
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         Cart cart = (Cart) domainObject;
         String findCartById = "SELECT * FROM public.cart WHERE cart_id = ?";
 
@@ -104,19 +128,24 @@ public class CartMapper extends DataMapper {
             identityMap.put(result.getId(), result);
 
             return result;
-        }else {
+        } else {
             return null;
         }
     }
 
-    public Cart findProductInCart(User user, Product product, Category category) throws Exception {
+    public Cart findProductInCart(User user, Product product, Category category){
         String findProductInCart = "SELECT * FROM public.cart " +
                 "WHERE product_id=? AND user_id=? and category_id = ?;";
 
+        try{
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         PreparedStatement preparedStatement = DBConnection.prepare(findProductInCart);
         preparedStatement.setString(1, product.getId());
         preparedStatement.setString(2, user.getId());
-        preparedStatement.setString(3,category.getId());
+        preparedStatement.setString(3, category.getId());
         ResultSet resultSet = preparedStatement.executeQuery();
 
         if (resultSet.next()) {
@@ -148,9 +177,14 @@ public class CartMapper extends DataMapper {
         }
     }
 
-    public List<Cart> findCartByUserId(User user) throws Exception{
+    public List<Cart> findCartByUserId(User user) {
         String findCartById = "SELECT * FROM public.cart WHERE user_id = ?";
         List<Cart> result = new ArrayList<>();
+        try{
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         PreparedStatement preparedStatement = DBConnection.prepare(findCartById);
         preparedStatement.setString(1, user.getId());
         ResultSet resultSet = preparedStatement.executeQuery();

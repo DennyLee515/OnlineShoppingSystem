@@ -7,22 +7,27 @@ import util.IdentityMap;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: user service
  * @author: DennyLee
  * @create: 2019-09-06 22:54
  **/
 public class UserService {
+    //private userMapper object;
     private UserMapper userMapper;
+
+    //constructor
     public UserService(){
         userMapper =new UserMapper();
     }
 
+    //insert a user
     public boolean insertUser(User user) throws Exception{
         return userMapper.insert(user);
     }
 
-    public boolean deleteUser(){
-        return false;
+    //delete a user
+    public boolean deleteUser(User user){
+        return userMapper.delete(user);
     }
 
     public boolean updateUser(){

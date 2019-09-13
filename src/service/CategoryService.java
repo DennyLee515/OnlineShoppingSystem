@@ -22,7 +22,7 @@ public class CategoryService {
 
     public List<Category> getAllCategories() {
         try {
-            return categoryMapper.findAll();
+            return categoryMapper.getAllCategories();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -51,7 +51,7 @@ public class test {
             CategoryService categoryService = new CategoryService();
             System.out.println(categoryService.findCategroyById(category));
 
-//            System.out.println(productMapper.findAll().get(0).getProductName());
+//            System.out.println(productMapper.getAllCategories().get(0).getProductName());
 //            ProductService productService = new ProductService();
 //            Product product = productService.findProductByName("product2").get(0);
 

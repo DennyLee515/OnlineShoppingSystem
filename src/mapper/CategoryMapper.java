@@ -13,21 +13,31 @@ import java.util.List;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Data mapper for category
  * @author: DennyLee
  * @create: 2019-09-02 23:54
  **/
 public class CategoryMapper extends DataMapper {
 
-
+    /**
+     * insert a new category to table.category
+     *
+     * @param domainObject
+     * @return boolean
+     * @throws Exception
+     */
     @Override
-    public boolean insert(DomainObject domainObject) throws Exception {
+    public boolean insert(DomainObject domainObject){
         Category category = (Category) domainObject;
         String insertNewCategory = "INSERT INTO public.category " +
                 "(category_id, category_name)" +
                 "VALUES (?,?)";
         int result = 0;
+        try{
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         PreparedStatement preparedStatement = DBConnection.prepare(insertNewCategory);
         preparedStatement.setString(1, category.getId());
         preparedStatement.setString(2, category.getCategoryName());
@@ -37,12 +47,23 @@ public class CategoryMapper extends DataMapper {
         return result != 0;
     }
 
+    /**
+     * delete a category from table category
+     *
+     * @param domainObject
+     * @return boolean
+     * @throws Exception
+     */
     @Override
-    public boolean delete(DomainObject domainObject) throws Exception {
+    public boolean delete(DomainObject domainObject){
         Category category = (Category) domainObject;
         String deletCategoryById = "DELETE FROM public.category WHERE category_id = ?";
         int result = 0;
+        try{
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         PreparedStatement preparedStatement = DBConnection.prepare(deletCategoryById);
         preparedStatement.setString(1, category.getId());
         result = preparedStatement.executeUpdate();
@@ -50,13 +71,24 @@ public class CategoryMapper extends DataMapper {
         return result != 0;
     }
 
+    /**
+     * update a category by category id in table category
+     *
+     * @param domainObject
+     * @return boolean
+     * @throws Exception
+     */
     @Override
-    public boolean update(DomainObject domainObject) throws Exception {
+    public boolean update(DomainObject domainObject){
         Category category = (Category) domainObject;
         String updateCategoryById = "UPDATE public.category SET " +
                 "category_name=? WHERE category_id = ?";
         int result = 0;
+        try{
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         PreparedStatement preparedStatement = DBConnection.prepare(updateCategoryById);
         preparedStatement.setString(1, category.getCategoryName());
         preparedStatement.setString(2, category.getId());
@@ -66,10 +98,21 @@ public class CategoryMapper extends DataMapper {
         return result != 0;
     }
 
-    public Category findCategoryById(DomainObject domainObject) throws Exception {
+    /**
+     * find a category by category id in table category
+     *
+     * @param domainObject
+     * @return
+     * @throws Exception
+     */
+    public Category findCategoryById(DomainObject domainObject){
         Category category = (Category) domainObject;
         String findCategoryById = "SELECT * FROM public.category WHERE category_id = ?";
+        try{
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         PreparedStatement preparedStatement = DBConnection.prepare(findCategoryById);
         preparedStatement.setString(1, category.getId());
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -85,11 +128,20 @@ public class CategoryMapper extends DataMapper {
         }
     }
 
-
-    public List<Category> findAll() throws Exception {
+    /**
+     * get all categories in table category
+     *
+     * @return a list of category object
+     * @throws Exception
+     */
+    public List<Category> getAllCategories() {
         String findCategoryById = "SELECT * FROM public.category";
         List<Category> result = new ArrayList<>();
+        try{
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         PreparedStatement preparedStatement = DBConnection.prepare(findCategoryById);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
@@ -106,11 +158,22 @@ public class CategoryMapper extends DataMapper {
     }
 
 
-    public Category findCategoryByName(DomainObject domainObject) throws Exception {
-        Category category = (Category)domainObject;
+    /**
+     * find a category by category name in table category
+     *
+     * @param domainObject
+     * @return a category object
+     * @throws Exception
+     */
+    public Category findCategoryByName(DomainObject domainObject){
+        Category category = (Category) domainObject;
         String findCategoryByCategoryName = "SELECT * FROM public.category WHERE " +
                 "category_name = ?";
+        try{
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         PreparedStatement preparedStatement =
                 DBConnection.prepare(findCategoryByCategoryName);
         preparedStatement.setString(1, category.getCategoryName());
@@ -133,15 +196,27 @@ public class CategoryMapper extends DataMapper {
         }
     }
 
-    public List<Category> findCategoryByProduct(DomainObject domainObject) throws Exception{
-        Product product = (Product)domainObject;
+    /**
+     * find all categories of a product in category product relation table
+     *
+     * @param domainObject
+     * @return a list of category object
+     * @throws Exception
+     */
+    public List<Category> findCategoryByProduct(DomainObject domainObject){
+        Product product = (Product) domainObject;
         String findCategoryByProduct = "SELECT category_id FROM public.product_category WHERE " +
                 "product_id = ?";
+        try{
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         PreparedStatement preparedStatement = DBConnection.prepare(findCategoryByProduct);
-        preparedStatement.setString(1,product.getId());
+        preparedStatement.setString(1, product.getId());
         ResultSet resultSet = preparedStatement.executeQuery();
         List<Category> result = new ArrayList<>();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             Category category = new Category();
             category.setCategoryId(resultSet.getString(1));
 

@@ -41,32 +41,39 @@ public class UnitOfWork {
     }
 
     public void registerNew(DomainObject obj) {
-        Assert.assertNotNull("id is null", obj.getId());
-        Assert.assertTrue("obj is dirty", !dirtyObjects.contains(obj));
-        Assert.assertTrue("obj is deleted", !deleteObjects.contains(obj));
-        Assert.assertTrue("obj is dirty", !dirtyObjects.contains(obj));
-        newObjects.add(obj);
+//        Assert.assertNotNull("id is null", obj.getId());
+//        Assert.assertTrue("obj is dirty", !dirtyObjects.contains(obj));
+//        Assert.assertTrue("obj is deleted", !deleteObjects.contains(obj));
+//        Assert.assertTrue("obj is dirty", !dirtyObjects.contains(obj));
+//        newObjects.add(obj);
+        if(!checkExist(obj)) {
+            newObjects.add(obj);
+        }
 
     }
 
 
     public void registerDirty(DomainObject obj) {
-        Assert.assertNotNull("id is null", obj.getId());
-        Assert.assertTrue("obj is deleted", !deleteObjects.contains(obj));
-        if (!dirtyObjects.contains(obj) && !newObjects.contains(obj)) {
+//        Assert.assertNotNull("id is null", obj.getId());
+//        Assert.assertTrue("obj is deleted", !deleteObjects.contains(obj));
+//        if (!dirtyObjects.contains(obj) && !newObjects.contains(obj)) {
+//            dirtyObjects.add(obj);
+//        }
+        if(!checkExist(obj)) {
             dirtyObjects.add(obj);
         }
-
     }
 
     public void registerDelete(DomainObject obj) {
-        Assert.assertNotNull("id is null", obj.getId());
-        if (newObjects.remove(obj)) return;
-        dirtyObjects.remove(obj);
-        if (!deleteObjects.contains(obj)) {
+//        Assert.assertNotNull("id is null", obj.getId());
+//        if (newObjects.remove(obj)) return;
+//        dirtyObjects.remove(obj);
+//        if (!deleteObjects.contains(obj)) {
+//            deleteObjects.add(obj);
+//        }
+        if(!checkExist(obj)) {
             deleteObjects.add(obj);
         }
-
     }
 
 

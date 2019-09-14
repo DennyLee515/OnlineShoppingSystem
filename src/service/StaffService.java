@@ -2,6 +2,8 @@ package service;
 
 import domain.Staff;
 import mapper.StaffMapper;
+import util.IdentityMap;
+import util.UnitOfWork;
 
 /**
  * @program: CoffeeWeb
@@ -17,18 +19,29 @@ public class StaffService {
     }
 
     public boolean insert(Staff staff) {
-        return staffMapper.insert(staff);
+        UnitOfWork.newCurrent();
+        UnitOfWork.getCurrent().registerNew(staff);
+        return UnitOfWork.getCurrent().commit();
     }
 
     public boolean update(Staff staff) {
-        return staffMapper.update(staff);
+        UnitOfWork.newCurrent();
+        UnitOfWork.getCurrent().registerDirty(staff);
+        return UnitOfWork.getCurrent().commit();
     }
 
     public boolean delete(Staff staff) {
-        return staffMapper.delete(staff);
+        UnitOfWork.newCurrent();
+        UnitOfWork.getCurrent().registerDelete(staff);
+        return UnitOfWork.getCurrent().commit();
     }
 
     public Staff findStaffById(Staff staff) {
+        IdentityMap<Staff> identityMap = IdentityMap.getInstance(staff);
+        Staff staffFinded = identityMap.get(staff.getId());
+        if (staffFinded != null) {
+            return staffFinded;
+        }
         return staffMapper.findStaffById(staff);
     }
 }

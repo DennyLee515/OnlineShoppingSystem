@@ -15,14 +15,23 @@
     <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
-<div id="welcome">Welcome to York Way Coffee!</div>
+<div id="welcome" class="card-title"><b>Welcome to York Way Coffee!</b></div>
 <div id="navi">
     <ul>
-        <li><a href="">Home</a></li>
-        <li><a href="frontservlet?command=ViewShop">Shop Coffee</a></li>
+        <li><a href="frontservlet?command=UserLogin">Home</a></li>
+        <li><a href="frontservlet?command=ViewProducts">All Products</a></li>
+        <li><a href="frontservlet?command=ViewCategory">Roast</a></li>
         <li><a href="frontservlet?command=ViewCart">Cart</a></li>
         <li><a href=""></a> </li>
         <li><a href="index.jsp">Logout</a> </li>
+        <li>
+            <div id = "search">
+                <form action="frontservlet?command=SearchProduct" method="post">
+                    <input type="text" name="name">
+                    <input type="submit" value="Search">
+                </form>
+            </div>
+        </li>
     </ul>
 </div>
 </body>

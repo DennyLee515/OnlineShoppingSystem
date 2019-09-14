@@ -176,6 +176,41 @@ public class ProductMapper extends DataMapper {
     }
 
     /**
+     * get all available products in table product
+     *
+     * @return a list of products
+     */
+    public List<Product> getAllAvailableProducts() {
+        String findProduct = "SELECT * FROM public.product WHERE inventory > 0";
+        List<Product> result = new ArrayList<>();
+
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(findProduct);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Product product1 = new Product();
+                IdentityMap<Product> identityMap = IdentityMap.getInstance(product1);
+
+                product1.setProductId(resultSet.getString(1));
+                product1.setProductName(resultSet.getString(2));
+                product1.setInfo(resultSet.getString(3));
+                product1.setPrice(resultSet.getDouble(4));
+                product1.setWeight(resultSet.getInt(5));
+                product1.setCreatedAt(resultSet.getTimestamp(6));
+                product1.setInventory(resultSet.getInt(7));
+
+                identityMap.put(product1.getId(), product1);
+                result.add(product1);
+            }
+            DBConnection.close(preparedStatement);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    /**
      * find a product by product id in product table
      *
      * @param product
@@ -191,7 +226,7 @@ public class ProductMapper extends DataMapper {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-
+                IdentityMap<Product> identityMap = IdentityMap.getInstance(result);
                 result.setProductId(resultSet.getString(1));
                 result.setProductName(resultSet.getString(2));
                 result.setInfo(resultSet.getString(3));
@@ -199,8 +234,7 @@ public class ProductMapper extends DataMapper {
                 result.setWeight(resultSet.getInt(5));
                 result.setCreatedAt(resultSet.getTimestamp(6));
                 result.setInventory(resultSet.getInt(7));
-            } else {
-                result = null;
+                identityMap.put(result.getId(),result);
             }
             DBConnection.close(preparedStatement);
         } catch (Exception e) {

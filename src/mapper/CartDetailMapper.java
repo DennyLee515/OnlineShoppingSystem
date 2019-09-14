@@ -98,7 +98,7 @@ public class CartDetailMapper extends DataMapper {
             if (resultSet.next()) {
                 CartDetail result = new CartDetail();
                 IdentityMap<CartDetail> identityMap = IdentityMap.getInstance(result);
-                result.setCartId(resultSet.getString(1));
+                result.setCartDetailId(resultSet.getString(1));
 
                 Product product1 = new Product();
                 product1.setProductId(resultSet.getString(2));
@@ -117,7 +117,6 @@ public class CartDetailMapper extends DataMapper {
                 category.setCategoryId(resultSet.getString(6));
                 CategoryMapper categoryMapper = new CategoryMapper();
                 result.setCategory(categoryMapper.findCategoryById(category));
-
                 identityMap.put(result.getId(), result);
 
                 return result;
@@ -140,8 +139,8 @@ public class CartDetailMapper extends DataMapper {
 
             if (resultSet.next()) {
                 CartDetail result = new CartDetail();
-
-                result.setCartId(resultSet.getString(1));
+                IdentityMap<CartDetail> identityMap = IdentityMap.getInstance(result);
+                result.setCartDetailId(resultSet.getString(1));
 
                 Product product1 = new Product();
                 product1.setProductId(resultSet.getString(2));
@@ -160,6 +159,7 @@ public class CartDetailMapper extends DataMapper {
                 category1.setCategoryId(resultSet.getString(6));
                 CategoryMapper categoryMapper = new CategoryMapper();
                 result.setCategory(categoryMapper.findCategoryById(category1));
+                identityMap.put(result.getId(), result);
 
                 return result;
             }
@@ -181,7 +181,7 @@ public class CartDetailMapper extends DataMapper {
                 CartDetail cartDetail1 = new CartDetail();
                 IdentityMap<CartDetail> identityMap = IdentityMap.getInstance(cartDetail1);
 
-                cartDetail1.setCartId(resultSet.getString(1));
+                cartDetail1.setCartDetailId(resultSet.getString(1));
 
                 Product product1 = new Product();
                 product1.setProductId(resultSet.getString(2));

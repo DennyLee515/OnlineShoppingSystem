@@ -30,7 +30,7 @@ public class ViewCategoryProductCommand extends FrontCommand{
 
         ProductService productService = new ProductService();
         List<Product> products = productService.findProductByCategory(category);
-        if (products==null){
+        if (products.isEmpty()){
             request.setAttribute("errMsg", "No Product in this category");
             forward("/jsp/error.jsp");
         }

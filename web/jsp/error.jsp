@@ -13,6 +13,6 @@
 <body>
 There must be some errors: ${errMsg}...
 <button type="button" style="text-align: right; margin:0 10%;"
-        class="btn btn-success" onclick="location.href='index.jsp'">Return</button>
+        class="btn btn-success" onclick="history.go(-1);">Return</button>
 </body>
 </html>

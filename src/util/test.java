@@ -2,6 +2,7 @@ package util;
 
 import domain.*;
 import mapper.*;
+import org.junit.Assert;
 import service.CartService;
 import service.CategoryService;
 import service.ProductService;
@@ -35,21 +36,21 @@ public class test {
 
 //            User user = new User("firstname","lastname","username","password",new Date(),
 //                    "email1", "address1");
-            UserService userService = new UserService();
+//            UserService userService = new UserService();
 //            user.setUsername("username");
 //            userService.findUserByName(user);
 //            userService.insertUser(user);
 
 //            System.out.println(DataMapper.getMapper(user));
-            User user =new User();
-            user.setUsername("username");
-            user = userService.findUserByName(user);
-            Cart cart = new Cart(user);
-            CartMapper cartMapper = new CartMapper();
-            cartMapper.insert(cart);
+//            User user =new User();
+//            user.setUsername("username");
+//            user = userService.findUserByName(user);
+//            Cart cart = new Cart(user);
+//            CartMapper cartMapper = new CartMapper();
+//            cartMapper.insert(cart);
 //            Cart cart = new Cart(user);
 
-            System.out.println(user.getId());
+//            System.out.println(user.getId());
 //            CartService cartService = new CartService();
 //            cartService.insertCart(cart);
 //            List<CartDetail> carts = cartService.findCartByUser(user);
@@ -62,9 +63,12 @@ public class test {
 //            System.out.println(categoryService.findCategroyById(category));
 
 //            Manager manager = new Manager("manager", "password", "email");
-//            Clerk clerk = new Clerk("clerk", "password", "firstname", "lastname", new Date(),
+//            Clerk clerk = new Clerk("clerk1", "password1", "firstname1", "lastname1", new Date(),
 //                    new Date());
-
+//            CartDetail cartDetail = new CartDetail();
+//            cartDetail.setCartDetailId("156eb13a-5c59-4a94-b885-8405551c5ae1");
+//            CartService cartService = new CartService();
+//            boolean result = cartService.deleteCartDetail(cartDetail);
 //            StaffMapper staffMapper = new StaffMapper();
 //            Staff staff = new Staff();
 //            staff.setStaffId("b8026488-74c7-460e-bac1-de7de1b3e7fb");
@@ -86,5 +90,7 @@ public class test {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        Assert.assertNotNull("id is null", "97cbc120-e429-485c-8a92-36de1d810dc7");
     }
 }

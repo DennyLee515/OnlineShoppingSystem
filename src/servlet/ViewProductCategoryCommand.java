@@ -30,7 +30,7 @@ public class ViewProductCategoryCommand extends FrontCommand {
 
         CategoryService categoryService = new CategoryService();
         List<Category> categories = categoryService.findCategoryByProduct(product);
-        if (categories==null){
+        if (categories.isEmpty()){
             request.setAttribute("errMsg", "No roast can be select");
             forward("/jsp/error.jsp");
         }

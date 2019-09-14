@@ -4,6 +4,7 @@ import domain.Category;
 import domain.Product;
 import mapper.ProductMapper;
 import util.IdentityMap;
+import util.UnitOfWork;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,8 @@ public class ProductService {
         return productMapper.getAllProducts();
     }
 
-    public List<Product> findAvailableProduct() {
-        List<Product> result = new ArrayList<>();
-        return result;
+    public List<Product> getAllAvailableProducts() {
+        return productMapper.getAllAvailableProducts();
     }
 
     public Product findProductByID(Product product) {
@@ -44,60 +44,46 @@ public class ProductService {
     }
 
     public List<Product> findProductByCategory(Category category) {
-        try {
-            return productMapper.findProductsByCategory(category);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        return productMapper.findProductsByCategory(category);
     }
 
     public boolean insertProduct(Product product) {
-        try {
-            return productMapper.insert(product);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        UnitOfWork.newCurrent();
+        UnitOfWork.getCurrent().registerNew(product);
+        return UnitOfWork.getCurrent().commit();
     }
 
     public boolean deleteProduct(Product product) {
-        try {
-            return productMapper.delete(product);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        UnitOfWork.newCurrent();
+        UnitOfWork.getCurrent().registerDelete(product);
+        return UnitOfWork.getCurrent().commit();
     }
 
     public boolean updateProduct(Product product) {
-        try {
-            return productMapper.update(product);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        UnitOfWork.newCurrent();
+        UnitOfWork.getCurrent().registerDirty(product);
+        return UnitOfWork.getCurrent().commit();
     }
 
-    public boolean deleteRelation(Product product,Category category){
+    public boolean deleteRelation(Product product, Category category) {
         try {
-            return productMapper.deleteRelation(product,category);
+            return productMapper.deleteRelation(product, category);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public boolean addRelation(Product product, Category category){
-        try{
-            return productMapper.addRelation(product,category);
-        }catch (Exception e){
+    public boolean addRelation(Product product, Category category) {
+        try {
+            return productMapper.addRelation(product, category);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public boolean deleteAllRelations(Product product){
+    public boolean deleteAllRelations(Product product) {
         return productMapper.deleteAllRelationsByProduct(product);
     }
 

@@ -4,17 +4,16 @@ import domain.*;
 import mapper.CartDetailMapper;
 import mapper.CartMapper;
 import mapper.UserMapper;
+import util.UnitOfWork;
 
 import java.util.List;
 
 public class CartService {
     private CartDetailMapper cartDetailMapper;
-    private UserMapper userMapper;
     private CartMapper cartMapper;
 
     public CartService() {
         cartDetailMapper = new CartDetailMapper();
-        userMapper = new UserMapper();
         cartMapper = new CartMapper();
     }
 
@@ -26,7 +25,7 @@ public class CartService {
             boolean result;
             if (cartDetailFinded != null) {
                 cartDetailFinded.setProductAmount(cartDetailFinded.getProductAmount() + amount);
-                result = updateCart(cartDetailFinded);
+                result = updateCartDetail(cartDetailFinded);
             } else {
                 CartDetail newCartDetail = new CartDetail(product, amount,
                         product.getPrice() * amount, cart, category);
@@ -40,20 +39,33 @@ public class CartService {
     }
 
     public boolean insertCart(Cart cart) {
-        return cartMapper.insert(cart);
+        UnitOfWork.newCurrent();
+        UnitOfWork.getCurrent().registerNew(cart);
+        return UnitOfWork.getCurrent().commit();
+    }
+
+    public boolean deleteCart(Cart cart) {
+        UnitOfWork.newCurrent();
+        UnitOfWork.getCurrent().registerDelete(cart);
+        return UnitOfWork.getCurrent().commit();
     }
 
     public boolean insertCartDetail(CartDetail cartDetail){
-        return cartDetailMapper.insert(cartDetail);
+        UnitOfWork.newCurrent();
+        UnitOfWork.getCurrent().registerNew(cartDetail);
+        return UnitOfWork.getCurrent().commit();
     }
 
-    public boolean updateCart(CartDetail cartDetail) {
-
-            return cartDetailMapper.update(cartDetail);
+    public boolean updateCartDetail(CartDetail cartDetail) {
+        UnitOfWork.newCurrent();
+        UnitOfWork.getCurrent().registerDirty(cartDetail);
+        return UnitOfWork.getCurrent().commit();
     }
 
-    public boolean deleteCart() {
-        return false;
+    public boolean deleteCartDetail(CartDetail cartDetail) {
+        UnitOfWork.newCurrent();
+        UnitOfWork.getCurrent().registerDelete(cartDetail);
+        return UnitOfWork.getCurrent().commit();
     }
 
     public List<CartDetail> findCartDetailByUserId(User user) {

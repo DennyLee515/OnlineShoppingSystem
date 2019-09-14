@@ -13,7 +13,7 @@ public class ViewCategoryCommand extends FrontCommand{
     public void process() throws ServletException, IOException {
         CategoryService categoryService = new CategoryService();
         List<Category> category = categoryService.getAllCategories();
-        if (category==null){
+        if (category.isEmpty()){
             request.setAttribute("errMsg", "No category exists");
             forward("/jsp/error.jsp");
         }

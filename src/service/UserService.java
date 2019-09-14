@@ -45,7 +45,6 @@ public class UserService {
         IdentityMap<User> identityMap = IdentityMap.getInstance(user);
         User userFinded = identityMap.get(user.getId());
         if (userFinded != null){
-            System.out.println("using idmap");
             return userFinded;
         }else{
             return userMapper.findUserById(user);

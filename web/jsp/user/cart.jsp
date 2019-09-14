@@ -22,8 +22,11 @@
         <li><a href="frontservlet?command=UserLogin">Home</a></li>
         <li><a href="frontservlet?command=ViewProducts">All Products</a></li>
         <li><a href="frontservlet?command=ViewCategory">Roast</a></li>
+        <li><a href="frontservlet?command=ViewCart">Cart</a></li>
+        <li><a href=""></a> </li>
+        <li><a href="index.jsp">Logout</a> </li>
         <li>
-            <div id="search">
+            <div id = "search">
                 <form action="frontservlet?command=SearchProduct" method="post">
                     <input type="text" name="name">
                     <input type="submit" value="Search">
@@ -36,10 +39,11 @@
     <div id="product" class="table">
         <table width="100%">
             <tr>
-                <th width="40%"><b>Product Name</b></th>
-                <th width="30%"><b>Roast</b></th>
+                <th width="30%"><b>Product Name</b></th>
+                <th width="25%"><b>Roast</b></th>
                 <th width="15%"><b>Amount</b></th>
                 <th width="15%"><b>Subtotal</b></th>
+                <th width="15"></th>
             </tr>
             <c:forEach var="cartDetail" items="${cartDetails}">
                 <tr>
@@ -47,6 +51,9 @@
                     <td>${cartDetail.category.categoryName}</td>
                     <td>${cartDetail.productAmount}</td>
                     <td>${cartDetail.totalPrice}</td>
+                    <td><a
+                            href="frontservlet?command=DeleteProductInCart&&cartDetail=${cartDetail.cartDetailId}"
+                           methods="post" role="button">Delete</a></td></td>
                 </tr>
             </c:forEach>
         </table>

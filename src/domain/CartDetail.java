@@ -14,7 +14,7 @@ import java.util.UUID;
  **/
 public class CartDetail extends DomainObject {
     //cart id
-    private String cartId;
+    private String cartDetailId;
     //product in the cart
     private Product product;
     //amount of the product
@@ -33,7 +33,7 @@ public class CartDetail extends DomainObject {
     //constructor with product, amount, price, user, category
     public CartDetail(Product product, int productAmount, double totalPrice, Cart cart,
                       Category category) {
-        this.cartId = UUID.randomUUID().toString();
+        this.cartDetailId = UUID.randomUUID().toString();
         this.product = product;
         this.productAmount = productAmount;
         this.totalPrice = totalPrice;
@@ -44,11 +44,11 @@ public class CartDetail extends DomainObject {
     //getter and setter methods
     @Override
     public String getId() {
-        return cartId;
+        return cartDetailId;
     }
 
-    public void setCartId(String cartId) {
-        this.cartId = cartId;
+    public void setCartDetailId(String cartDetailId) {
+        this.cartDetailId = cartDetailId;
     }
 
     public Product getProduct() {
@@ -93,8 +93,8 @@ public class CartDetail extends DomainObject {
         this.cart = cart;
     }
 
-    public String getCartId() {
-        return cartId;
+    public String getCartDetailId() {
+        return cartDetailId;
     }
 
     public Category getCategory() {

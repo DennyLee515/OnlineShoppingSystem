@@ -30,10 +30,11 @@
         <table width="100%">
             <tr>
                 <th width="15%"><b>Product Name</b></th>
-                <th width="35%"><b>Info</b></th>
+                <th width="25%"><b>Info</b></th>
                 <th width="15"><b>Price</b></th>
                 <th width="15%"><b>Weight</b></th>
-                <th width="20%"><b></b></th>
+                <th width="15%"><b>Inventory</b></th>
+                <th width="15%"><b></b></th>
             </tr>
             <c:forEach var="product" items="${products}">
                 <tr>
@@ -41,6 +42,7 @@
                     <td>${product.info}</td>
                     <td>${product.price}</td>
                     <td>${product.weight}</td>
+                    <td>${product.inventory}</td>
                     <td>
                         <a href="frontservlet?command=AdminManageProduct&method=edit&product=${product.productId}"
                            methods="post" role="button">Edit</a></td>

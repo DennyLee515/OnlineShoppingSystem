@@ -1,14 +1,14 @@
 package util;
 
-import domain.Cart;
-import domain.Category;
-import domain.Product;
-import domain.User;
+import domain.*;
+import mapper.ManagerMapper;
+import mapper.StaffMapper;
 import service.CartService;
 import service.CategoryService;
 import service.ProductService;
 import service.UserService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,10 +18,11 @@ import java.util.List;
  * @create: 2019-09-02 21:25
  **/
 public class test {
-    public static void main(String args[]){
+    public static void main(String args[]) {
         try {
 //        Date date = new Date();
-//        User user = new User(2,"firstname","lastname","username","password",date,"email","address");
+//        User user = new User(2,"firstname","lastname","username","password",date,"email",
+//        "address");
 //        UserMapper userMapper = new UserMapper();
 //        userMapper.insert(user);
 //            Admin admin = new Admin("username0", "email0", "first1", "last1", "pw1", 1);
@@ -35,22 +36,37 @@ public class test {
 
 //            User user = new User("fistname","lastname","username","password",new Date(),"email",
 //                    "adress");
-//            UserService userService = new UserService();
+            UserService userService = new UserService();
 ////            userService.insertUser(user);
-//            User user =new User();
-//            user.setUsername("username");
-//            user = userService.findUserByName(user);
+            User user =new User();
+            user.setUsername("username");
+            user = userService.findUserByName(user);
+            Cart cart = new Cart(user);
+
 //            System.out.println(user);
-//            CartService cartService = new CartService();
-//            List<Cart> carts = cartService.findCartByUser(user);
+            CartService cartService = new CartService();
+            cartService.insertCart(cart);
+//            List<CartDetail> carts = cartService.findCartByUser(user);
 //            System.out.println(carts);
 
-            Category category =new Category();
-            category.setCategoryId("d40a490e-c242-441a-8a44-e1b4550c15ca");
+//            Category category =new Category();
+//            category.setCategoryId("d40a490e-c242-441a-8a44-e1b4550c15ca");
+//
+//            CategoryService categoryService = new CategoryService();
+//            System.out.println(categoryService.findCategroyById(category));
 
-            CategoryService categoryService = new CategoryService();
-            System.out.println(categoryService.findCategroyById(category));
+//            Manager manager = new Manager("manager", "password", "email");
+//            Clerk clerk = new Clerk("clerk", "password", "firstname", "lastname", new Date(),
+//                    new Date());
 
+//            StaffMapper staffMapper = new StaffMapper();
+//            Staff staff = new Staff();
+//            staff.setStaffId("b8026488-74c7-460e-bac1-de7de1b3e7fb");
+
+//            staffMapper.insert(manager);
+//            staffMapper.insert(clerk);
+
+//            System.out.println(staffMapper.delete(staff));
 //            System.out.println(productMapper.getAllCategories().get(0).getProductName());
 //            ProductService productService = new ProductService();
 //            Product product = productService.findProductByName("product2").get(0);
@@ -61,7 +77,7 @@ public class test {
 //        AdminMapper adminMapper1 = new AdminMapper();
 //        List<Admin> result = adminMapper1.findUserById(2);
 //        System.out.println(result.get(0).getAdminLname());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

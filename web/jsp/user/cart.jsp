@@ -20,7 +20,7 @@
 <%--    <ul>--%>
 <%--        <li><a href="index.jsp">Home</a></li>--%>
 <%--        <li><a href="frontservlet?command=ViewShop">Shop Coffee</a></li>--%>
-<%--        <li><a href="frontservlet?command=ViewCart">Cart</a></li>--%>
+<%--        <li><a href="frontservlet?command=ViewCart">CartDetail</a></li>--%>
 <%--        <li><a href="">My Account</a></li>--%>
 <%--    </ul>--%>
 <%--</div>--%>
@@ -28,7 +28,7 @@
     <ul>
         <li><a href="frontservlet?command=UserLogin">Home</a></li>
         <li><a href="frontservlet?command=ViewProducts">All Products</a></li>
-        <li><a href="frontservlet?command=ViewCategory">Origins</a></li>
+        <li><a href="frontservlet?command=ViewCategory">Roast</a></li>
         <li>
             <div id="search">
                 <form action="frontservlet?command=SearchProduct" method="post">
@@ -49,17 +49,17 @@
             <th width="30%"><b>Amount</b></th>
             <th width="30%"><b>Price</b></th>
         </tr>
-        <c:forEach var="cart" items="${carts}">
+        <c:forEach var="cartDetail" items="${cartDetails}">
             <tr>
-                <td align="center">${cart.product.productName}</td>
-                <td align="center">${cart.productAmount}</td>
-                <td align="center">${cart.totalPrice}</td>
+                <td align="center">${cartDetail.product.productName}</td>
+                <td align="center">${cartDetail.productAmount}</td>
+                <td align="center">${cartDetail.totalPrice}</td>
                 <td>
                         <%--                    <form action="frontservlet?command=AddToCart&&product=${product.productId}"--%>
                         <%--                          method=--%>
                         <%--                                  "post">--%>
                         <%--                        Amount: <input id="name" type="text" name="amount" align="left" value="0">--%>
-                        <%--                        <input type="submit" value="Add to cart">--%>
+                        <%--                        <input type="submit" value="Add to cartDetail">--%>
                         <%--                    </form>--%>
                 </td>
             </tr>

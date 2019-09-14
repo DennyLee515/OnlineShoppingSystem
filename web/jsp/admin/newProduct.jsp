@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Add Product</title>
@@ -29,9 +29,15 @@
     </div>
     <div class="form-group row">
         <label for="inputCategoryName" class="col-sm-2 col-form-label">Category</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputCategoryName" name="category">
-        </div>
+<%--        <div class="col-sm-10">--%>
+<%--            <input type="text" class="form-control" id="inputCategoryName" name="category">--%>
+<%--        </div>--%>
+        <c:forEach var="category" items="${categories}">
+            <tr>
+                <td align="center">${category.categoryName}</td>
+                <td><input type="checkbox" name="category" value="${category.categoryName}"></td>
+            </tr>
+        </c:forEach>
     </div>
     <div class="form-group row">
         <label for="inputPrice" class="col-sm-2 col-form-label">Price</label>

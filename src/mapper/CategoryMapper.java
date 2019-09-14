@@ -27,23 +27,22 @@ public class CategoryMapper extends DataMapper {
      * @throws Exception
      */
     @Override
-    public boolean insert(DomainObject domainObject){
+    public boolean insert(DomainObject domainObject) {
         Category category = (Category) domainObject;
         String insertNewCategory = "INSERT INTO public.category " +
                 "(category_id, category_name)" +
                 "VALUES (?,?)";
         int result = 0;
-        try{
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(insertNewCategory);
+            preparedStatement.setString(1, category.getId());
+            preparedStatement.setString(2, category.getCategoryName());
+            result = preparedStatement.executeUpdate();
+            DBConnection.close(preparedStatement);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        PreparedStatement preparedStatement = DBConnection.prepare(insertNewCategory);
-        preparedStatement.setString(1, category.getId());
-        preparedStatement.setString(2, category.getCategoryName());
-        result = preparedStatement.executeUpdate();
-        DBConnection.close(preparedStatement);
-
         return result != 0;
     }
 
@@ -55,19 +54,17 @@ public class CategoryMapper extends DataMapper {
      * @throws Exception
      */
     @Override
-    public boolean delete(DomainObject domainObject){
+    public boolean delete(DomainObject domainObject) {
         Category category = (Category) domainObject;
         String deletCategoryById = "DELETE FROM public.category WHERE category_id = ?";
         int result = 0;
-        try{
-
-        }catch (Exception e){
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(deletCategoryById);
+            preparedStatement.setString(1, category.getId());
+            result = preparedStatement.executeUpdate();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        PreparedStatement preparedStatement = DBConnection.prepare(deletCategoryById);
-        preparedStatement.setString(1, category.getId());
-        result = preparedStatement.executeUpdate();
-
         return result != 0;
     }
 
@@ -79,22 +76,21 @@ public class CategoryMapper extends DataMapper {
      * @throws Exception
      */
     @Override
-    public boolean update(DomainObject domainObject){
+    public boolean update(DomainObject domainObject) {
         Category category = (Category) domainObject;
         String updateCategoryById = "UPDATE public.category SET " +
                 "category_name=? WHERE category_id = ?";
         int result = 0;
-        try{
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(updateCategoryById);
+            preparedStatement.setString(1, category.getCategoryName());
+            preparedStatement.setString(2, category.getId());
+            result = preparedStatement.executeUpdate();
 
-        }catch (Exception e){
+            DBConnection.close(preparedStatement);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        PreparedStatement preparedStatement = DBConnection.prepare(updateCategoryById);
-        preparedStatement.setString(1, category.getCategoryName());
-        preparedStatement.setString(2, category.getId());
-        result = preparedStatement.executeUpdate();
-
-        DBConnection.close(preparedStatement);
         return result != 0;
     }
 
@@ -105,27 +101,25 @@ public class CategoryMapper extends DataMapper {
      * @return
      * @throws Exception
      */
-    public Category findCategoryById(DomainObject domainObject){
+    public Category findCategoryById(DomainObject domainObject) {
         Category category = (Category) domainObject;
         String findCategoryById = "SELECT * FROM public.category WHERE category_id = ?";
-        try{
-
-        }catch (Exception e){
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(findCategoryById);
+            preparedStatement.setString(1, category.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Category result = new Category();
+                IdentityMap<Category> identityMap = IdentityMap.getInstance(result);
+                result.setCategoryId(resultSet.getString(1));
+                result.setCategoryName(resultSet.getString(2));
+                identityMap.put(result.getId(), result);
+                return result;
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        PreparedStatement preparedStatement = DBConnection.prepare(findCategoryById);
-        preparedStatement.setString(1, category.getId());
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            Category result = new Category();
-            IdentityMap<Category> identityMap = IdentityMap.getInstance(result);
-            result.setCategoryId(resultSet.getString(1));
-            result.setCategoryName(resultSet.getString(2));
-            identityMap.put(result.getId(), result);
-            return result;
-        } else {
-            return null;
-        }
+        return null;
     }
 
     /**
@@ -137,24 +131,24 @@ public class CategoryMapper extends DataMapper {
     public List<Category> getAllCategories() {
         String findCategoryById = "SELECT * FROM public.category";
         List<Category> result = new ArrayList<>();
-        try{
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(findCategoryById);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Category category1 = new Category();
+                IdentityMap<Category> identityMap = IdentityMap.getInstance(category1);
 
-        }catch (Exception e){
+                category1.setCategoryId(resultSet.getString(1));
+                category1.setCategoryName(resultSet.getString(2));
+
+                identityMap.put(category1.getId(), category1);
+                result.add(category1);
+            }
+            return result;
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        PreparedStatement preparedStatement = DBConnection.prepare(findCategoryById);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            Category category1 = new Category();
-            IdentityMap<Category> identityMap = IdentityMap.getInstance(category1);
-
-            category1.setCategoryId(resultSet.getString(1));
-            category1.setCategoryName(resultSet.getString(2));
-
-            identityMap.put(category1.getId(), category1);
-            result.add(category1);
-        }
-        return result;
+        return null;
     }
 
 
@@ -165,35 +159,32 @@ public class CategoryMapper extends DataMapper {
      * @return a category object
      * @throws Exception
      */
-    public Category findCategoryByName(DomainObject domainObject){
+    public Category findCategoryByName(DomainObject domainObject) {
         Category category = (Category) domainObject;
         String findCategoryByCategoryName = "SELECT * FROM public.category WHERE " +
                 "category_name = ?";
-        try{
+        try {
+            PreparedStatement preparedStatement =
+                    DBConnection.prepare(findCategoryByCategoryName);
+            preparedStatement.setString(1, category.getCategoryName());
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-        }catch (Exception e){
+            if (resultSet.next()) {
+                Category result = new Category();
+                IdentityMap<Category> identityMap = IdentityMap.getInstance(result);
+
+                result.setCategoryId(resultSet.getString(1));
+                result.setCategoryName(resultSet.getString(2));
+
+                //register it into identityMap
+                identityMap.put(result.getId(), result);
+                DBConnection.close(preparedStatement);
+                return result;
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        PreparedStatement preparedStatement =
-                DBConnection.prepare(findCategoryByCategoryName);
-        preparedStatement.setString(1, category.getCategoryName());
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        if (resultSet.next()) {
-            Category result = new Category();
-            IdentityMap<Category> identityMap = IdentityMap.getInstance(result);
-
-            result.setCategoryId(resultSet.getString(1));
-            result.setCategoryName(resultSet.getString(2));
-
-            //register it into identityMap
-            identityMap.put(result.getId(), result);
-            DBConnection.close(preparedStatement);
-            return result;
-        } else {
-            DBConnection.close(preparedStatement);
-            return null;
-        }
+        return null;
     }
 
     /**
@@ -203,26 +194,26 @@ public class CategoryMapper extends DataMapper {
      * @return a list of category object
      * @throws Exception
      */
-    public List<Category> findCategoryByProduct(DomainObject domainObject){
+    public List<Category> findCategoryByProduct(DomainObject domainObject) {
         Product product = (Product) domainObject;
         String findCategoryByProduct = "SELECT category_id FROM public.product_category WHERE " +
                 "product_id = ?";
-        try{
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(findCategoryByProduct);
+            preparedStatement.setString(1, product.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Category> result = new ArrayList<>();
+            while (resultSet.next()) {
+                Category category = new Category();
+                category.setCategoryId(resultSet.getString(1));
 
-        }catch (Exception e){
+                result.add(findCategoryById(category));
+            }
+            return result;
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        PreparedStatement preparedStatement = DBConnection.prepare(findCategoryByProduct);
-        preparedStatement.setString(1, product.getId());
-        ResultSet resultSet = preparedStatement.executeQuery();
-        List<Category> result = new ArrayList<>();
-        while (resultSet.next()) {
-            Category category = new Category();
-            category.setCategoryId(resultSet.getString(1));
-
-            result.add(findCategoryById(category));
-        }
-        return result;
+        return null;
     }
 
 }

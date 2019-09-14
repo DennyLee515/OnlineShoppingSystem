@@ -23,10 +23,19 @@ public class ViewCategoryProductCommand extends FrontCommand{
         category.setCategoryId(categoryId);
         CategoryService categoryService = new CategoryService();
         category = categoryService.findCategroyById(category);
+        if (category==null){
+            request.setAttribute("errMsg", "The category no longer exists");
+            forward("/jsp/error.jsp");
+        }
 
         ProductService productService = new ProductService();
         List<Product> products = productService.findProductByCategory(category);
+        if (products==null){
+            request.setAttribute("errMsg", "No Product in this category");
+            forward("/jsp/error.jsp");
+        }
         request.setAttribute("products",products);
-        forward("/jsp/viewProducts.jsp");
+        request.setAttribute("category",category);
+        forward("/jsp/viewProductsInCategory.jsp");
     }
 }

@@ -1,6 +1,5 @@
 package service;
 
-import domain.Cart;
 import domain.User;
 import mapper.UserMapper;
 import util.IdentityMap;

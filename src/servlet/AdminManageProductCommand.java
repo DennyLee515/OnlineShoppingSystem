@@ -20,6 +20,10 @@ public class AdminManageProductCommand extends FrontCommand {
 
         switch (method) {
             case "create":
+                CategoryService categoryService = new CategoryService();
+                List<Category> categories = categoryService.getAllCategories();
+
+                request.setAttribute("categories", categories);
                 forward("/jsp/admin/newProduct.jsp");
                 break;
             case "delete":
@@ -54,10 +58,10 @@ public class AdminManageProductCommand extends FrontCommand {
                 productService = new ProductService();
                 product = productService.findProductByID(product);
 
-                CategoryService categoryService = new CategoryService();
-                List<Category> categories = categoryService.getAllCategories();
-
-                request.setAttribute("categories", categories);
+//                CategoryService categoryService = new CategoryService();
+//                List<Category> categories = categoryService.getAllCategories();
+//
+//                request.setAttribute("categories", categories);
                 request.setAttribute("product", product);
                 forward("/jsp/admin/addToCategory.jsp");
                 break;

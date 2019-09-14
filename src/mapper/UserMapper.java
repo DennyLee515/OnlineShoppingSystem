@@ -1,6 +1,5 @@
 package mapper;
 
-import domain.Cart;
 import domain.DomainObject;
 import domain.User;
 import util.DBConnection;
@@ -9,8 +8,6 @@ import util.IdentityMap;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @program: CoffeeWeb
@@ -94,21 +91,21 @@ public class UserMapper extends DataMapper {
                 "username=?, user_password=?, birthday=?, user_email=?, user_address=?" +
                 "WHERE user_id = ?";
         try{
-
+            PreparedStatement preparedStatement = DBConnection.prepare(updateUserById);
+            preparedStatement.setString(1, user.getuFname());
+            preparedStatement.setString(2, user.getuLname());
+            preparedStatement.setString(3, user.getUsername());
+            preparedStatement.setString(4, user.getuPassword());
+            preparedStatement.setTimestamp(5, new Timestamp(user.getBirthday().getTime()));
+            preparedStatement.setString(6, user.getUserEmail());
+            preparedStatement.setString(7, user.getAddress());
+            preparedStatement.setString(8, user.getId());
+            result = preparedStatement.executeUpdate();
+            DBConnection.close(preparedStatement);
         }catch (Exception e){
             e.printStackTrace();
         }
-        PreparedStatement preparedStatement = DBConnection.prepare(updateUserById);
-        preparedStatement.setString(1, user.getuFname());
-        preparedStatement.setString(2, user.getuLname());
-        preparedStatement.setString(3, user.getUsername());
-        preparedStatement.setString(4, user.getuPassword());
-        preparedStatement.setTimestamp(5, new Timestamp(user.getBirthday().getTime()));
-        preparedStatement.setString(6, user.getUserEmail());
-        preparedStatement.setString(7, user.getAddress());
-        preparedStatement.setString(8, user.getId());
-        result = preparedStatement.executeUpdate();
-        DBConnection.close(preparedStatement);
+
         return result != 0;
     }
 

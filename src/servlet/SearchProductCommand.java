@@ -12,10 +12,16 @@ public class SearchProductCommand extends FrontCommand{
     @Override
     public void process() throws ServletException, IOException {
         String productName= request.getParameter("name");
-        List<Product> products = new ArrayList<>();
+        Product product = new Product();
         ProductService productService = new ProductService();
-        products = productService.findProductByName(productName);
-        request.setAttribute("products", products);
+        Product product1 =new Product();
+        product.setProductName(productName);
+        product = productService.findProductByName(product1);
+        if (product==null){
+            request.setAttribute("errMsg", "Cannot find the product");
+            forward("/jsp/error.jsp");
+        }
+        request.setAttribute("products", product);
         forward("/jsp/viewProducts.jsp");
 
     }

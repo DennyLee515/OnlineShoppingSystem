@@ -1,10 +1,9 @@
 package servlet;
 
-import domain.Cart;
+import domain.CartDetail;
 import domain.Category;
 import domain.Product;
 import domain.User;
-import mapper.UserMapper;
 import service.CartService;
 import service.CategoryService;
 import service.ProductService;
@@ -43,9 +42,14 @@ public class AddToCartCommand extends FrontCommand{
         user.setUsername("username");
         UserService userService = new UserService();
         user = userService.findUserByName(user);
-        cartService.AddToCart(user,product,amount,category);
-        List<Cart> carts = cartService.findCartByUser(user);
-        request.setAttribute("carts", carts);
-        forward("/jsp/user/cart.jsp");
+        boolean result=cartService.AddToCart(user,product,amount,category);
+        if (result){
+            List<CartDetail> cartDetails = cartService.findCartDetailByUserId(user);
+            request.setAttribute("cartDetails", cartDetails);
+            forward("/jsp/user/cart.jsp");
+        }else {
+            request.setAttribute("errMSG","Add to cart failed.");
+        }
+
     }
 }

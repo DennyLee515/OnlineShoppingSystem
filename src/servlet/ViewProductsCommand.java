@@ -18,6 +18,11 @@ public class ViewProductsCommand extends FrontCommand {
     public void process() throws ServletException, IOException {
         ProductService productService = new ProductService();
         List<Product> products = productService.getAll();
+        if (products == null) {
+            request.setAttribute("errMsg", "There is no product.");
+            forward("/jsp/error.jsp");
+        }
+
         request.setAttribute("products", products);
         forward("/jsp/viewProducts.jsp");
     }

@@ -12,13 +12,15 @@ import domain.DomainObject;
 // TODO: Implement in feature 2
 public class OrderMapper extends DataMapper {
     @Override
-    public boolean insert(DomainObject domainObject){
-        try{
+    public boolean insert(DomainObject domainObject) {
+        try {
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return fa
+        return false;
+    }
+
     @Override
     public boolean delete(DomainObject domainObject){
         try{

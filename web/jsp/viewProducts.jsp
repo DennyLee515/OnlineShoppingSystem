@@ -20,7 +20,7 @@
     <ul>
         <li><a href="frontservlet?command=UserLogin">Home</a></li>
         <li><a href="frontservlet?command=ViewProducts">All Products</a></li>
-        <li><a href="frontservlet?command=ViewCategory">Categories</a></li>
+        <li><a href="frontservlet?command=ViewCategory">Roast</a></li>
         <li>
             <div id="search">
                 <form action="frontservlet?command=SearchProduct" method="post">
@@ -58,7 +58,7 @@
 <%--                          method=--%>
 <%--                                  "post">--%>
 <%--                        Amount: <input id="name" type="text" name="amount" align="left" value="0">--%>
-<%--                        <input type="submit" value="Add to cart">--%>
+<%--                        <input type="submit" value="Add to cartDetail">--%>
 <%--                    </form>--%>
             </tr>
         </c:forEach>

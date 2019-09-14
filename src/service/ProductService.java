@@ -40,8 +40,8 @@ public class ProductService {
         return productMapper.findProductById(product);
     }
 
-    public List<Product> findProductByName(String name) {
-        return productMapper.findProductByName(name);
+    public Product findProductByName(Product product) {
+        return productMapper.findProductByName(product);
     }
 
     public List<Product> findProductByCategory(Category category) {

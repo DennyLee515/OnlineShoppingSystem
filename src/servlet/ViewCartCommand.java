@@ -1,7 +1,7 @@
 package servlet;
 
 
-import domain.Cart;
+import domain.CartDetail;
 import domain.User;
 import service.CartService;
 import service.UserService;
@@ -20,9 +20,9 @@ public class ViewCartCommand extends FrontCommand {
         UserService userService = new UserService();
         user = userService.findUserByName(user);
 
-        List<Cart> carts = cartService.findCartByUser(user);
+        List<CartDetail> cartDetails = cartService.findCartDetailByUserId(user);
 
-        request.setAttribute("carts", carts);
+        request.setAttribute("cartDetails", cartDetails);
         forward("/jsp/user/cart.jsp");
     }
 

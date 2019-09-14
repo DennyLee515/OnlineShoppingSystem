@@ -1,57 +1,57 @@
 package service;
 
-import domain.Cart;
-import domain.Category;
-import domain.Product;
-import domain.User;
+import domain.*;
+import mapper.CartDetailMapper;
 import mapper.CartMapper;
 import mapper.UserMapper;
-import util.IdentityMap;
 
 import java.util.List;
 
 public class CartService {
-    private CartMapper cartMapper;
+    private CartDetailMapper cartDetailMapper;
     private UserMapper userMapper;
+    private CartMapper cartMapper;
 
     public CartService() {
-        cartMapper = new CartMapper();
+        cartDetailMapper = new CartDetailMapper();
         userMapper = new UserMapper();
+        cartMapper = new CartMapper();
     }
 
     public boolean AddToCart(User user, Product product, int amount, Category category) {
         try {
-            Cart cartFinded = cartMapper.findProductInCart(user, product,category);
-            Boolean result;
-            if (cartFinded != null) {
-                cartFinded.setProductAmount(cartFinded.getProductAmount() + amount);
-                result = updateCart(cartFinded);
+            Cart cart = findCartByUserId(user);
+            CartDetail cartDetailFinded = cartDetailMapper.findProductInCart(cart, product,
+                    category);
+            boolean result;
+            if (cartDetailFinded != null) {
+                cartDetailFinded.setProductAmount(cartDetailFinded.getProductAmount() + amount);
+                result = updateCart(cartDetailFinded);
             } else {
-                Cart newCart = new Cart(product, amount, product.getPrice() * amount, user,category);
-                result = insertCart(newCart);
+                CartDetail newCartDetail = new CartDetail(product, amount,
+                        product.getPrice() * amount, cart, category);
+                result = insertCartDetail(newCartDetail);
             }
             return result;
         } catch (Exception e) {
-            System.out.println("Fail to add products to the cart.");
+            e.printStackTrace();
             return false;
         }
     }
 
     public boolean insertCart(Cart cart) {
-        try {
-            return cartMapper.insert(cart);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Insert cart service fail.");
-            return false;
-        }
+        return cartMapper.insert(cart);
     }
 
-    public boolean updateCart(Cart cart) {
+    public boolean insertCartDetail(CartDetail cartDetail){
+        return cartDetailMapper.insert(cartDetail);
+    }
+
+    public boolean updateCart(CartDetail cartDetail) {
         try {
-            return cartMapper.update(cart);
+            return cartDetailMapper.update(cartDetail);
         } catch (Exception e) {
-            System.out.println("Update cart service fail.");
+            System.out.println("Update cartDetail service fail.");
             e.printStackTrace();
             return false;
         }
@@ -61,13 +61,13 @@ public class CartService {
         return false;
     }
 
-    public List<Cart> findCartByUser(User user) {
-        try {
-            return cartMapper.findCartByUserId(user);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Find cart by user service fail.");
-        }
-        return null;
+    public List<CartDetail> findCartDetailByUserId(User user) {
+        Cart cart = findCartByUserId(user);
+        return cartDetailMapper.findCartDetailByCartId(cart);
+
+    }
+
+    public Cart findCartByUserId(User user) {
+        return cartMapper.findCartByUserId(user);
     }
 }

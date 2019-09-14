@@ -20,7 +20,7 @@
     <ul>
         <li><a href="frontservlet?command=UserLogin">Home</a></li>
         <li><a href="frontservlet?command=ViewProducts">All Products</a></li>
-        <li><a href="frontservlet?command=ViewCategory">Categories</a></li>
+        <li><a href="frontservlet?command=ViewCategory">Roast</a></li>
         <li>
             <div id="search">
                 <form action="frontservlet?command=SearchProduct" method="post">

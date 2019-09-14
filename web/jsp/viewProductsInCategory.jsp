@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: DennyLee
-  Date: 2019/9/12
-  Time: 22:13
+  Date: 2019/9/14
+  Time: 11:10
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -15,12 +15,12 @@
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div id="welcome">Select Roast</div>
+<div id="welcome">Products</div>
 <div id="shop">
     <ul>
         <li><a href="frontservlet?command=UserLogin">Home</a></li>
         <li><a href="frontservlet?command=ViewProducts">All Products</a></li>
-        <li><a href="frontservlet?command=ViewCategory">Roast</a></li>
+        <li><a href="frontservlet?command=ViewCategory">Categories</a></li>
         <li>
             <div id="search">
                 <form action="frontservlet?command=SearchProduct" method="post">
@@ -41,36 +41,25 @@
             <th width="40%"><b>Info</b></th>
             <th width="15"><b>Price</b></th>
             <th width="15%"><b>Weight</b></th>
-            <th><b>Roast</b></th>
             <th><b></b></th>
         </tr>
-        <c:forEach var="category" items="${categories}">
+        <c:forEach var="product" items="${products}">
             <tr>
                 <td align="center">${product.productName}</td>
                 <td align="center">${product.info}</td>
                 <td align="center">${product.price}</td>
                 <td align="center">${product.weight}</td>
-                <td align="center">${category.categoryName}</td>
-                <td>
-                    <form
-                            action="frontservlet?command=AddToCart&&product=${product.productId}&category=${category.categoryId}"
-                          method=
-                                  "post">
-                        Amount: <input id="name" type="text" name="amount" align="left" value="1">
-                        <input type="submit" value="Add to cartDetail">
-                    </form>
+                <td> <form
+                        action="frontservlet?command=AddToCart&&product=${product.productId}&category=${category.categoryId}"
+                        method=
+                                "post">
+                    Amount: <input id="name" type="text" name="amount" align="left" value="1">
+                    <input type="submit" value="Add to cartDetail">
+                </form>
                 </td>
-
             </tr>
         </c:forEach>
     </table>
 </div>
-<%--<script type="text/javascript">--%>
-<%--    function add() {--%>
-<%--        var x, text;--%>
-<%--        x = document.getElementById("name").value;--%>
-<%--        var url = "frontservlet?command=AddToCart&&product=" +${product};--%>
-<%--        location.href = url;--%>
-<%--    }</script>--%>
 </body>
 </html>

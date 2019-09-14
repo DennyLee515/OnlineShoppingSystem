@@ -8,6 +8,7 @@ import util.IdentityMap;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,24 +30,27 @@ public class ProductMapper extends DataMapper {
      * @throws Exception
      */
     @Override
-    public boolean insert(DomainObject domainObject) throws Exception {
+    public boolean insert(DomainObject domainObject) {
         Product product = (Product) domainObject;
         String insertProduct = "INSERT INTO public.product " +
                 "(product_id, product_name, info, price, weight, created_at,inventory)" +
                 "VALUES(?,?,?,?,?,?,?)";
         int result = 0;
-        PreparedStatement preparedStatement = DBConnection.prepare(insertProduct);
-        preparedStatement.setString(1, product.getId());
-        preparedStatement.setString(2, product.getProductName());
-        preparedStatement.setString(3, product.getInfo());
-        preparedStatement.setDouble(4, product.getPrice());
-        preparedStatement.setInt(5, product.getWeight());
-        preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
-        preparedStatement.setInt(7, product.getInventory());
-        result = preparedStatement.executeUpdate();
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(insertProduct);
+            preparedStatement.setString(1, product.getId());
+            preparedStatement.setString(2, product.getProductName());
+            preparedStatement.setString(3, product.getInfo());
+            preparedStatement.setDouble(4, product.getPrice());
+            preparedStatement.setInt(5, product.getWeight());
+            preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
+            preparedStatement.setInt(7, product.getInventory());
+            result = preparedStatement.executeUpdate();
 
-        DBConnection.close(preparedStatement);
-
+            DBConnection.close(preparedStatement);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result != 0;
     }
 
@@ -58,16 +62,19 @@ public class ProductMapper extends DataMapper {
      * @throws Exception
      */
     @Override
-    public boolean delete(DomainObject domainObject) throws Exception {
+    public boolean delete(DomainObject domainObject) {
         Product product = (Product) domainObject;
         String deleteProductById = "DELETE FROM public.product WHERE product_id = ?";
         int result = 0;
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(deleteProductById);
+            preparedStatement.setString(1, product.getId());
+            result = preparedStatement.executeUpdate();
 
-        PreparedStatement preparedStatement = DBConnection.prepare(deleteProductById);
-        preparedStatement.setString(1, product.getId());
-        result = preparedStatement.executeUpdate();
-
-        DBConnection.close(preparedStatement);
+            DBConnection.close(preparedStatement);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result != 0;
     }
 
@@ -79,24 +86,27 @@ public class ProductMapper extends DataMapper {
      * @throws Exception
      */
     @Override
-    public boolean update(DomainObject domainObject) throws Exception {
+    public boolean update(DomainObject domainObject) {
         Product product = (Product) domainObject;
         String updateProductById = "UPDATE public.product SET " +
                 "product_name=?, info=?, price=?, weight=?, created_at=? ,inventory=?" +
                 "WHERE product_id=?";
         int result = 0;
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(updateProductById);
+            preparedStatement.setString(1, product.getProductName());
+            preparedStatement.setString(2, product.getInfo());
+            preparedStatement.setDouble(3, product.getPrice());
+            preparedStatement.setInt(4, product.getWeight());
+            preparedStatement.setTimestamp(5, new Timestamp(product.getCreatedAt().getTime()));
+            preparedStatement.setInt(6, product.getInventory());
+            preparedStatement.setString(7, product.getId());
+            result = preparedStatement.executeUpdate();
 
-        PreparedStatement preparedStatement = DBConnection.prepare(updateProductById);
-        preparedStatement.setString(1, product.getProductName());
-        preparedStatement.setString(2, product.getInfo());
-        preparedStatement.setDouble(3, product.getPrice());
-        preparedStatement.setInt(4, product.getWeight());
-        preparedStatement.setTimestamp(5, new Timestamp(product.getCreatedAt().getTime()));
-        preparedStatement.setString(6, product.getId());
-        preparedStatement.setInt(7, product.getInventory());
-        result = preparedStatement.executeUpdate();
-
-        DBConnection.close(preparedStatement);
+            DBConnection.close(preparedStatement);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result != 0;
     }
 
@@ -107,23 +117,25 @@ public class ProductMapper extends DataMapper {
      * @return a list of products
      * @throws Exception
      */
-    public List<Product> findProductsByCategory(Category category) throws Exception {
+    public List<Product> findProductsByCategory(Category category) {
         String findProductByCategoryId = "SELECT product_id FROM public.product_category WHERE " +
                 "category_id = ?";
         List<Product> result = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(findProductByCategoryId);
+            preparedStatement.setString(1, category.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-        PreparedStatement preparedStatement = DBConnection.prepare(findProductByCategoryId);
-        preparedStatement.setString(1, category.getId());
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        while (resultSet.next()) {
-            Product product = new Product();
-            product.setProductId(resultSet.getString(1));
-            product = findProductById(product);
-            result.add(product);
+            while (resultSet.next()) {
+                Product product = new Product();
+                product.setProductId(resultSet.getString(1));
+                product = findProductById(product);
+                result.add(product);
+            }
+            DBConnection.close(preparedStatement);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        DBConnection.close(preparedStatement);
-
         return result;
     }
 
@@ -138,6 +150,7 @@ public class ProductMapper extends DataMapper {
 
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(findProduct);
+
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -178,6 +191,7 @@ public class ProductMapper extends DataMapper {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
+
                 result.setProductId(resultSet.getString(1));
                 result.setProductName(resultSet.getString(2));
                 result.setInfo(resultSet.getString(3));
@@ -198,15 +212,16 @@ public class ProductMapper extends DataMapper {
     /**
      * find a product by product name
      *
-     * @param name
+     * @param domainObject
      * @return a product object
      */
-    public Product findProductByName(String name) {
+    public Product findProductByName(DomainObject domainObject) {
+        Product product = (Product) domainObject;
         String findProductByCategoryId = "SELECT * FROM public.product WHERE product_name = ?";
 
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(findProductByCategoryId);
-            preparedStatement.setString(1, name);
+            preparedStatement.setString(1, product.getProductName());
 
             ResultSet resultSet = preparedStatement.executeQuery();
 

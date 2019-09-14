@@ -2,6 +2,9 @@ package domain;/**
  * Created by DennyLee on 2019/9/1.
  */
 
+import mapper.CartMapper;
+import mapper.CategoryMapper;
+
 import java.util.UUID;
 
 /**
@@ -42,10 +45,21 @@ public class Category extends DomainObject {
     }
 
     public String getCategoryName() {
+        if (this.categoryName == null)
+            load();
         return categoryName;
     }
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    private void load() {
+        CategoryMapper categoryMapper = new CategoryMapper();
+        Category record = categoryMapper.findCategoryById(this);
+
+        if (this.categoryName == null) {
+            this.categoryName = record.getCategoryName();
+        }
     }
 }

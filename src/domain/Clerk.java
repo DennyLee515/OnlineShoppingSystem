@@ -1,5 +1,7 @@
 package domain;
 
+import mapper.ClerkMapper;
+
 import java.util.Date;
 
 /**
@@ -16,15 +18,17 @@ public class Clerk extends Staff {
     public Clerk() {
     }
 
-    public Clerk( String staffUName, String staffPassword, String clerkFistname,
-                 String clerkLastName, Date startDate,Date endDate) {
-        super( staffUName, staffPassword);
+    public Clerk(String staffUName, String staffPassword, String clerkFistname,
+                 String clerkLastName, Date startDate, Date endDate) {
+        super(staffUName, staffPassword);
         this.clerkFistname = clerkFistname;
         this.clerkLastName = clerkLastName;
-        this.timeRange = new TimeRange(startDate,endDate);
+        this.timeRange = new TimeRange(startDate, endDate);
     }
 
     public String getClerkFistname() {
+        if (this.clerkFistname == null)
+            load();
         return clerkFistname;
     }
 
@@ -33,6 +37,9 @@ public class Clerk extends Staff {
     }
 
     public String getClerkLastName() {
+        if (this.clerkLastName == null){
+            load();
+        }
         return clerkLastName;
     }
 
@@ -41,10 +48,26 @@ public class Clerk extends Staff {
     }
 
     public TimeRange getTimeRange() {
+        if (this.timeRange == null)
+            load();
         return timeRange;
     }
 
     public void setTimeRange(TimeRange timeRange) {
         this.timeRange = timeRange;
+    }
+
+    private void load() {
+        ClerkMapper clerkMapper = new ClerkMapper();
+        Clerk record = clerkMapper.findClerkById(this);
+        if (this.clerkFistname == null) {
+            this.clerkFistname = record.getClerkFistname();
+        }
+        if (this.clerkLastName == null) {
+            this.clerkLastName = record.getClerkLastName();
+        }
+        if (this.timeRange == null) {
+            this.timeRange = record.getTimeRange();
+        }
     }
 }

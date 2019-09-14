@@ -2,6 +2,8 @@ package domain;/**
  * Created by DennyLee on 2019/9/1.
  */
 
+import mapper.ManagerMapper;
+
 /**
  * @program: CoffeeWeb
  * @description: Admin object
@@ -23,10 +25,21 @@ public class Manager extends Staff {
     }
 
     public String getManagerEmail() {
+        if (this.managerEmail == null){
+            load();
+        }
         return managerEmail;
     }
 
     public void setManagerEmail(String managerEmail) {
         this.managerEmail = managerEmail;
+    }
+
+    private void load(){
+        ManagerMapper managerMapper = new ManagerMapper();
+        Manager record = managerMapper.findManagerById(this);
+        if (this.managerEmail == null){
+            this.managerEmail = record.getManagerEmail();
+        }
     }
 }

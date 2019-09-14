@@ -13,6 +13,7 @@
     <meta charset="utf-8">
     <title>York Way Coffee</title>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
 <div id="welcome">Select Roast</div>
@@ -32,45 +33,35 @@
     </ul>
 
 </div>
-<br>
-<br>
-<div id="product">
-    <table width="100%" align="left">
-        <tr>
-            <th width="15%"><b>Product Name</b></th>
-            <th width="40%"><b>Info</b></th>
-            <th width="15"><b>Price</b></th>
-            <th width="15%"><b>Weight</b></th>
-            <th><b>Roast</b></th>
-            <th><b></b></th>
-        </tr>
-        <c:forEach var="category" items="${categories}">
+<div class="container">
+    <div id="product" class="table">
+        <table width="100%" class="table">
             <tr>
-                <td align="center">${product.productName}</td>
-                <td align="center">${product.info}</td>
-                <td align="center">${product.price}</td>
-                <td align="center">${product.weight}</td>
-                <td align="center">${category.categoryName}</td>
-                <td>
-                    <form
-                            action="frontservlet?command=AddToCart&&product=${product.productId}&category=${category.categoryId}"
-                          method=
-                                  "post">
-                        Amount: <input id="name" type="text" name="amount" align="left" value="1">
-                        <input type="submit" value="Add to cartDetail">
-                    </form>
-                </td>
-
+                <th width="20%"><b>Product Name</b></th>
+                <th width="15"><b>Price</b></th>
+                <th width="15%"><b>Weight</b></th>
+                <th width="20%"><b>Roast</b></th>
+                <th with="30%"><b>Amount</b></th>
             </tr>
-        </c:forEach>
-    </table>
+            <c:forEach var="category" items="${categories}">
+                <tr>
+                    <td>${product.productName}</td>
+                    <td>${product.price}</td>
+                    <td>${product.weight}</td>
+                    <td>${category.categoryName}</td>
+                    <td>
+                        <form action="frontservlet?command=AddToCart&&product=${product.productId}&category=${category.categoryId}"
+                              method="post">
+                            <input id="name" type="text" name="amount" align="left" value="1">
+                            <input type="submit" value="Add to Cart">
+                        </form>
+                    </td>
+
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
 </div>
-<%--<script type="text/javascript">--%>
-<%--    function add() {--%>
-<%--        var x, text;--%>
-<%--        x = document.getElementById("name").value;--%>
-<%--        var url = "frontservlet?command=AddToCart&&product=" +${product};--%>
-<%--        location.href = url;--%>
-<%--    }</script>--%>
+
 </body>
 </html>

@@ -35,4 +35,5 @@ public class TimeRange extends DomainObject {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
 }

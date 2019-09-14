@@ -12,6 +12,8 @@
     <meta charset="utf-8">
     <title>Manage Platform</title>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.css">
+
 </head>
 <body>
 <div id="welcome">Manage Platform</div>

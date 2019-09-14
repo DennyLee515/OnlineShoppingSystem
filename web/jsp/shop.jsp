@@ -5,17 +5,11 @@
     <meta charset="utf-8">
     <title>York Way Coffee</title>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
 <div id="welcome">Shop Coffee</div>
-<%--<div id="navi">--%>
-<%--    <ul>--%>
-<%--        <li><a href="index.jsp">Home</a></li>--%>
-<%--        <li><a href="frontservlet?command=ViewShop">Shop Coffee</a></li>--%>
-<%--        <li><a href="frontservlet?command=ViewCart">CartDetail</a></li>--%>
-<%--        <li><a href="">My Account</a> </li>--%>
-<%--    </ul>--%>
-<%--</div>--%>
+
 <div id="shop">
     <ul>
         <li><a href="frontservlet?command=UserLogin">Home</a></li>

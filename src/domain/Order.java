@@ -2,6 +2,9 @@ package domain;/**
  * Created by DennyLee on 2019/9/1.
  */
 
+import com.sun.org.apache.xpath.internal.operations.Or;
+import mapper.OrderMapper;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -44,6 +47,8 @@ public class Order extends DomainObject {
     }
 
     public User getUser() {
+        if (this.user == null)
+            load();
         return user;
     }
 
@@ -52,6 +57,9 @@ public class Order extends DomainObject {
     }
 
     public double getTotalPrice() {
+        if (this.totalPrice == 0.0) {
+            load();
+        }
         return totalPrice;
     }
 
@@ -60,10 +68,26 @@ public class Order extends DomainObject {
     }
 
     public Date getOrderTime() {
+        if (this.orderTime == null)
+            load();
         return orderTime;
     }
 
     public void setOrderTime(Date orderTime) {
         this.orderTime = orderTime;
+    }
+
+    private void load() {
+        OrderMapper orderMapper = new OrderMapper();
+        Order record = orderMapper.findOrderById(this);
+        if (this.orderTime == null) {
+            this.orderTime = record.getOrderTime();
+        }
+        if (this.totalPrice == 0.0) {
+            this.totalPrice = record.getTotalPrice();
+        }
+        if (this.user == null) {
+            this.user = record.getUser();
+        }
     }
 }

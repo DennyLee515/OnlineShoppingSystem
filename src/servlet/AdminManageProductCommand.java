@@ -17,11 +17,13 @@ public class AdminManageProductCommand extends FrontCommand {
         String productId;
         Product product;
         ProductService productService;
+        CategoryService categoryService;
+        List<Category> categories;
 
         switch (method) {
             case "create":
-                CategoryService categoryService = new CategoryService();
-                List<Category> categories = categoryService.getAllCategories();
+                 categoryService = new CategoryService();
+                categories = categoryService.getAllCategories();
 
                 request.setAttribute("categories", categories);
                 forward("/jsp/admin/newProduct.jsp");
@@ -47,6 +49,10 @@ public class AdminManageProductCommand extends FrontCommand {
                 productService = new ProductService();
                 product = productService.findProductByID(product);
 
+                categoryService = new CategoryService();
+                categories = categoryService.getAllCategories();
+
+                request.setAttribute("categories", categories);
                 request.setAttribute("product", product);
                 forward("/jsp/admin/editProduct.jsp");
                 break;

@@ -11,21 +11,25 @@
 <head>
     <title>Edit Category</title>
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div id="welcome">Edit Category</div>
-<form action="frontservlet?command=AdminEditCategory&category=${category.categoryId}"
-      method="POST">
-    <div class="form-group row">
-        <label for="inputCategoryName" class="col-sm-2 col-form-label">Category Name</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control"
-                                          id="inputCategoryName"
-                   name="categoryName" value="${category.categoryName}">
+<div id="welcome" class="card-title"><b>Edit Category</b></div>
+<div class="container">
+    <form action="frontservlet?command=AdminEditCategory&category=${category.categoryId}"
+          method="POST">
+        <div class="form-group row">
+            <label for="inputCategoryName" class="col-sm-2 col-form-label">Category Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control"
+                       id="inputCategoryName"
+                       name="categoryName" value="${category.categoryName}">
+            </div>
         </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Confirm</button>
-    <button type="button" class="btn btn-light" onclick="history.go(-1);">Cancel</button>
-</form>
+        <button type="submit" class="btn btn-primary">Confirm</button>
+        <button type="button" class="btn btn-light" onclick="history.go(-1);">Cancel</button>
+    </form>
+</div>
+
 </body>
 </html>

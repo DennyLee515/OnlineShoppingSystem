@@ -48,13 +48,8 @@ public class CartService {
     }
 
     public boolean updateCart(CartDetail cartDetail) {
-        try {
+
             return cartDetailMapper.update(cartDetail);
-        } catch (Exception e) {
-            System.out.println("Update cartDetail service fail.");
-            e.printStackTrace();
-            return false;
-        }
     }
 
     public boolean deleteCart() {

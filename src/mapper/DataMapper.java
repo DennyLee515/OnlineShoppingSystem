@@ -2,6 +2,8 @@ package mapper;
 
 import domain.DomainObject;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * @program: CoffeeWeb
  * @description: Data Mapper
@@ -15,9 +17,14 @@ public abstract class DataMapper {
 
     public abstract boolean update(DomainObject domainObject);
 
-    public static DataMapper getMapper(Class obj) throws Exception {
+    public static DataMapper getMapper(Object obj) {
 
-        DataMapper dm = (DataMapper) Class.forName(obj.getClass().getSimpleName() + "mapper").getDeclaredConstructor().newInstance();
+        DataMapper dm = null;
+        try {
+            dm = (DataMapper) Class.forName("mapper." + obj.getClass().getSimpleName() + "Mapper").getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         return dm;
 
 

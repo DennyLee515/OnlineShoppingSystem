@@ -33,7 +33,6 @@ public class ProductService {
     public Product findProductByID(Product product) {
         IdentityMap<Product> identityMap = IdentityMap.getInstance(product);
         Product productFinded = identityMap.get(product.getId());
-
         if (productFinded != null) {
             return productFinded;
         }
@@ -97,4 +96,9 @@ public class ProductService {
         }
         return false;
     }
+
+    public boolean deleteAllRelations(Product product){
+        return productMapper.deleteAllRelationsByProduct(product);
+    }
+
 }

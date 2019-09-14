@@ -87,7 +87,7 @@ public class CartDetailMapper extends DataMapper {
         return result != 0;
     }
 
-    public CartDetail findCartById(DomainObject domainObject) {
+    public CartDetail findCartDetailById(DomainObject domainObject) {
         CartDetail cartDetail = (CartDetail) domainObject;
         String findCartById = "SELECT * FROM public.cartDetail WHERE cart_id = ?";
         try {

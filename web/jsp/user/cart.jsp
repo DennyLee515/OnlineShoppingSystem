@@ -13,17 +13,10 @@
     <meta charset="utf-8">
     <title>My Cart</title>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
-<div id="welcome">My Cart</div>
-<%--<div id="navi">--%>
-<%--    <ul>--%>
-<%--        <li><a href="index.jsp">Home</a></li>--%>
-<%--        <li><a href="frontservlet?command=ViewShop">Shop Coffee</a></li>--%>
-<%--        <li><a href="frontservlet?command=ViewCart">CartDetail</a></li>--%>
-<%--        <li><a href="">My Account</a></li>--%>
-<%--    </ul>--%>
-<%--</div>--%>
+<div id="welcome" class="card-title"><b>My Cart</b></div>
 <div id="shop">
     <ul>
         <li><a href="frontservlet?command=UserLogin">Home</a></li>
@@ -38,40 +31,26 @@
             </div>
         </li>
     </ul>
-
 </div>
-<br>
-<br>
-<div id="product">
-    <table width="100%" align="left">
-        <tr>
-            <th width="40%"><b>Product Name</b></th>
-            <th width="30%"><b>Amount</b></th>
-            <th width="30%"><b>Price</b></th>
-        </tr>
-        <c:forEach var="cartDetail" items="${cartDetails}">
+<div class="container">
+    <div id="product" class="table">
+        <table width="100%">
             <tr>
-                <td align="center">${cartDetail.product.productName}</td>
-                <td align="center">${cartDetail.productAmount}</td>
-                <td align="center">${cartDetail.totalPrice}</td>
-                <td>
-                        <%--                    <form action="frontservlet?command=AddToCart&&product=${product.productId}"--%>
-                        <%--                          method=--%>
-                        <%--                                  "post">--%>
-                        <%--                        Amount: <input id="name" type="text" name="amount" align="left" value="0">--%>
-                        <%--                        <input type="submit" value="Add to cartDetail">--%>
-                        <%--                    </form>--%>
-                </td>
+                <th width="40%"><b>Product Name</b></th>
+                <th width="30%"><b>Roast</b></th>
+                <th width="15%"><b>Amount</b></th>
+                <th width="15%"><b>Subtotal</b></th>
             </tr>
-        </c:forEach>
-    </table>
+            <c:forEach var="cartDetail" items="${cartDetails}">
+                <tr>
+                    <td>${cartDetail.product.productName}</td>
+                    <td>${cartDetail.category.categoryName}</td>
+                    <td>${cartDetail.productAmount}</td>
+                    <td>${cartDetail.totalPrice}</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
 </div>
-<%--<script type="text/javascript">--%>
-<%--    function add() {--%>
-<%--        var x, text;--%>
-<%--        x = document.getElementById("name").value;--%>
-<%--        var url = "frontservlet?command=AddToCart&&product=" +${product};--%>
-<%--        location.href = url;--%>
-<%--    }</script>--%>
 </body>
 </html>

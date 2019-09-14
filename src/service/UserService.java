@@ -1,8 +1,10 @@
 package service;
 
 import domain.User;
+import mapper.DataMapper;
 import mapper.UserMapper;
 import util.IdentityMap;
+import util.UnitOfWork;
 
 /**
  * @program: CoffeeWeb
@@ -20,24 +22,30 @@ public class UserService {
     }
 
     //insert a user
-    public boolean insertUser(User user) throws Exception{
-        return userMapper.insert(user);
+    public boolean insertUser(User user) {
+        UnitOfWork.newCurrent();
+        UnitOfWork.getCurrent().registerNew(user);
+        return UnitOfWork.getCurrent().commit();
     }
 
     //delete a user
     public boolean deleteUser(User user){
-        return userMapper.delete(user);
+        UnitOfWork.newCurrent();
+        UnitOfWork.getCurrent().registerDelete(user);
+        return UnitOfWork.getCurrent().commit();
     }
 
-    public boolean updateUser(){
-        return false;
+    public boolean updateUser(User user){
+        UnitOfWork.newCurrent();
+        UnitOfWork.getCurrent().registerDirty(user);
+        return UnitOfWork.getCurrent().commit();
     }
 
-    public User findUserById(User user) throws Exception{
+    public User findUserById(User user) {
         IdentityMap<User> identityMap = IdentityMap.getInstance(user);
         User userFinded = identityMap.get(user.getId());
         if (userFinded != null){
-            System.out.println(userFinded.getUsername());
+            System.out.println("using idmap");
             return userFinded;
         }else{
             return userMapper.findUserById(user);

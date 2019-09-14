@@ -217,10 +217,10 @@ public class ProductMapper extends DataMapper {
      */
     public Product findProductByName(DomainObject domainObject) {
         Product product = (Product) domainObject;
-        String findProductByCategoryId = "SELECT * FROM public.product WHERE product_name = ?";
+        String findProductByCategoryName = "SELECT * FROM public.product WHERE product_name = ?";
 
         try {
-            PreparedStatement preparedStatement = DBConnection.prepare(findProductByCategoryId);
+            PreparedStatement preparedStatement = DBConnection.prepare(findProductByCategoryName);
             preparedStatement.setString(1, product.getProductName());
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -261,6 +261,30 @@ public class ProductMapper extends DataMapper {
             PreparedStatement preparedStatement = DBConnection.prepare(deleteRelationByProduct);
             preparedStatement.setString(1, category.getId());
             preparedStatement.setString(2, product.getId());
+            int result = preparedStatement.executeUpdate();
+
+            DBConnection.close(preparedStatement);
+            return result != 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * delete a category product relation in categroy relation table
+     *
+     * @param product
+     * @param category
+     * @return boolean
+     */
+    public boolean deleteAllRelationsByProduct(Product product) {
+        String deleteRelationByProduct = "DELETE FROM public.product_category WHERE " +
+                "product_id = ?";
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(deleteRelationByProduct);
+            preparedStatement.setString(1, product.getId());
             int result = preparedStatement.executeUpdate();
 
             DBConnection.close(preparedStatement);

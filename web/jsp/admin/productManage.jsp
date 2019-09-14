@@ -13,9 +13,10 @@
     <meta charset="utf-8">
     <title>Manage Platform</title>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
-<div id="welcome">Product Management</div>
+<div id="welcome" class="card-title"><b>Product Management</b></div>
 <div id="navi">
     <ul>
         <li><a href="frontservlet?command=AdminProduct">Product Management</a></li>
@@ -24,37 +25,37 @@
         <li><a href="index.jsp">Logout</a></li>
     </ul>
 </div>
-<div id="product">
-    <table width="100%" align="left">
-        <tr>
-            <th width="15%"><b>Product Name</b></th>
-            <th width="40%"><b>Info</b></th>
-            <th width="15"><b>Price</b></th>
-            <th width="15%"><b>Weight</b></th>
-            <th><b></b></th>
-        </tr>
-        <c:forEach var="product" items="${products}">
+<div id="product" class="container">
+    <div class="table">
+        <table width="100%">
             <tr>
-                <td align="center">${product.productName}</td>
-                <td align="center">${product.info}</td>
-                <td align="center">${product.price}</td>
-                <td align="center">${product.weight}</td>
-                <td>
-                    <a href="frontservlet?command=AdminManageProduct&method=edit&product=${product.productId}"
-                       methods="post" role="button">Edit</a></td>
-                <td><a
-                        href="frontservlet?command=AdminManageProduct&method=add&product=${product.productId}"
-                   methods="post" role="button">Add to Category</a></td>
-                <td>
-                    <a href="frontservlet?command=AdminManageProduct&method=delete&product=${product.productId}"
-                       methods="post" role="button">Delete</a></td>
+                <th width="15%"><b>Product Name</b></th>
+                <th width="35%"><b>Info</b></th>
+                <th width="15"><b>Price</b></th>
+                <th width="15%"><b>Weight</b></th>
+                <th width="20%"><b></b></th>
             </tr>
-        </c:forEach>
+            <c:forEach var="product" items="${products}">
+                <tr>
+                    <td>${product.productName}</td>
+                    <td>${product.info}</td>
+                    <td>${product.price}</td>
+                    <td>${product.weight}</td>
+                    <td>
+                        <a href="frontservlet?command=AdminManageProduct&method=edit&product=${product.productId}"
+                           methods="post" role="button">Edit</a></td>
+                    <td>
+                        <a href="frontservlet?command=AdminManageProduct&method=delete&product=${product.productId}"
+                           methods="post" role="button">Delete</a></td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
 
-    </table>
-    <br>
-    <a href="frontservlet?command=AdminManageProduct&method=create"
-       methods="post" role="button">Add new product</a>
+    <div class="float-right">
+        <a href="frontservlet?command=AdminManageProduct&method=create"
+           methods="post" role="button"><b>Add new product</b></a>
+    </div>
 </div>
 </body>
 </html>

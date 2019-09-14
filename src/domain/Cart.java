@@ -1,5 +1,7 @@
 package domain;
 
+import mapper.CartMapper;
+
 import java.util.UUID;
 
 /**
@@ -30,10 +32,25 @@ public class Cart extends DomainObject{
     }
 
     public User getUser() {
+        if (this.user == null){
+            load();
+        }
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
     }
+
+    private void load() {
+        CartMapper cartMapper = new CartMapper();
+        Cart record = cartMapper.findCartById(this);
+
+        if (this.user == null) {
+            this.user = record.getUser();
+        }
+
+    }
 }
+
+

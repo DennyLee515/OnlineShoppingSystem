@@ -2,6 +2,8 @@ package domain;/**
  * Created by DennyLee on 2019/9/1.
  */
 
+import mapper.UserMapper;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -105,5 +107,29 @@ public class User extends DomainObject {
         this.address = address;
     }
 
-
+    private void load(){
+        UserMapper userMapper = new UserMapper();
+        User record = userMapper.findUserById(this);
+        if (this.uFname == null){
+            this.uFname = record.getuFname();
+        }
+        if (this.uLname == null){
+            this.uLname = record.getuLname();
+        }
+        if (this.username == null){
+            this.username = record.getUsername();
+        }
+        if (this.uPassword == null){
+            this.uPassword = record.getuPassword();
+        }
+        if (this.birthday == null){
+            this.birthday = record.getBirthday();
+        }
+        if (this.userEmail ==null){
+            this.userEmail = record.getUserEmail();
+        }
+        if (this.address == null){
+            this.address = record.getAddress();
+        }
+    }
 }

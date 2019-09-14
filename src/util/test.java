@@ -1,8 +1,7 @@
 package util;
 
 import domain.*;
-import mapper.ManagerMapper;
-import mapper.StaffMapper;
+import mapper.*;
 import service.CartService;
 import service.CategoryService;
 import service.ProductService;
@@ -34,18 +33,25 @@ public class test {
 //            ProductMapper productMapper = new ProductMapper();
 //            productMapper.insert(product);
 
-//            User user = new User("fistname","lastname","username","password",new Date(),"email",
-//                    "adress");
+//            User user = new User("firstname","lastname","username","password",new Date(),
+//                    "email1", "address1");
             UserService userService = new UserService();
-////            userService.insertUser(user);
+//            user.setUsername("username");
+//            userService.findUserByName(user);
+//            userService.insertUser(user);
+
+//            System.out.println(DataMapper.getMapper(user));
             User user =new User();
             user.setUsername("username");
             user = userService.findUserByName(user);
             Cart cart = new Cart(user);
+            CartMapper cartMapper = new CartMapper();
+            cartMapper.insert(cart);
+//            Cart cart = new Cart(user);
 
-//            System.out.println(user);
-            CartService cartService = new CartService();
-            cartService.insertCart(cart);
+            System.out.println(user.getId());
+//            CartService cartService = new CartService();
+//            cartService.insertCart(cart);
 //            List<CartDetail> carts = cartService.findCartByUser(user);
 //            System.out.println(carts);
 

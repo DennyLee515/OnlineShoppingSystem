@@ -12,14 +12,15 @@
     <meta charset="utf-8">
     <title>Manage Platform</title>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
-<div id="welcome">Order Management</div>
+<div id="welcome" class="card-title"><b>Order Management</b></div>
 <div id="navi">
     <ul>
         <li><a href="frontservlet?command=AdminProduct">Product Management</a></li>
         <li><a href="frontservlet?command=AdminCategory">Category Management</a></li>
-        <li><a href="frontservlet?command=AdminOrder">OrderManagement</a></li>
+        <li><a href="frontservlet?command=AdminOrder">Order Management</a></li>
         <li><a href="index.jsp">Logout</a></li>
     </ul>
 </div>

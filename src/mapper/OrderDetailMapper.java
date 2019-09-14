@@ -1,6 +1,7 @@
 package mapper;
 
 import domain.DomainObject;
+import domain.OrderDetail;
 
 /**
  * @program: CoffeeWeb
@@ -38,5 +39,9 @@ public class OrderDetailMapper extends DataMapper{
             e.printStackTrace();
         }
         return false;
+    }
+
+    public OrderDetail findOrderDetailById(DomainObject domainObject){
+        return null;
     }
 }

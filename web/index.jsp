@@ -7,7 +7,7 @@
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div id="welcome">Welcome to York Way Coffee!</div>
+<div id="welcome" class="card-title"><b>Welcome to York Way Coffee</b></div>
 <div id="navi">
     <ul>
         <li><a href="frontservlet?command=UserLogin">Login as Customer</a></li>

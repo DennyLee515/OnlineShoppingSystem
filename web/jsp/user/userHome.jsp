@@ -12,6 +12,7 @@
     <meta charset="utf-8">
     <title>York Way Coffee</title>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
 <div id="welcome">Welcome to York Way Coffee!</div>

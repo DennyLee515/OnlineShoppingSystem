@@ -2,6 +2,8 @@ package domain;/**
  * Created by DennyLee on 2019/9/1.
  */
 
+import mapper.CartDetailMapper;
+
 import java.util.UUID;
 
 /**
@@ -50,6 +52,9 @@ public class CartDetail extends DomainObject {
     }
 
     public Product getProduct() {
+        if (this.product == null) {
+            load();
+        }
         return product;
     }
 
@@ -58,7 +63,10 @@ public class CartDetail extends DomainObject {
     }
 
     public int getProductAmount() {
-        return productAmount;
+        if (this.productAmount == 0){
+            load();
+        }
+            return productAmount;
     }
 
     public void setProductAmount(int productAmount) {
@@ -66,6 +74,8 @@ public class CartDetail extends DomainObject {
     }
 
     public double getTotalPrice() {
+        if (this.totalPrice == 0.0)
+            load();
         return totalPrice;
     }
 
@@ -74,6 +84,8 @@ public class CartDetail extends DomainObject {
     }
 
     public Cart getCart() {
+        if (this.cart == null)
+            load();
         return cart;
     }
 
@@ -86,10 +98,33 @@ public class CartDetail extends DomainObject {
     }
 
     public Category getCategory() {
+        if (this.category == null)
+            load();
         return category;
     }
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    private void load() {
+        CartDetailMapper cartDetailMapper = new CartDetailMapper();
+        CartDetail record = cartDetailMapper.findCartDetailById(this);
+
+        if (this.product == null) {
+            this.product = record.getProduct();
+        }
+        if (this.productAmount == 0) {
+            this.productAmount = record.getProductAmount();
+        }
+        if (this.totalPrice == 0.0) {
+            this.totalPrice = record.getTotalPrice();
+        }
+        if (this.cart == null) {
+            this.cart = record.getCart();
+        }
+        if (this.category == null) {
+            this.category = record.getCategory();
+        }
     }
 }

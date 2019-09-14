@@ -13,9 +13,10 @@
     <meta charset="utf-8">
     <title>Manage Platform</title>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
-<div id="welcome">View Category</div>
+<div id="welcome" class="card-title"><b>View Category</b></div>
 <div id="shop">
     <ul>
         <li><a href="frontservlet?command=UserLogin">Home</a></li>
@@ -32,23 +33,26 @@
     </ul>
 
 </div>
-<div id="category">
-    <table width="100%" align="left">
-        <tr>
-            <th width="40%"><b>Category Name</b></th>
-            <th width="30%"><b> </b></th>
-        </tr>
-        <c:forEach var="category" items="${categories}">
+<div class="container">
+    <div id="category" class="table">
+        <table width="100%" align="left">
             <tr>
-                <td align="center">${category.categoryName}</td>
-                <td>
-                    <a
-                            href="frontservlet?command=ViewCategoryProduct&category=${category.categoryId}"
-                       methods="post" role="button">View</a></td>
+                <th width="80%"><b>Category Name</b></th>
+                <th width="20%"><b> </b></th>
             </tr>
-        </c:forEach>
-    </table>
-    <br>
+            <c:forEach var="category" items="${categories}">
+                <tr>
+                    <td>${category.categoryName}</td>
+                    <td>
+                        <a
+                                href="frontservlet?command=ViewCategoryProduct&category=${category.categoryId}"
+                                methods="post" role="button">View</a></td>
+                </tr>
+            </c:forEach>
+        </table>
+        <br>
+    </div>
 </div>
+
 </body>
 </html>

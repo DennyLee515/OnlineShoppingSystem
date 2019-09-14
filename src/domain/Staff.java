@@ -1,5 +1,7 @@
 package domain;
 
+import mapper.StaffMapper;
+
 import java.util.UUID;
 
 /**
@@ -45,5 +47,14 @@ public class Staff extends DomainObject{
 
     public void setStaffPassword(String staffPassword) {
         this.staffPassword = staffPassword;
+    }
+
+    private void load(){
+        StaffMapper staffMapper = new StaffMapper();
+        Staff record = staffMapper.findStaffById(this);
+        if (this.staffUName == null)
+            this.staffUName = record.getStaffUName();
+        if (this.staffPassword ==null)
+            this.staffPassword = record.getStaffPassword();
     }
 }

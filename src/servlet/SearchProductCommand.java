@@ -14,14 +14,15 @@ public class SearchProductCommand extends FrontCommand{
         String productName= request.getParameter("name");
         Product product = new Product();
         ProductService productService = new ProductService();
-        Product product1 =new Product();
         product.setProductName(productName);
-        product = productService.findProductByName(product1);
+        product = productService.findProductByName(product);
+        List<Product> products = new ArrayList<>();
+        products.add(product);
         if (product==null){
             request.setAttribute("errMsg", "Cannot find the product");
             forward("/jsp/error.jsp");
         }
-        request.setAttribute("products", product);
+        request.setAttribute("products", products);
         forward("/jsp/viewProducts.jsp");
 
     }

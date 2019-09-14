@@ -2,6 +2,8 @@ package domain;/**
  * Created by DennyLee on 2019/9/1.
  */
 
+import mapper.ProductMapper;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -57,6 +59,8 @@ public class Product extends DomainObject {
     }
 
     public String getInfo() {
+        if (this.info == null)
+            load();
         return info;
     }
 
@@ -65,6 +69,8 @@ public class Product extends DomainObject {
     }
 
     public double getPrice() {
+        if (this.price == 0.0)
+            load();
         return price;
     }
 
@@ -73,6 +79,8 @@ public class Product extends DomainObject {
     }
 
     public int getWeight() {
+        if (this.weight == 0)
+            load();
         return weight;
     }
 
@@ -81,6 +89,8 @@ public class Product extends DomainObject {
     }
 
     public String getProductName() {
+        if (this.productName == null)
+            load();
         return productName;
     }
 
@@ -89,6 +99,8 @@ public class Product extends DomainObject {
     }
 
     public Date getCreatedAt() {
+        if (this.createdAt == null)
+            load();
         return createdAt;
     }
 
@@ -102,5 +114,22 @@ public class Product extends DomainObject {
 
     public void setInventory(int inventory) {
         this.inventory = inventory;
+    }
+
+    private void load() {
+        ProductMapper productMapper = new ProductMapper();
+        Product record = productMapper.findProductById(this);
+        if (this.info == null)
+            this.info = record.getInfo();
+        if (this.price == 0)
+            this.price = record.getPrice();
+        if (this.weight == 0)
+            this.weight = record.getWeight();
+        if (this.productName == null)
+            this.productName = record.getProductName();
+        if (this.createdAt == null) {
+            this.createdAt = record.createdAt;
+        }
+
     }
 }

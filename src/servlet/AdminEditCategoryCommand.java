@@ -11,26 +11,24 @@ public class AdminEditCategoryCommand extends FrontCommand {
     public void process() throws ServletException, IOException {
 
         // get modify category id
-        // cate service findById
-        // update
         String id = request.getParameter("category");
         String name = request.getParameter("categoryName");
-        System.out.println(id);
-        System.out.println(name);
+
+        // category service findById
         CategoryService categoryService = new CategoryService();
         Category category = new Category();
         category.setCategoryId(id);
-
         category = categoryService.findCategroyById(category);
-
         category.setCategoryName(name);
+
+        // update
         boolean result = categoryService.updateCategory(category);
-        //prompt to front?
+        //return result
         if (result){
             redirect("frontservlet?command=AdminCategory");
         }else {
-            //todo:foward to error page;
-            System.out.println("Edit category fail.");
+            request.setAttribute("errMsg", "Edit category fail.");
+            forward("/jsp/error.jsp");
         }
     }
 }

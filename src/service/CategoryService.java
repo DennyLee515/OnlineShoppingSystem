@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Category service to manager logic method related to category
  * @author: DennyLee
  * @create: 2019-09-06 22:47
  **/
@@ -25,6 +25,12 @@ public class CategoryService {
         return categoryMapper.getAllCategories();
     }
 
+    /**
+     * find a category by id, identity map applied
+     *
+     * @param category Category
+     * @return a category object or null
+     */
     public Category findCategroyById(Category category) {
         IdentityMap<Category> identityMap = new IdentityMap<>();
         Category categoryFinded = identityMap.get(category.getId());
@@ -37,31 +43,60 @@ public class CategoryService {
 
     }
 
+    /**
+     * find a category by name
+     *
+     * @param category Category
+     * @return a category object or null
+     */
     public Category findCategoryByName(Category category) {
         return categoryMapper.findCategoryByName(category);
     }
 
-
-    public boolean insertCategory(Category category) {
+    /**
+     * create a new category, apply unit of work
+     *
+     * @param category Category
+     * @return result
+     */
+    public boolean newCategory(Category category) {
         UnitOfWork.newCurrent();
         UnitOfWork.getCurrent().registerNew(category);
         return UnitOfWork.getCurrent().commit();
     }
 
+    /**
+     * update a category, apply unit of work
+     *
+     * @param category Category
+     * @return result
+     */
     public boolean updateCategory(Category category) {
         UnitOfWork.newCurrent();
         UnitOfWork.getCurrent().registerDirty(category);
         return UnitOfWork.getCurrent().commit();
     }
 
+    /**
+     * delete a category, apply unit of work
+     *
+     * @param category Category
+     * @return result
+     */
     public boolean deleteCategory(Category category) {
         UnitOfWork.newCurrent();
         UnitOfWork.getCurrent().registerDelete(category);
         return UnitOfWork.getCurrent().commit();
     }
 
+    /**
+     * find all categories related to a product
+     *
+     * @param product Product
+     * @return result
+     */
     public List<Category> findCategoryByProduct(Product product) {
-            return categoryMapper.findCategoryByProduct(product);
+        return categoryMapper.findCategoryByProduct(product);
     }
 
 }

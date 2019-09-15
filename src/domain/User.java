@@ -14,13 +14,21 @@ import java.util.UUID;
  * @create: 2019-09-01 19:31
  **/
 public class User extends DomainObject {
+    //user id
     private String userId;
+    //user firstname
     private String uFname;
+    //user lastname
     private String uLname;
+    //user name
     private String username;
+    //user password
     private String uPassword;
+    //user birthday
     private Date birthday;
+    //user email
     private String userEmail;
+    //user address
     private String address;
 
     //constructor
@@ -107,28 +115,29 @@ public class User extends DomainObject {
         this.address = address;
     }
 
-    private void load(){
+    //use lazy load to reduce request
+    private void load() {
         UserMapper userMapper = new UserMapper();
         User record = userMapper.findUserById(this);
-        if (this.uFname == null){
+        if (this.uFname == null) {
             this.uFname = record.getuFname();
         }
-        if (this.uLname == null){
+        if (this.uLname == null) {
             this.uLname = record.getuLname();
         }
-        if (this.username == null){
+        if (this.username == null) {
             this.username = record.getUsername();
         }
-        if (this.uPassword == null){
+        if (this.uPassword == null) {
             this.uPassword = record.getuPassword();
         }
-        if (this.birthday == null){
+        if (this.birthday == null) {
             this.birthday = record.getBirthday();
         }
-        if (this.userEmail ==null){
+        if (this.userEmail == null) {
             this.userEmail = record.getUserEmail();
         }
-        if (this.address == null){
+        if (this.address == null) {
             this.address = record.getAddress();
         }
     }

@@ -11,18 +11,17 @@ import java.util.List;
 
 /**
  * @program: CoffeeWeb
- * @description: Data mapper for cart
+ * @description: Data mapper for cart detail
  * @author: DennyLee
  * @create: 2019-09-02 23:54
  **/
 public class CartDetailMapper extends DataMapper {
 
     /**
-     * insert a cart item to table cart
+     * insert a cart item to table cart_detail
      *
-     * @param domainObject
-     * @return
-     * @throws Exception
+     * @param domainObject CartDetail
+     * @return result
      */
     @Override
     public boolean insert(DomainObject domainObject) {
@@ -48,6 +47,12 @@ public class CartDetailMapper extends DataMapper {
         return result != 0;
     }
 
+    /**
+     * delete a cart to table cart_detail
+     *
+     * @param domainObject CartDetail
+     * @return result
+     */
     @Override
     public boolean delete(DomainObject domainObject) {
         CartDetail cartDetail = (CartDetail) domainObject;
@@ -63,6 +68,12 @@ public class CartDetailMapper extends DataMapper {
         return result != 0;
     }
 
+    /**
+     * update a cart detail by id
+     *
+     * @param domainObject CartDetail
+     * @return result
+     */
     @Override
     public boolean update(DomainObject domainObject) {
         CartDetail cartDetail = (CartDetail) domainObject;
@@ -87,9 +98,15 @@ public class CartDetailMapper extends DataMapper {
         return result != 0;
     }
 
+    /**
+     * find a cart detail by id in table cart_detail
+     *
+     * @param domainObject CartDetail
+     * @return a CartDetail object or null
+     */
     public CartDetail findCartDetailById(DomainObject domainObject) {
         CartDetail cartDetail = (CartDetail) domainObject;
-        String findCartById = "SELECT * FROM public.cartDetail WHERE cart_id = ?";
+        String findCartById = "SELECT * FROM public.cart_detail WHERE cart_detail_id = ?";
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(findCartById);
             preparedStatement.setString(1, cartDetail.getId());
@@ -127,6 +144,14 @@ public class CartDetailMapper extends DataMapper {
         return null;
     }
 
+    /**
+     * find if a product exist in cart in cart_detail table
+     *
+     * @param cart     Cart
+     * @param product  Product
+     * @param category Category
+     * @return a CartDetail object or null
+     */
     public CartDetail findProductInCart(Cart cart, Product product, Category category) {
         String findProductInCart = "SELECT * FROM public.cart_detail " +
                 "WHERE product_id=? AND cart_id=? and category_id = ?;";
@@ -169,6 +194,12 @@ public class CartDetailMapper extends DataMapper {
         return null;
     }
 
+    /**
+     * find cart details by cart id in cart_detail table
+     *
+     * @param cart cart
+     * @return list of cartDetail or null
+     */
     public List<CartDetail> findCartDetailByCartId(Cart cart) {
         String findCartById = "SELECT * FROM public.cart_detail WHERE cart_id = ?";
         List<CartDetail> result = new ArrayList<>();

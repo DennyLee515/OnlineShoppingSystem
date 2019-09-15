@@ -19,9 +19,8 @@ public class UserMapper extends DataMapper {
     /**
      * insert a user to user table
      *
-     * @param domainObject
-     * @return boolean
-     * @throws Exception
+     * @param domainObject User
+     * @return result
      */
     @Override
     public boolean insert(DomainObject domainObject) {
@@ -53,9 +52,8 @@ public class UserMapper extends DataMapper {
     /**
      * delete a user from the user table
      *
-     * @param domainObject
-     * @return boolean
-     * @throws Exception
+     * @param domainObject User
+     * @return result
      */
     @Override
     public boolean delete(DomainObject domainObject) {
@@ -79,9 +77,8 @@ public class UserMapper extends DataMapper {
     /**
      * update a user in user table
      *
-     * @param domainObject
-     * @return boolean
-     * @throws Exception
+     * @param domainObject User
+     * @return result
      */
     @Override
     public boolean update(DomainObject domainObject) {
@@ -90,7 +87,7 @@ public class UserMapper extends DataMapper {
         String updateUserById = "UPDATE public.user SET user_firstname=?, user_lastname=?," +
                 "username=?, user_password=?, birthday=?, user_email=?, user_address=?" +
                 "WHERE user_id = ?";
-        try{
+        try {
             PreparedStatement preparedStatement = DBConnection.prepare(updateUserById);
             preparedStatement.setString(1, user.getuFname());
             preparedStatement.setString(2, user.getuLname());
@@ -102,7 +99,7 @@ public class UserMapper extends DataMapper {
             preparedStatement.setString(8, user.getId());
             result = preparedStatement.executeUpdate();
             DBConnection.close(preparedStatement);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -112,11 +109,11 @@ public class UserMapper extends DataMapper {
     /**
      * find a user by user id in user table
      *
-     * @param user
-     * @return a user object
-     * @throws Exception
+     * @param domainObject User
+     * @return a user object or null
      */
-    public User findUserById(User user) {
+    public User findUserById(DomainObject domainObject) {
+        User user = (User) domainObject;
         String findUserById = "SELECT * From public.user WHERE user_id = ?";
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(findUserById);
@@ -150,10 +147,11 @@ public class UserMapper extends DataMapper {
     /**
      * find a user by username
      *
-     * @param user
-     * @return a user object
+     * @param domainObject User
+     * @return a User object or null
      */
-    public User findUserByName(User user) {
+    public User findUserByName(DomainObject domainObject) {
+        User user = (User) domainObject;
         String findUserById = "SELECT * From public.user WHERE username = ?";
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(findUserById);

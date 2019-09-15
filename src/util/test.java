@@ -69,10 +69,22 @@ public class test {
 //            cartDetail.setCartDetailId("156eb13a-5c59-4a94-b885-8405551c5ae1");
 //            CartService cartService = new CartService();
 //            boolean result = cartService.deleteCartDetail(cartDetail);
-//            StaffMapper staffMapper = new StaffMapper();
+            Manager manager = new Manager();
+            manager.setStaffId("41139949-afe6-4e43-bc1d-b1e4b9d41735");
+            Clerk clerk = new Clerk();
+            clerk.setStaffId("927a9597-c483-4c31-a587-ab4ce1611e8b");
+            StaffMapper staffMapper = new StaffMapper();
 //            Staff staff = new Staff();
 //            staff.setStaffId("b8026488-74c7-460e-bac1-de7de1b3e7fb");
 
+            Staff staff1 = staffMapper.findStaffById(manager);
+            Staff staff2 = staffMapper.findStaffById(clerk);
+            staff1.setStaffUName("manager1");
+            staff2.setStaffUName("clerk");
+            staffMapper.delete(staff1);
+            staffMapper.delete(staff2);
+            System.out.println(staff1);
+            System.out.println(staff2);
 //            staffMapper.insert(manager);
 //            staffMapper.insert(clerk);
 

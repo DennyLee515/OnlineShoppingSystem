@@ -1,6 +1,4 @@
-package domain;/**
- * Created by DennyLee on 2019/9/1.
- */
+package domain;
 
 import mapper.ProductMapper;
 
@@ -116,6 +114,7 @@ public class Product extends DomainObject {
         this.inventory = inventory;
     }
 
+    //use lazy load to reduce request
     private void load() {
         ProductMapper productMapper = new ProductMapper();
         Product record = productMapper.findProductById(this);

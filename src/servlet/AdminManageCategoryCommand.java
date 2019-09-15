@@ -10,6 +10,9 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * handle requests to manage categories by create, delete and edit
+ */
 public class AdminManageCategoryCommand extends FrontCommand {
 
     @Override
@@ -32,11 +35,12 @@ public class AdminManageCategoryCommand extends FrontCommand {
                 if (result){
                     redirect("frontservlet?command=AdminCategory");
                 }else{
-                    //todo:redirect to error page
-                    System.out.println("Delete category failed");
+                    request.setAttribute("errMsg", "Delete category failed");
+                    forward("/jsp/error.jsp");
                 }
                 break;
             case "edit":
+                //edit a category
                 categoryId = request.getParameter("category");
                 category = new Category();
                 category.setCategoryId(categoryId);
@@ -46,6 +50,7 @@ public class AdminManageCategoryCommand extends FrontCommand {
                 forward("/jsp/admin/editCategory.jsp");
                 break;
             case"view":
+                //find all products in a category
                 categoryId = request.getParameter("category");
                 category = new Category();
                 category.setCategoryId(categoryId);

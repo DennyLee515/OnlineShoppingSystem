@@ -6,26 +6,30 @@ import mapper.ManagerMapper;
 
 /**
  * @program: CoffeeWeb
- * @description: Admin object
+ * @description: Manager object
  * @author: DennyLee
  * @create: 2019-09-01 22:55
  **/
 public class Manager extends Staff {
 
+    //manager email
     private String managerEmail;
 
 
+    //constructor
     public Manager() {
         super();
     }
 
+    //constructor with username, password and email
     public Manager(String staffUName, String staffPassword, String managerEmail) {
         super(staffUName, staffPassword);
         this.managerEmail = managerEmail;
     }
 
+    //getter and setter methods
     public String getManagerEmail() {
-        if (this.managerEmail == null){
+        if (this.managerEmail == null) {
             load();
         }
         return managerEmail;
@@ -35,10 +39,11 @@ public class Manager extends Staff {
         this.managerEmail = managerEmail;
     }
 
-    private void load(){
+    //use lazy load to reduce request
+    private void load() {
         ManagerMapper managerMapper = new ManagerMapper();
         Manager record = managerMapper.findManagerById(this);
-        if (this.managerEmail == null){
+        if (this.managerEmail == null) {
             this.managerEmail = record.getManagerEmail();
         }
     }

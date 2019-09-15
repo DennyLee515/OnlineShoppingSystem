@@ -3,6 +3,10 @@ package util;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Identity Map
+ * @param <E>
+ */
 public class IdentityMap<E> {
 
     private Map<String, E> map = new HashMap<String, E>();

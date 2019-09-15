@@ -63,10 +63,10 @@ public class CartDetail extends DomainObject {
     }
 
     public int getProductAmount() {
-        if (this.productAmount == 0){
+        if (this.productAmount == 0) {
             load();
         }
-            return productAmount;
+        return productAmount;
     }
 
     public void setProductAmount(int productAmount) {
@@ -107,6 +107,7 @@ public class CartDetail extends DomainObject {
         this.category = category;
     }
 
+    //use lazy load to reduce request
     private void load() {
         CartDetailMapper cartDetailMapper = new CartDetailMapper();
         CartDetail record = cartDetailMapper.findCartDetailById(this);

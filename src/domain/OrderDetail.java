@@ -55,7 +55,7 @@ public class OrderDetail extends DomainObject {
     }
 
     public Product getProduct() {
-        if (this.product ==null)
+        if (this.product == null)
             load();
         return product;
     }
@@ -74,16 +74,17 @@ public class OrderDetail extends DomainObject {
         this.productAmount = productAmount;
     }
 
-    private void load(){
+    //use lazy load to reduce request
+    private void load() {
         OrderDetailMapper orderDetailMapper = new OrderDetailMapper();
         OrderDetail record = orderDetailMapper.findOrderDetailById(this);
-        if (this.order == null){
-            this.order =record.getOrder();
+        if (this.order == null) {
+            this.order = record.getOrder();
         }
-        if (this.product == null){
+        if (this.product == null) {
             this.product = record.getProduct();
         }
-        if (this.productAmount == 0){
+        if (this.productAmount == 0) {
             this.productAmount = record.getProductAmount();
         }
     }

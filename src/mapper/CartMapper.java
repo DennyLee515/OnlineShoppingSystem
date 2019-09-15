@@ -12,11 +12,17 @@ import java.sql.ResultSet;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Data mapper for cart
  * @author: DennyLee
  * @create: 2019-09-14 14:12
  **/
 public class CartMapper extends DataMapper {
+    /**
+     * insert a cart to cart table
+     *
+     * @param domainObject Cart
+     * @return result
+     */
     @Override
     public boolean insert(DomainObject domainObject) {
         Cart cart = (Cart) domainObject;
@@ -37,6 +43,12 @@ public class CartMapper extends DataMapper {
         return result != 0;
     }
 
+    /**
+     * delete a cart from cart table
+     *
+     * @param domainObject Cart
+     * @return result
+     */
     @Override
     public boolean delete(DomainObject domainObject) {
         Cart cart = (Cart) domainObject;
@@ -52,6 +64,12 @@ public class CartMapper extends DataMapper {
         return result != 0;
     }
 
+    /**
+     * update a cart from cart table
+     *
+     * @param domainObject Cart
+     * @return result
+     */
     @Override
     public boolean update(DomainObject domainObject) {
         Cart cart = (Cart) domainObject;
@@ -71,16 +89,22 @@ public class CartMapper extends DataMapper {
         return result != 0;
     }
 
+    /**
+     * find a cart by cart id in cart table
+     *
+     * @param domainObject Cart
+     * @return a Cart object or null
+     */
     public Cart findCartById(DomainObject domainObject) {
-        Cart cart = (Cart)domainObject;
+        Cart cart = (Cart) domainObject;
         String findCartById = "SELECT * FROM public.cart WHERE cart_id = ?";
 
-        try{
+        try {
             PreparedStatement preparedStatement = DBConnection.prepare(findCartById);
-            preparedStatement.setString(1,cart.getId());
+            preparedStatement.setString(1, cart.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 Cart cart1 = new Cart();
                 IdentityMap<Cart> identityMap = IdentityMap.getInstance(cart1);
 
@@ -91,26 +115,32 @@ public class CartMapper extends DataMapper {
                 user = userMapper.findUserById(user);
                 cart1.setUser(user);
 
-                identityMap.put(cart1.getId(),cart1);
+                identityMap.put(cart1.getId(), cart1);
                 return cart1;
-        }
+            }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
+    /**
+     * find a cart by user_id in cart table
+     *
+     * @param domainObject User
+     * @return a Cart object or null
+     */
     public Cart findCartByUserId(DomainObject domainObject) {
         User user = (User) domainObject;
         String findCartById = "SELECT * FROM public.cart WHERE user_id = ?";
 
-        try{
+        try {
             PreparedStatement preparedStatement = DBConnection.prepare(findCartById);
-            preparedStatement.setString(1,user.getId());
+            preparedStatement.setString(1, user.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 Cart cart1 = new Cart();
                 IdentityMap<Cart> identityMap = IdentityMap.getInstance(cart1);
 
@@ -121,11 +151,11 @@ public class CartMapper extends DataMapper {
                 user1 = userMapper.findUserById(user1);
                 cart1.setUser(user1);
 
-                identityMap.put(cart1.getId(),cart1);
+                identityMap.put(cart1.getId(), cart1);
                 return cart1;
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

@@ -17,18 +17,34 @@ public class UnitOfWork {
     private List<DomainObject> dirtyObjects = new ArrayList<DomainObject>();
     private List<DomainObject> deleteObjects = new ArrayList<DomainObject>();
 
+    /**
+     * new current
+     */
     public static void newCurrent() {
         setCurrent(new UnitOfWork());
     }
 
+    /**
+     * get current
+     * @return unit of work
+     */
     public static UnitOfWork getCurrent() {
         return (UnitOfWork) current.get();
     }
 
+    /**
+     * set current
+     * @param uow unit of work
+     */
     public static void setCurrent(UnitOfWork uow) {
         current.set(uow);
     }
 
+    /**
+     * check if object exist in lists
+     * @param domainObject domainObject
+     * @return result
+     */
     public boolean checkExist(DomainObject domainObject) {
         if (dirtyObjects.contains(domainObject))
             return true;
@@ -40,49 +56,46 @@ public class UnitOfWork {
         return false;
     }
 
+    /**
+     * Register new
+     * @param obj domainObject
+     */
     public void registerNew(DomainObject obj) {
-//        Assert.assertNotNull("id is null", obj.getId());
-//        Assert.assertTrue("obj is dirty", !dirtyObjects.contains(obj));
-//        Assert.assertTrue("obj is deleted", !deleteObjects.contains(obj));
-//        Assert.assertTrue("obj is dirty", !dirtyObjects.contains(obj));
-//        newObjects.add(obj);
         if(!checkExist(obj)) {
             newObjects.add(obj);
         }
 
     }
 
-
+    /**
+     * Register dirty
+     * @param obj domainObject
+     */
     public void registerDirty(DomainObject obj) {
-//        Assert.assertNotNull("id is null", obj.getId());
-//        Assert.assertTrue("obj is deleted", !deleteObjects.contains(obj));
-//        if (!dirtyObjects.contains(obj) && !newObjects.contains(obj)) {
-//            dirtyObjects.add(obj);
-//        }
         if(!checkExist(obj)) {
             dirtyObjects.add(obj);
         }
     }
 
+    /**
+     * Register delete
+     * @param obj domainObject
+     */
     public void registerDelete(DomainObject obj) {
-//        Assert.assertNotNull("id is null", obj.getId());
-//        if (newObjects.remove(obj)) return;
-//        dirtyObjects.remove(obj);
-//        if (!deleteObjects.contains(obj)) {
-//            deleteObjects.add(obj);
-//        }
         if(!checkExist(obj)) {
             deleteObjects.add(obj);
         }
     }
-
 
     public void registerClean(DomainObject obj) {
         Assert.assertNotNull("id is null", obj.getId());
 
     }
 
-
+    /**
+     * commit
+     * @return result
+     */
     public boolean commit() {
         boolean result;
         try {

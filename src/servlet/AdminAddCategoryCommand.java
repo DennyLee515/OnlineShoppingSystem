@@ -2,27 +2,38 @@ package servlet;
 
 import domain.Category;
 import service.CategoryService;
-import servlet.FrontCommand;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
-
+/**
+ * @program: CoffeeWeb
+ * @description: add a category by admin
+ * @author: DennyLee
+ * @create: 2019-09-07 18:01
+ **/
 public class AdminAddCategoryCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        //get parameters and create new category object
         String categoryName = request.getParameter("categoryName");
         Category category = new Category(categoryName);
-
         CategoryService categoryService = new CategoryService();
-        boolean result = categoryService.insertCategory(category);
 
-        //return add category result to front-end ?
+        //find category by name
+        if (categoryService.findCategoryByName(category)!=null){
+            request.setAttribute("errMsg","Category name exists.");
+            forward("/jsp/error.jsp");
+        }
+        //add category
+        boolean result = categoryService.newCategory(category);
+
+        //return add category result to front-end
         if (result){
             redirect("frontservlet?command=AdminCategory");
         }else {
-            //todo:foward to error page
-            System.out.println("Add category fail.");
+            request.setAttribute("errMsg","Add category failed");
+            forward("/jsp/error.jsp");
         }
     }
 

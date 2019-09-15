@@ -25,9 +25,8 @@ public class ProductMapper extends DataMapper {
     /**
      * insert a product into table product
      *
-     * @param domainObject
-     * @return boolean
-     * @throws Exception
+     * @param domainObject Product
+     * @return result
      */
     @Override
     public boolean insert(DomainObject domainObject) {
@@ -57,9 +56,8 @@ public class ProductMapper extends DataMapper {
     /**
      * delete a product from table product
      *
-     * @param domainObject
-     * @return boolean
-     * @throws Exception
+     * @param domainObject Product
+     * @return result
      */
     @Override
     public boolean delete(DomainObject domainObject) {
@@ -81,9 +79,8 @@ public class ProductMapper extends DataMapper {
     /**
      * update a product in table product
      *
-     * @param domainObject
-     * @return
-     * @throws Exception
+     * @param domainObject Product
+     * @return result
      */
     @Override
     public boolean update(DomainObject domainObject) {
@@ -113,9 +110,8 @@ public class ProductMapper extends DataMapper {
     /**
      * find all products belongs to a category from product_category relation table
      *
-     * @param category
-     * @return a list of products
-     * @throws Exception
+     * @param category Category
+     * @return a list of products or null
      */
     public List<Product> findProductsByCategory(Category category) {
         String findProductByCategoryId = "SELECT product_id FROM public.product_category WHERE " +
@@ -142,7 +138,7 @@ public class ProductMapper extends DataMapper {
     /**
      * get all products in table product
      *
-     * @return a list of products
+     * @return a list of products or null
      */
     public List<Product> getAllProducts() {
         String findProduct = "SELECT * FROM public.product";
@@ -178,7 +174,7 @@ public class ProductMapper extends DataMapper {
     /**
      * get all available products in table product
      *
-     * @return a list of products
+     * @return a list of products or null
      */
     public List<Product> getAllAvailableProducts() {
         String findProduct = "SELECT * FROM public.product WHERE inventory > 0";
@@ -210,13 +206,15 @@ public class ProductMapper extends DataMapper {
         }
         return result;
     }
+
     /**
      * find a product by product id in product table
      *
-     * @param product
-     * @return a product object
+     * @param domainObject Product
+     * @return a product object or null
      */
-    public Product findProductById(Product product) {
+    public Product findProductById(DomainObject domainObject) {
+        Product product = (Product) domainObject;
         String findProductByCategoryId = "SELECT * FROM public.product WHERE product_id = ?";
         Product result = new Product();
 
@@ -234,7 +232,7 @@ public class ProductMapper extends DataMapper {
                 result.setWeight(resultSet.getInt(5));
                 result.setCreatedAt(resultSet.getTimestamp(6));
                 result.setInventory(resultSet.getInt(7));
-                identityMap.put(result.getId(),result);
+                identityMap.put(result.getId(), result);
             }
             DBConnection.close(preparedStatement);
         } catch (Exception e) {
@@ -246,8 +244,8 @@ public class ProductMapper extends DataMapper {
     /**
      * find a product by product name
      *
-     * @param domainObject
-     * @return a product object
+     * @param domainObject Product
+     * @return a product object or null
      */
     public Product findProductByName(DomainObject domainObject) {
         Product product = (Product) domainObject;
@@ -282,11 +280,11 @@ public class ProductMapper extends DataMapper {
     }
 
     /**
-     * delete a category product relation in categroy relation table
+     * delete a category product relation in category relation table
      *
-     * @param product
-     * @param category
-     * @return boolean
+     * @param product  Product
+     * @param category Category
+     * @return result
      */
     public boolean deleteRelation(Product product, Category category) {
         String deleteRelationByProduct = "DELETE FROM public.product_category WHERE " +
@@ -307,11 +305,10 @@ public class ProductMapper extends DataMapper {
     }
 
     /**
-     * delete a category product relation in categroy relation table
+     * delete all category product relations in category relation table
      *
-     * @param product
-     * @param category
-     * @return boolean
+     * @param product Product
+     * @return result
      */
     public boolean deleteAllRelationsByProduct(Product product) {
         String deleteRelationByProduct = "DELETE FROM public.product_category WHERE " +
@@ -333,10 +330,9 @@ public class ProductMapper extends DataMapper {
     /**
      * add a category product relation into category product relation table
      *
-     * @param product
-     * @param category
-     * @return
-     * @throws Exception
+     * @param product  Product
+     * @param category Category
+     * @return result
      */
     public boolean addRelation(Product product, Category category) {
         String deleteRelationByProduct = "INSERT INTO public.product_category " +

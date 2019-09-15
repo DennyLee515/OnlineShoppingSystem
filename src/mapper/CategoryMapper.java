@@ -22,9 +22,8 @@ public class CategoryMapper extends DataMapper {
     /**
      * insert a new category to table.category
      *
-     * @param domainObject
-     * @return boolean
-     * @throws Exception
+     * @param domainObject Category
+     * @return result
      */
     @Override
     public boolean insert(DomainObject domainObject) {
@@ -49,9 +48,8 @@ public class CategoryMapper extends DataMapper {
     /**
      * delete a category from table category
      *
-     * @param domainObject
-     * @return boolean
-     * @throws Exception
+     * @param domainObject Category
+     * @return result
      */
     @Override
     public boolean delete(DomainObject domainObject) {
@@ -71,9 +69,8 @@ public class CategoryMapper extends DataMapper {
     /**
      * update a category by category id in table category
      *
-     * @param domainObject
-     * @return boolean
-     * @throws Exception
+     * @param domainObject Category
+     * @return result
      */
     @Override
     public boolean update(DomainObject domainObject) {
@@ -97,9 +94,8 @@ public class CategoryMapper extends DataMapper {
     /**
      * find a category by category id in table category
      *
-     * @param domainObject
-     * @return
-     * @throws Exception
+     * @param domainObject Category
+     * @return a Category object or null
      */
     public Category findCategoryById(DomainObject domainObject) {
         Category category = (Category) domainObject;
@@ -125,8 +121,7 @@ public class CategoryMapper extends DataMapper {
     /**
      * get all categories in table category
      *
-     * @return a list of category object
-     * @throws Exception
+     * @return a list of category object or null
      */
     public List<Category> getAllCategories() {
         String findCategoryById = "SELECT * FROM public.category";
@@ -155,9 +150,8 @@ public class CategoryMapper extends DataMapper {
     /**
      * find a category by category name in table category
      *
-     * @param domainObject
-     * @return a category object
-     * @throws Exception
+     * @param domainObject Category
+     * @return a category object or null
      */
     public Category findCategoryByName(DomainObject domainObject) {
         Category category = (Category) domainObject;
@@ -190,9 +184,8 @@ public class CategoryMapper extends DataMapper {
     /**
      * find all categories of a product in category product relation table
      *
-     * @param domainObject
-     * @return a list of category object
-     * @throws Exception
+     * @param domainObject Category
+     * @return a list of category object or null
      */
     public List<Category> findCategoryByProduct(DomainObject domainObject) {
         Product product = (Product) domainObject;

@@ -9,7 +9,7 @@ import java.io.IOException;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: front controller to deal with all request
  * @author: DennyLee
  * @create: 2019-09-05 23:53
  **/
@@ -33,6 +33,11 @@ public class FrontServlet extends HttpServlet {
         doGet(req, resp);
     }
 
+    /**
+     * get command
+     * @param req request
+     * @return frontcomman
+     */
     private FrontCommand getCommand(HttpServletRequest req){
         try{
             return (FrontCommand) getCommandClass(req).newInstance();
@@ -44,13 +49,11 @@ public class FrontServlet extends HttpServlet {
 
     private Class getCommandClass(HttpServletRequest req){
         Class result;
-
+        //parse name
         final String commandClassName = "servlet." + (String)req.getParameter("command")+ "Command";
 
-//        System.out.println(commandClassName);
         try {
             result = Class.forName(commandClassName);
-//            System.out.println(commandClassName);
         }catch (ClassNotFoundException e){
             System.out.println("Get Command Class Fail.");
             result = null;

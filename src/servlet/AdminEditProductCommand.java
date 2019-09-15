@@ -20,7 +20,8 @@ public class AdminEditProductCommand extends FrontCommand {
         String productId = request.getParameter("product");
         String name = request.getParameter("productName");
         String info = request.getParameter("info");
-        String[] category= request.getParameterValues("category");
+        String[] category = null;
+        category = request.getParameterValues("category");
         double price = Double.parseDouble(request.getParameter("price"));
         int weight = Integer.parseInt(request.getParameter("weight"));
         int inventory = Integer.parseInt(request.getParameter("inventory"));
@@ -41,7 +42,7 @@ public class AdminEditProductCommand extends FrontCommand {
         productService.deleteAllRelations(product);
         CategoryService categoryService = new CategoryService();
 
-        if (category.length > 0) {
+        if (category != null && category.length > 0) {
             for (String s : category) {
                 Category category1 = new Category();
                 category1.setCategoryName(s);
@@ -53,8 +54,8 @@ public class AdminEditProductCommand extends FrontCommand {
         if (result) {
             redirect("frontservlet?command=AdminProduct");
         } else {
-            //todo:foward to error page
-            System.out.println("Edit product fail.");
+            request.setAttribute("errMsg", "Edit product fail.");
+            forward("/jsp/error.jsp");
         }
     }
 }

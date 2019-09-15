@@ -2,7 +2,6 @@ package domain;/**
  * Created by DennyLee on 2019/9/1.
  */
 
-import com.sun.org.apache.xpath.internal.operations.Or;
 import mapper.OrderMapper;
 
 import java.util.Date;
@@ -77,6 +76,7 @@ public class Order extends DomainObject {
         this.orderTime = orderTime;
     }
 
+    //use lazy load to reduce request
     private void load() {
         OrderMapper orderMapper = new OrderMapper();
         Order record = orderMapper.findOrderById(this);

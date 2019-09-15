@@ -54,6 +54,7 @@ public class Category extends DomainObject {
         this.categoryName = categoryName;
     }
 
+    //use lazy load to reduce request
     private void load() {
         CategoryMapper categoryMapper = new CategoryMapper();
         Category record = categoryMapper.findCategoryById(this);

@@ -6,38 +6,44 @@ import java.util.Date;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Clerk object
  * @author: DennyLee
  * @create: 2019-09-13 22:34
  **/
 public class Clerk extends Staff {
-    private String clerkFistname;
+    //clerk firstname
+    private String clerkFirstname;
+    //clerk lastname
     private String clerkLastName;
+    //clerk work time range
     private TimeRange timeRange;
 
+    //constructor
     public Clerk() {
     }
 
-    public Clerk(String staffUName, String staffPassword, String clerkFistname,
+    //constructor with username, password, clerk firstname, clerk lastname, start date, and end date
+    public Clerk(String staffUName, String staffPassword, String clerkFirstname,
                  String clerkLastName, Date startDate, Date endDate) {
         super(staffUName, staffPassword);
-        this.clerkFistname = clerkFistname;
+        this.clerkFirstname = clerkFirstname;
         this.clerkLastName = clerkLastName;
         this.timeRange = new TimeRange(startDate, endDate);
     }
 
-    public String getClerkFistname() {
-        if (this.clerkFistname == null)
+    //getter and setter methods
+    public String getClerkFirstname() {
+        if (this.clerkFirstname == null)
             load();
-        return clerkFistname;
+        return clerkFirstname;
     }
 
-    public void setClerkFistname(String clerkFistname) {
-        this.clerkFistname = clerkFistname;
+    public void setClerkFirstname(String clerkFirstname) {
+        this.clerkFirstname = clerkFirstname;
     }
 
     public String getClerkLastName() {
-        if (this.clerkLastName == null){
+        if (this.clerkLastName == null) {
             load();
         }
         return clerkLastName;
@@ -57,11 +63,12 @@ public class Clerk extends Staff {
         this.timeRange = timeRange;
     }
 
+    //use lazy load to reduce request
     private void load() {
         ClerkMapper clerkMapper = new ClerkMapper();
         Clerk record = clerkMapper.findClerkById(this);
-        if (this.clerkFistname == null) {
-            this.clerkFistname = record.getClerkFistname();
+        if (this.clerkFirstname == null) {
+            this.clerkFirstname = record.getClerkFirstname();
         }
         if (this.clerkLastName == null) {
             this.clerkLastName = record.getClerkLastName();

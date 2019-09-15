@@ -6,24 +6,30 @@ import java.util.UUID;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Staff domain
  * @author: DennyLee
  * @create: 2019-09-13 22:25
  **/
-public class Staff extends DomainObject{
-    protected String staffId;
-    protected String staffUName;
-    protected String staffPassword;
+public abstract class Staff extends DomainObject {
+    //staff id
+    private String staffId;
+    //staff username
+    private String staffUName;
+    //staff password
+    private String staffPassword;
 
+    //constructor
     public Staff() {
     }
 
-    public Staff(String staffUName, String staffPassword) {
+    //constructor with username and password
+    Staff(String staffUName, String staffPassword) {
         this.staffId = UUID.randomUUID().toString();
         this.staffUName = staffUName;
         this.staffPassword = staffPassword;
     }
 
+    //getter and setter methods
     @Override
     public String getId() {
         return staffId;
@@ -34,6 +40,9 @@ public class Staff extends DomainObject{
     }
 
     public String getStaffUName() {
+        if (this.staffUName == null) {
+            load();
+        }
         return staffUName;
     }
 
@@ -42,6 +51,8 @@ public class Staff extends DomainObject{
     }
 
     public String getStaffPassword() {
+        if (this.staffPassword == null)
+            load();
         return staffPassword;
     }
 
@@ -49,12 +60,13 @@ public class Staff extends DomainObject{
         this.staffPassword = staffPassword;
     }
 
-    private void load(){
+    //use lazy load to reduce request
+    private void load() {
         StaffMapper staffMapper = new StaffMapper();
         Staff record = staffMapper.findStaffById(this);
         if (this.staffUName == null)
             this.staffUName = record.getStaffUName();
-        if (this.staffPassword ==null)
+        if (this.staffPassword == null)
             this.staffPassword = record.getStaffPassword();
     }
 }

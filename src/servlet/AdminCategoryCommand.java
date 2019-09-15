@@ -10,13 +10,14 @@ import java.util.List;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: View all category
  * @author: DennyLee
  * @create: 2019-09-12 15:46
  **/
 public class AdminCategoryCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
+        //get all categories
         CategoryService categoryService = new CategoryService();
         List<Category> category = categoryService.getAllCategories();
         request.setAttribute("categories", category);

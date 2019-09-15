@@ -2,6 +2,7 @@ package servlet;
 
 import domain.Category;
 import domain.Product;
+import service.CartService;
 import service.CategoryService;
 import service.ProductService;
 
@@ -30,11 +31,23 @@ public class AdminEditProductCommand extends FrontCommand {
         product.setProductId(productId);
         ProductService productService = new ProductService();
         product = productService.findProductByID(product);
-        product.setProductName(name);
-        product.setInfo(info);
-        product.setPrice(price);
-        product.setWeight(weight);
-        product.setInventory(inventory);
+        if (!product.getProductName().equals(name)) {
+            product.setProductName(name);
+        }
+        if (!product.getInfo().equals(info)) {
+            product.setInfo(info);
+        }
+        if (product.getPrice() != price) {
+            CartService cartService = new CartService();
+            product.setPrice(price);
+            cartService.updatePrice(product);
+        }
+        if (product.getWeight() != weight) {
+            product.setWeight(weight);
+        }
+        if (product.getInventory() != inventory) {
+            product.setInventory(inventory);
+        }
 
         boolean result = productService.updateProduct(product);
 

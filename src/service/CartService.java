@@ -3,6 +3,7 @@ package service;
 import domain.*;
 import mapper.CartDetailMapper;
 import mapper.CartMapper;
+import mapper.ProductMapper;
 import mapper.UserMapper;
 import util.UnitOfWork;
 
@@ -40,6 +41,7 @@ public class CartService {
             boolean result;
             if (cartDetailFinded != null) {
                 cartDetailFinded.setProductAmount(cartDetailFinded.getProductAmount() + amount);
+                cartDetailFinded.setTotalPrice(cartDetailFinded.getTotalPrice() + product.getPrice()*amount);
                 result = updateCartDetail(cartDetailFinded);
             } else {
                 CartDetail newCartDetail = new CartDetail(product, amount,
@@ -121,8 +123,17 @@ public class CartService {
      */
     public List<CartDetail> findCartDetailByUserId(User user) {
         Cart cart = findCartByUserId(user);
-        return cartDetailMapper.findCartDetailByCartId(cart);
-
+        List<CartDetail> cartDetails = cartDetailMapper.findCartDetailByCartId(cart);
+        for (CartDetail cartDetail:cartDetails) {
+            Product product = cartDetail.getProduct();
+            Category category = cartDetail.getCategory();
+            ProductService productService = new ProductService();
+            if (!productService.findRelation(product,category)){
+                deleteCartDetail(cartDetail);
+                cartDetails.remove(cartDetail);
+            }
+        }
+        return cartDetails;
     }
 
     /**
@@ -133,5 +144,11 @@ public class CartService {
      */
     public Cart findCartByUserId(User user) {
         return cartMapper.findCartByUserId(user);
+    }
+
+    public boolean updatePrice(Product product) {
+        ProductService productService = new ProductService();
+        Product product1  = productService.findProductByID(product);
+        return cartDetailMapper.updatePrice(product1);
     }
 }

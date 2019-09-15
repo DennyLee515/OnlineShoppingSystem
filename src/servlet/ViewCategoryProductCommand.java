@@ -15,7 +15,7 @@ import java.util.List;
  * @author: DennyLee
  * @create: 2019-09-07 15:51
  **/
-public class ViewCategoryProductCommand extends FrontCommand{
+public class ViewCategoryProductCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         //get parameters
@@ -25,21 +25,23 @@ public class ViewCategoryProductCommand extends FrontCommand{
         //find category by id
         CategoryService categoryService = new CategoryService();
         category = categoryService.findCategroyById(category);
-        if (category==null){
+        if (category == null) {
             request.setAttribute("errMsg", "The category no longer exists");
             forward("/jsp/error.jsp");
-        }
-        //find product by category
-        ProductService productService = new ProductService();
-        List<Product> products = productService.findProductByCategory(category);
+        } else {
+            //find product by category
+            ProductService productService = new ProductService();
+            List<Product> products = productService.findProductByCategory(category);
 
-        //return result
-        if (products.isEmpty()){
-            request.setAttribute("errMsg", "No Product in this category");
-            forward("/jsp/error.jsp");
+            //return result
+            if (products.isEmpty()) {
+                request.setAttribute("errMsg", "No Product in this category");
+                forward("/jsp/error.jsp");
+            } else {
+                request.setAttribute("products", products);
+                request.setAttribute("category", category);
+                forward("/jsp/viewProductsInCategory.jsp");
+            }
         }
-        request.setAttribute("products",products);
-        request.setAttribute("category",category);
-        forward("/jsp/viewProductsInCategory.jsp");
     }
 }

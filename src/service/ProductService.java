@@ -119,12 +119,8 @@ public class ProductService {
      * @return result
      */
     public boolean deleteRelation(Product product, Category category) {
-        try {
-            return productMapper.deleteRelation(product, category);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        return productMapper.deleteRelation(product, category);
+
     }
 
     /**
@@ -135,12 +131,18 @@ public class ProductService {
      * @return result
      */
     public boolean addRelation(Product product, Category category) {
-        try {
-            return productMapper.addRelation(product, category);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        return productMapper.addRelation(product, category);
+    }
+
+    /**
+     * add a relation between a product and a category
+     *
+     * @param product  Product
+     * @param category Category
+     * @return result
+     */
+    public boolean findRelation(Product product, Category category) {
+        return productMapper.findRelation(product, category);
     }
 
     /**

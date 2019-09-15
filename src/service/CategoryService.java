@@ -32,7 +32,7 @@ public class CategoryService {
      * @return a category object or null
      */
     public Category findCategroyById(Category category) {
-        IdentityMap<Category> identityMap = new IdentityMap<>();
+        IdentityMap<Category> identityMap = IdentityMap.getInstance(category);
         Category categoryFinded = identityMap.get(category.getId());
 
         if (categoryFinded != null) {

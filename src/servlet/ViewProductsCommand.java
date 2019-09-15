@@ -23,8 +23,9 @@ public class ViewProductsCommand extends FrontCommand {
         if (products.isEmpty()) {
             request.setAttribute("errMsg", "There is no product.");
             forward("/jsp/error.jsp");
+        } else {
+            request.setAttribute("products", products);
+            forward("/jsp/viewProducts.jsp");
         }
-        request.setAttribute("products", products);
-        forward("/jsp/viewProducts.jsp");
     }
 }

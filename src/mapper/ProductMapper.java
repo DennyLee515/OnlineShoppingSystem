@@ -351,5 +351,29 @@ public class ProductMapper extends DataMapper {
         }
         return false;
     }
+
+    /**
+     * find a category product relation into category product relation table
+     *
+     * @param product  Product
+     * @param category Category
+     * @return result
+     */
+    public boolean findRelation(Product product, Category category) {
+        String findRelation = "SELECT * FROM public.product_category " +
+                "WHERE category_id = ? and product_id = ?";
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(findRelation);
+            preparedStatement.setString(1, category.getId());
+            preparedStatement.setString(2, product.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+                return true;
+            DBConnection.close(preparedStatement);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
 

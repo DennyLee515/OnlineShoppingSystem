@@ -53,7 +53,7 @@
                     <td>${product.weight}</td>
                     <td>${category.categoryName}</td>
                     <td>
-                        <form action="frontservlet?command=AddToCart&&product=${product.productId}&category=${category.categoryId}"
+                        <form action="frontservlet?command=AddToCart&product=${product.productId}&category=${category.categoryId}"
                               method="post">
                             <input id="name" type="text" name="amount" align="left" value="1">
                             <input type="submit" value="Add to Cart">

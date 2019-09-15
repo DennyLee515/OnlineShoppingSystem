@@ -52,7 +52,7 @@
                     <td>${cartDetail.productAmount}</td>
                     <td>${cartDetail.totalPrice}</td>
                     <td><a
-                            href="frontservlet?command=DeleteProductInCart&&cartDetail=${cartDetail.cartDetailId}"
+                            href="frontservlet?command=DeleteProductInCart&cartDetail=${cartDetail.cartDetailId}"
                            methods="post" role="button">Delete</a></td></td>
                 </tr>
             </c:forEach>

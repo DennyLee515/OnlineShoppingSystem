@@ -87,13 +87,12 @@ public class CartDetailMapper extends DataMapper {
             preparedStatement.setInt(2, cartDetail.getProductAmount());
             preparedStatement.setDouble(3, cartDetail.getTotalPrice());
             preparedStatement.setString(4, cartDetail.getCart().getId());
-            preparedStatement.setString(5, cartDetail.getId());
-            preparedStatement.setString(6, cartDetail.getCategory().getId());
+            preparedStatement.setString(5, cartDetail.getCategory().getId());
+            preparedStatement.setString(6, cartDetail.getId());
             result = preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         return result != 0;
     }
@@ -217,7 +216,8 @@ public class CartDetailMapper extends DataMapper {
                 Product product1 = new Product();
                 product1.setProductId(resultSet.getString(2));
                 ProductMapper productMapper = new ProductMapper();
-                cartDetail1.setProduct(productMapper.findProductById(product1));
+                product1 = productMapper.findProductById(product1);
+                cartDetail1.setProduct(product1);
 
                 cartDetail1.setProductAmount(resultSet.getInt(3));
                 cartDetail1.setTotalPrice(resultSet.getDouble(4));
@@ -241,4 +241,26 @@ public class CartDetailMapper extends DataMapper {
         }
         return null;
     }
+
+    /**
+     * update price by product id
+     * @param product Product
+     * @return result
+     */
+    public boolean updatePrice(Product product) {
+        String updateCartPrice = "UPDATE public.cart_detail SET " +
+                "sub_total = amount * ? WHERE product_id = ?";
+        int result = 0;
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(updateCartPrice);
+            preparedStatement.setDouble(1, product.getPrice());
+            preparedStatement.setString(2, product.getId());
+            result = preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result != 0;
+    }
+
 }

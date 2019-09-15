@@ -29,19 +29,19 @@ public class ViewProductCategoryCommand extends FrontCommand {
         if (product == null) {
             request.setAttribute("errMsg", "The product no longer exists");
             forward("/jsp/error.jsp");
+        }else{
+            //find categories related to a product
+            CategoryService categoryService = new CategoryService();
+            List<Category> categories = categoryService.findCategoryByProduct(product);
+            if (categories.isEmpty()) {
+                request.setAttribute("errMsg", "No roast can be select");
+                forward("/jsp/error.jsp");
+            }else {
+                //return result
+                request.setAttribute("categories", categories);
+                request.setAttribute("product", product);
+                forward("/jsp/viewRoast.jsp");
+            }
         }
-
-        //find categories related to a product
-        CategoryService categoryService = new CategoryService();
-        List<Category> categories = categoryService.findCategoryByProduct(product);
-        if (categories.isEmpty()) {
-            request.setAttribute("errMsg", "No roast can be select");
-            forward("/jsp/error.jsp");
-        }
-
-        //return result
-        request.setAttribute("categories", categories);
-        request.setAttribute("product", product);
-        forward("/jsp/viewRoast.jsp");
     }
 }

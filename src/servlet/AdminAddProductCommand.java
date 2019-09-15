@@ -29,35 +29,36 @@ public class AdminAddProductCommand extends FrontCommand {
         //create new product object
         Product product = new Product(name, info, price, weight, inventory);
         ProductService productService = new ProductService();
-        if (productService.findProductByName(product) != null){
-            request.setAttribute("errMsg","Product name exists.");
+        if (productService.findProductByName(product) != null) {
+            request.setAttribute("errMsg", "Product name exists.");
             forward("/jsp/error.jsp");
-        }
-        //add a product
-        boolean result = productService.insertProduct(product);
-        if (!result) {
-            request.setAttribute("errMsg", "Add new product fail.");
-            forward("/jsp/error.jsp");
-        }
-
-        //add product category relations
-        CategoryService categoryService = new CategoryService();
-        if (category != null && category.length > 0) {
-            for (String s : category) {
-                Category category1 = new Category();
-                category1.setCategoryName(s);
-                category1 = categoryService.findCategoryByName(category1);
-
-                result = productService.addRelation(product, category1) && result;
-            }
-        }
-
-        //return result
-        if (result) {
-            redirect("frontservlet?command=AdminProduct");
         } else {
-            request.setAttribute("errMsg", "Add to category fail.");
-            forward("/jsp/error.jsp");
+            //add a product
+            boolean result = productService.insertProduct(product);
+            if (!result) {
+                request.setAttribute("errMsg", "Add new product fail.");
+                forward("/jsp/error.jsp");
+            } else {
+                //add product category relations
+                CategoryService categoryService = new CategoryService();
+                if (category != null && category.length > 0) {
+                    for (String s : category) {
+                        Category category1 = new Category();
+                        category1.setCategoryName(s);
+                        category1 = categoryService.findCategoryByName(category1);
+
+                        result = productService.addRelation(product, category1) && result;
+                    }
+                }
+
+                //return result
+                if (result) {
+                    redirect("frontservlet?command=AdminProduct");
+                } else {
+                    request.setAttribute("errMsg", "Add to category fail.");
+                    forward("/jsp/error.jsp");
+                }
+            }
         }
     }
 }

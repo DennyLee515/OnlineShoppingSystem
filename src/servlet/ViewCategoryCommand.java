@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * view all categories
  */
-public class ViewCategoryCommand extends FrontCommand{
+public class ViewCategoryCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
@@ -18,11 +18,12 @@ public class ViewCategoryCommand extends FrontCommand{
         CategoryService categoryService = new CategoryService();
         List<Category> category = categoryService.getAllCategories();
         //return result
-        if (category.isEmpty()){
+        if (category.isEmpty()) {
             request.setAttribute("errMsg", "No category exists");
             forward("/jsp/error.jsp");
+        } else {
+            request.setAttribute("categories", category);
+            forward("/jsp/viewCategory.jsp");
         }
-        request.setAttribute("categories", category);
-        forward("/jsp/viewCategory.jsp");
     }
 }

@@ -24,16 +24,17 @@ public class AdminAddCategoryCommand extends FrontCommand {
         if (categoryService.findCategoryByName(category)!=null){
             request.setAttribute("errMsg","Category name exists.");
             forward("/jsp/error.jsp");
-        }
-        //add category
-        boolean result = categoryService.newCategory(category);
+        }else{
+            //add category
+            boolean result = categoryService.newCategory(category);
 
-        //return add category result to front-end
-        if (result){
-            redirect("frontservlet?command=AdminCategory");
-        }else {
-            request.setAttribute("errMsg","Add category failed");
-            forward("/jsp/error.jsp");
+            //return add category result to front-end
+            if (result){
+                redirect("frontservlet?command=AdminCategory");
+            }else {
+                request.setAttribute("errMsg","Add category failed");
+                forward("/jsp/error.jsp");
+            }
         }
     }
 

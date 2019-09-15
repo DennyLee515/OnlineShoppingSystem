@@ -53,7 +53,7 @@
                     <td>${product.price}</td>
                     <td>${product.weight}</td>
                     <td>
-                        <a href="frontservlet?command=ViewProductCategory&&product=${product.productId}"
+                        <a href="frontservlet?command=ViewProductCategory&product=${product.productId}"
                                 methods="post" role="button">Select Roast</a></td>
                     </td>
                 </tr>

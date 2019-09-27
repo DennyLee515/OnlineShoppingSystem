@@ -4,8 +4,6 @@ package domain;/**
 
 import mapper.OrderDetailMapper;
 
-import java.util.UUID;
-
 /**
  * @program: CoffeeWeb
  * @description: Order details of an order
@@ -15,29 +13,28 @@ import java.util.UUID;
 public class OrderDetail extends DomainObject {
     //Order an order detail belongs to
     private Order order;
-    //order detail id
-    private String orderDetailId;
     //the product of the order detail item
     private Product product;
     //the product amount of the detail item
     private int productAmount;
+    private Category productCategory;
 
     //constructor
     public OrderDetail() {
     }
 
     //constructor with order, product, product amount
-    public OrderDetail(Order order, Product product, int productAmount) {
+    public OrderDetail(Order order, Product product, int productAmount, Category category) {
         this.order = order;
-        orderDetailId = UUID.randomUUID().toString();
         this.product = product;
         this.productAmount = productAmount;
+        this.productCategory = category;
     }
 
     //getter and setter methods
     public Order getOrder() {
-        if (this.order == null)
-            load();
+//        if (this.order == null)
+//            load();
         return order;
     }
 
@@ -45,18 +42,9 @@ public class OrderDetail extends DomainObject {
         this.order = order;
     }
 
-    @Override
-    public String getId() {
-        return orderDetailId;
-    }
-
-    public void setOrderDetailId(String orderDetailId) {
-        this.orderDetailId = orderDetailId;
-    }
-
     public Product getProduct() {
-        if (this.product == null)
-            load();
+//        if (this.product == null)
+//            load();
         return product;
     }
 
@@ -65,8 +53,8 @@ public class OrderDetail extends DomainObject {
     }
 
     public int getProductAmount() {
-        if (this.productAmount == 0)
-            load();
+//        if (this.productAmount == 0)
+//            load();
         return productAmount;
     }
 
@@ -74,18 +62,31 @@ public class OrderDetail extends DomainObject {
         this.productAmount = productAmount;
     }
 
-    //use lazy load to reduce request
-    private void load() {
-        OrderDetailMapper orderDetailMapper = new OrderDetailMapper();
-        OrderDetail record = orderDetailMapper.findOrderDetailById(this);
-        if (this.order == null) {
-            this.order = record.getOrder();
-        }
-        if (this.product == null) {
-            this.product = record.getProduct();
-        }
-        if (this.productAmount == 0) {
-            this.productAmount = record.getProductAmount();
-        }
+    public Category getProductCategory() {
+//        if (this.productCategory ==null)
+//            load();
+        return productCategory;
     }
+
+    public void setProductCategory(Category productCategory) {
+        this.productCategory = productCategory;
+    }
+
+//    //use lazy load to reduce request
+//    private void load() {
+//        OrderDetailMapper orderDetailMapper = new OrderDetailMapper();
+//        OrderDetail record = orderDetailMapper.findOrderDetailByOrderId(this);
+//        if (this.order == null) {
+//            this.order = record.getOrder();
+//        }
+//        if (this.product == null) {
+//            this.product = record.getProduct();
+//        }
+//        if (this.productAmount == 0) {
+//            this.productAmount = record.getProductAmount();
+//        }
+//        if (this.productCategory == null){
+//            this.productCategory = record.getProductCategory();
+//        }
+//    }
 }

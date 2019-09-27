@@ -40,6 +40,7 @@ public class CartService {
                     category);
             boolean result;
             if (cartDetailFinded != null) {
+                //todo modify sub total
                 cartDetailFinded.setProductAmount(cartDetailFinded.getProductAmount() + amount);
                 cartDetailFinded.setTotalPrice(cartDetailFinded.getTotalPrice() + product.getPrice()*amount);
                 result = updateCartDetail(cartDetailFinded);
@@ -150,5 +151,11 @@ public class CartService {
         ProductService productService = new ProductService();
         Product product1  = productService.findProductByID(product);
         return cartDetailMapper.updatePrice(product1);
+    }
+
+    public boolean clearCartByUser(User user){
+        Cart cart = new Cart(user);
+        boolean result = deleteCart(findCartByUserId(user)) && newCart(cart);
+        return result;
     }
 }

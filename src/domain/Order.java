@@ -22,22 +22,32 @@ public class Order extends DomainObject {
     private double totalPrice;
     //date of the order
     private Date orderTime;
+    private String address;
+    private String status;
+    private Date updateTime;
+
 
     //constructor
     public Order() {
     }
 
     //constructor with user, total price, order time
-    public Order(User user, double totalPrice, Date orderTime) {
+    public Order(User user, double totalPrice,String address,String status){
         this.orderId = UUID.randomUUID().toString();
         this.user = user;
         this.totalPrice = totalPrice;
-        this.orderTime = orderTime;
+        this.orderTime = this.updateTime = new Date();
+        this.address = address;
+        this.status = status;
     }
 
     //getter and setter method
     @Override
     public String getId() {
+        return orderId;
+    }
+
+    public String getOrderId() {
         return orderId;
     }
 
@@ -76,6 +86,36 @@ public class Order extends DomainObject {
         this.orderTime = orderTime;
     }
 
+    public String getAddress() {
+        if (this.address == null)
+            load();
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getStatus() {
+        if (this.status == null)
+            load();
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getUpdateTime() {
+        if (this.updateTime == null)
+            load();
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     //use lazy load to reduce request
     private void load() {
         OrderMapper orderMapper = new OrderMapper();
@@ -88,6 +128,15 @@ public class Order extends DomainObject {
         }
         if (this.user == null) {
             this.user = record.getUser();
+        }
+        if (this.address == null){
+            this.address = record.getAddress();
+        }
+        if (this.status == null){
+            this.status = record.getStatus();
+        }
+        if (this.updateTime == null){
+            this.updateTime = record.getUpdateTime();
         }
     }
 }

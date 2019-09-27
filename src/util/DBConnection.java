@@ -4,12 +4,12 @@ import java.sql.*;
 
 public class DBConnection {
 
-//    private static final String DB_CONNECTION = "jdbc:postgresql://localhost:5432/coffeeshop";
-//    private static final String DB_USER = "postgres";
-//    private static final String DB_PASSWORD = "123456";
-    private static final String DB_CONNECTION = "jdbc:postgresql://ec2-174-129-43-40.compute-1.amazonaws.com:5432/de8vhepp4ntjh9";
-    private static final String DB_USER = "pwjesluumgiswf";
-    private static final String DB_PASSWORD = "d0d4359a22d526b08b2810d7037c76dbf885faa2c357db503802524ce6a677cf";
+    private static final String DB_CONNECTION = "jdbc:postgresql://localhost:5432/coffeeshop";
+    private static final String DB_USER = "postgres";
+    private static final String DB_PASSWORD = "123456";
+//    private static final String DB_CONNECTION = "jdbc:postgresql://ec2-174-129-43-40.compute-1.amazonaws.com:5432/de8vhepp4ntjh9";
+//    private static final String DB_USER = "pwjesluumgiswf";
+//    private static final String DB_PASSWORD = "d0d4359a22d526b08b2810d7037c76dbf885faa2c357db503802524ce6a677cf";
 
     static Connection dbConnection = null;
 

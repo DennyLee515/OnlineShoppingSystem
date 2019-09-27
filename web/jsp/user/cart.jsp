@@ -57,6 +57,11 @@
                 </tr>
             </c:forEach>
         </table>
+        <div>
+            <form action="frontservlet?command=CheckOut" method="post">
+                <input type="submit" value="Check Out">
+            </form>
+        </div>
     </div>
 </div>
 </body>

@@ -2,7 +2,6 @@ package servlet;
 
 import domain.Order;
 import domain.OrderDetail;
-import domain.User;
 import security.AppSession;
 import service.OrderService;
 import util.Params;
@@ -15,20 +14,22 @@ import java.util.List;
  * @program: CoffeeWeb
  * @description:
  * @author: DennyLee
- * @create: 2019-09-27 23:49
+ * @create: 2019-09-28 13:46
  **/
-public class ViewOrderCommand extends FrontCommand{
+public class ViewOrderDetailCommand extends FrontCommand{
     @Override
     public void process() throws ServletException, IOException {
         if (AppSession.isAuthenticated()){
             if (AppSession.hasRole(Params.CUSTOMER_ROLE)){
-                User user =AppSession.getUser();
+                String orderId = request.getParameter("order");
                 OrderService orderService = new OrderService();
-                List<Order> orders = orderService.findOrderByUser(user);
-                request.setAttribute("orders",orders);
-                forward("/jsp/user/viewOrders.jsp");
+                Order order = new Order();
+                order.setOrderId(orderId);
+                List<OrderDetail> orderDetails = orderService.findOrderDetailsByOrderId(order);
+                request.setAttribute("orderDetails",orderDetails);
+                forward("/jsp/user/viewOrderDetail.jsp");
             }
-        } else {
+        }else {
             redirect("frontservlet?command=ForwardUserHome");
         }
     }

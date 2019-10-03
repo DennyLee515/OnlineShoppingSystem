@@ -1,7 +1,9 @@
 package servlet;
 
 import domain.CartDetail;
+import security.AppSession;
 import service.CartService;
+import util.Params;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -15,21 +17,25 @@ import java.io.IOException;
 public class DeleteProductInCartCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
-        //get parameters
-        String cartDetailId = request.getParameter("cartDetail");
+        if (AppSession.isAuthenticated()){
+            if (AppSession.hasRole(Params.CUSTOMER_ROLE)){
+                //get parameters
+                String cartDetailId = request.getParameter("cartDetail");
 
-        //delete cart detail by id
-        CartDetail cartDetail = new CartDetail();
-        cartDetail.setCartDetailId(cartDetailId);
-        CartService cartService = new CartService();
-        boolean result = cartService.deleteCartDetail(cartDetail);
+                //delete cart detail by id
+                CartDetail cartDetail = new CartDetail();
+                cartDetail.setCartDetailId(cartDetailId);
+                CartService cartService = new CartService();
+                boolean result = cartService.deleteCartDetail(cartDetail);
 
-        //return result
-        if (result){
-            redirect("frontservlet?command=ViewCart");
-        }else {
-            request.setAttribute("errMsg","Delete product failed.");
-            forward("/jsp/error.jsp");
+                //return result
+                if (result){
+                    redirect("frontservlet?command=ViewCart");
+                }else {
+                    request.setAttribute("errMsg","Delete product failed.");
+                    forward("/jsp/error.jsp");
+                }
+            }
         }
     }
 }

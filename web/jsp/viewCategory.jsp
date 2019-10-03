@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,25 +18,7 @@
 </head>
 <body>
 <div id="welcome" class="card-title"><b>View Category</b></div>
-<div id="shop">
-    <ul>
-        <li><a href="frontservlet?command=UserLogin">Home</a></li>
-        <li><a href="frontservlet?command=ViewProducts">All Products</a></li>
-        <li><a href="frontservlet?command=ViewCategory">Roast</a></li>
-        <li><a href="frontservlet?command=ViewCart">Cart</a></li>
-        <li><a href=""></a> </li>
-        <li><a href="index.jsp">Logout</a> </li>
-        <li>
-            <div id = "search">
-                <form action="frontservlet?command=SearchProduct" method="post">
-                    <input type="text" name="name">
-                    <input type="submit" value="Search">
-                </form>
-            </div>
-        </li>
-    </ul>
-
-</div>
+    <%@include file="user/userNavi.jsp"%>
 <div class="container">
     <div id="category" class="table">
         <table width="100%" align="left">

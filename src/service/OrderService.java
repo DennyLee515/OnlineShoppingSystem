@@ -51,4 +51,16 @@ public class OrderService {
     public List<Order> findOrderByUser(User user){
         return orderMapper.findOrderByUser(user);
     }
+
+    public List<OrderDetail> findOrderDetailsByOrderId(Order order){
+        return orderDetailMapper.findOrderDetailByOrderId(order);
+    }
+
+    public List<Order> getAllOrders(){
+        return orderMapper.getAllOrders();
+    }
+
+    public boolean updateOrderById(Order order){
+        return orderMapper.update(order);
+    }
 }

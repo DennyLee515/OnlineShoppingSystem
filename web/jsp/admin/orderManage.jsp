@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,10 +21,38 @@
     <ul>
         <li><a href="frontservlet?command=AdminProduct">Product Management</a></li>
         <li><a href="frontservlet?command=AdminCategory">Category Management</a></li>
-        <li><a href="frontservlet?command=AdminOrder">Order Management</a></li>
+        <li><a href="frontservlet?command=AdminOrder">OrderManagement</a></li>
         <li><a href="index.jsp">Logout</a></li>
     </ul>
 </div>
-<h1>Feature2</h1>
+<div id="product" class="container">
+    <div class="table">
+        <table width="100%">
+            <tr>
+                <th width="15%"><b>Order ID</b></th>
+                <th width="25%"><b>Address</b></th>
+                <th width="15"><b>Order Time</b></th>
+                <th width="15%"><b>Update Time</b></th>
+                <th width="15%"><b>Status</b></th>
+                <th width="15%"><b></b></th>
+            </tr>
+            <c:forEach var="order" items="${orders}">
+                <tr>
+                    <td>${order.orderId}</td>
+                    <td>${order.address}</td>
+                    <td>${order.orderTime}</td>
+                    <td>${order.updateTime}</td>
+                    <td>${order.status}</td>
+                    <td>
+                        <a
+                                href="frontservlet?command=AdminManageOrder&method=view&order=${order.orderId}"
+                           methods="post" role="button">View</a></td>
+                    <td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+</div>
 </body>
 </html>
+

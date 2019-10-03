@@ -10,7 +10,7 @@
 <div id="welcome" class="card-title"><b>Welcome to York Way Coffee</b></div>
 <div id="navi">
     <ul>
-        <li><a href="frontservlet?command=UserLogin">Login as Customer</a></li>
+        <li><a href="frontservlet?command=ForwardUserHome">Customer</a></li>
         <li><a href="frontservlet?command=AdminLogin">Login as Admin</a></li>
     </ul>
 </div>

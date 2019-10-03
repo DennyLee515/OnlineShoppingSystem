@@ -53,19 +53,19 @@ public class OrderDetailMapper extends DataMapper{
     }
 
     public List<OrderDetail> findOrderDetailByOrderId(DomainObject domainObject){
-        OrderDetail orderDetail = (OrderDetail) domainObject;
+        Order order = (Order) domainObject;
         String findOrderById = "SELECT * FROM public.order_detail WHERE order_id = ?";
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(findOrderById);
-            preparedStatement.setString(1, orderDetail.getOrder().getId());
+            preparedStatement.setString(1, order.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
             List<OrderDetail> result = new ArrayList<>();
             while (resultSet.next()) {
                 OrderDetail orderDetail1 = new OrderDetail();
 
-                Order order = new Order();
-                order.setOrderId(resultSet.getString(1));
-                orderDetail1.setOrder(new OrderService().findOrderById(order));
+                Order order1 = new Order();
+                order1.setOrderId(resultSet.getString(1));
+                orderDetail1.setOrder(new OrderService().findOrderById(order1));
 
                 Product product=  new Product();
                 product.setProductId(resultSet.getString(2));

@@ -1,6 +1,7 @@
 package domain;
 
 import mapper.StaffMapper;
+import service.StaffService;
 
 import java.util.UUID;
 
@@ -69,4 +70,5 @@ public abstract class Staff extends DomainObject {
         if (this.staffPassword == null)
             this.staffPassword = record.getStaffPassword();
     }
+
 }

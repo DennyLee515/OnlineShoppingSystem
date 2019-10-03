@@ -105,4 +105,22 @@ public class StaffMapper extends DataMapper {
         staff = clerkMapper.findClerkById(clerk);
         return staff;
     }
+
+    public Staff findStaffByName(Staff staff) {
+        String username = staff.getStaffUName();
+        Staff result = null;
+        Manager manager = new Manager();
+        manager.setStaffUName(username);;
+        Clerk clerk = new Clerk();
+        clerk.setStaffUName(username);
+        //find in manager table
+        result = managerMapper.findManagerById(manager);
+        if (result != null) {
+            return result;
+        }
+        //find in clerk table
+        result = clerkMapper.findClerkById(clerk);
+        return result;
+    }
+
 }

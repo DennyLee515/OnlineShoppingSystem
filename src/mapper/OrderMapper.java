@@ -75,8 +75,8 @@ public class OrderMapper extends DataMapper {
             preparedStatement.setDouble(2,order.getTotalPrice());
             preparedStatement.setTimestamp(3,new Timestamp(order.getOrderTime().getTime()));
             preparedStatement.setString(4,order.getAddress());
-            preparedStatement.setTimestamp(5,new Timestamp(new Date().getTime()));
-            preparedStatement.setString(6,order.getStatus());
+            preparedStatement.setString(5,order.getStatus());
+            preparedStatement.setTimestamp(6,new Timestamp(new Date().getTime()));
             preparedStatement.setString(7,order.getId());
             result = preparedStatement.executeUpdate();
 
@@ -130,7 +130,7 @@ public class OrderMapper extends DataMapper {
 
                 order1.setOrderId(resultSet.getString(1));
                 User user1 = new User();
-                user.setUserId(resultSet.getString(2));
+                user1.setUserId(resultSet.getString(2));
                 order1.setUser(new UserService().findUserById(user1));
                 order1.setTotalPrice(resultSet.getDouble(3));
                 order1.setOrderTime(resultSet.getTimestamp(4));
@@ -147,5 +147,33 @@ public class OrderMapper extends DataMapper {
         }
         return null;
     }
+    public List<Order> getAllOrders(){
+        String findOrderById = "SELECT * FROM public.order";
+        List<Order> result = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = DBConnection.prepare(findOrderById);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Order order1 = new Order();
+                IdentityMap<Order> identityMap = IdentityMap.getInstance(order1);
 
+                order1.setOrderId(resultSet.getString(1));
+                User user1 = new User();
+                user1.setUserId(resultSet.getString(2));
+                order1.setUser(new UserService().findUserById(user1));
+                order1.setTotalPrice(resultSet.getDouble(3));
+                order1.setOrderTime(resultSet.getTimestamp(4));
+                order1.setAddress(resultSet.getString(5));
+                order1.setStatus(resultSet.getString(6));
+                order1.setUpdateTime(resultSet.getTimestamp(7));
+
+                identityMap.put(order1.getId(),order1);
+                result.add(order1);
+            }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

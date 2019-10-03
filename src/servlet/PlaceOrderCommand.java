@@ -1,6 +1,7 @@
 package servlet;
 
 import domain.*;
+import security.AppSession;
 import service.CartService;
 import service.OrderService;
 import util.Params;
@@ -19,7 +20,7 @@ public class PlaceOrderCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         String address = request.getParameter("address");
-        User user = (User)request.getSession().getAttribute(Params.USER);
+        User user = AppSession.getUser();
         Double totalPrice = 0.0;
         Order order = new Order(user,totalPrice,address,Params.PENDING);
         CartService cartService = new CartService();

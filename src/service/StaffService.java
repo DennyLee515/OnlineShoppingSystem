@@ -1,5 +1,6 @@
 package service;
 
+import domain.Manager;
 import domain.Staff;
 import mapper.StaffMapper;
 import util.IdentityMap;
@@ -67,4 +68,9 @@ public class StaffService {
         }
         return staffMapper.findStaffById(staff);
     }
+
+    public Staff findStaffByName(Staff staff) {
+        return staffMapper.findStaffByName(staff);
+    }
+
 }

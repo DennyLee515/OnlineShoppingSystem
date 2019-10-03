@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,47 +17,41 @@
     <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
-<div id="welcome" class="card-title"><b>Products</b></div>
-<div id="shop">
-    <ul>
-        <li><a href="frontservlet?command=UserLogin">Home</a></li>
-        <li><a href="frontservlet?command=ViewProducts">All Products</a></li>
-        <li><a href="frontservlet?command=ViewCategory">Roast</a></li>
-        <li><a href="frontservlet?command=ViewCart">Cart</a></li>
-        <li><a href=""></a> </li>
-        <li><a href="index.jsp">Logout</a> </li>
-        <li>
-            <div id = "search">
-                <form action="frontservlet?command=SearchProduct" method="post">
-                    <input type="text" name="name">
-                    <input type="submit" value="Search">
-                </form>
-            </div>
-        </li>
-    </ul>
-
-</div>
-<div class="container">
-    <div id="product" class="table">
-        <table width="100%" align="center">
-            <tr>
-                <th width="15%" align="center"><b>Order ID</b></th>
-                <th width="40%" align="center"><b>Total Price</b></th>
-                <th width="15" align="center"><b>Purchase Time</b></th>
-                <th width="15%" align="center"><b>Status</b></th>
-                <th><b></b></th>
-            </tr>
-            <c:forEach var="order" items="${orders}">
+<shiro:authenticated>
+    <div id="welcome" class="card-title"><b>My Order</b></div>
+    <%@include file="userNavi.jsp"%>
+    <div class="container">
+        <div id="product" class="table">
+            <table width="100%" align="center">
                 <tr>
-                    <td>${order.orderId}</td>
-                    <td>${order.totalPrice}</td>
-                    <td>${order.orderTime}</td>
-                    <td>${order.status}</td>
+                    <th width="15%" align="center"><b>Order ID</b></th>
+                    <th width="40%" align="center"><b>Total Price</b></th>
+                    <th width="15" align="center"><b>Purchase Time</b></th>
+                    <th width="15%" align="center"><b>Status</b></th>
+                    <th><b></b></th>
                 </tr>
-            </c:forEach>
-        </table>
+                <c:forEach var="order" items="${orders}">
+                    <tr>
+                        <td>${order.orderId}</td>
+                        <td>${order.totalPrice}</td>
+                        <td>${order.orderTime}</td>
+                        <td>${order.status}</td>
+                        <td><a
+                                href="frontservlet?command=ViewOrderDetail&order=${order.orderId}"
+                                methods="post" role="button">View</a></td>
+                        </td></td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
     </div>
-</div>
+</shiro:authenticated>
+<shiro:notAuthenticated>
+    <script>
+        alert("Please log in");
+        window.location.href = "frontservlet?command=UserLogin"
+    </script>
+</shiro:notAuthenticated>
 </body>
 </html>
 

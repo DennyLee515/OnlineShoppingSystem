@@ -7,6 +7,7 @@ import util.IdentityMap;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 /**
@@ -28,6 +29,7 @@ public class UserMapper extends DataMapper {
         String insertUser = "INSERT INTO public.user " +
                 "(user_id, user_firstname, user_lastname,username,user_password, birthday, " +
                 "user_email, user_address) VALUES (?,?,?,?,?,?,?,?);";
+        int result = 0;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(insertUser);
             preparedStatement.setString(1, user.getId());
@@ -39,15 +41,26 @@ public class UserMapper extends DataMapper {
             preparedStatement.setString(7, user.getUserEmail());
             preparedStatement.setString(8, user.getAddress());
 
-            int result = preparedStatement.executeUpdate();
+            result = preparedStatement.executeUpdate();
+//            DBConnection.dbConnection.commit();
 
-            return result != 0;
-
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            try {
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = 0;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return false;
+        return result != 0;
     }
+
 
     /**
      * delete a user from the user table
@@ -59,19 +72,29 @@ public class UserMapper extends DataMapper {
     public boolean delete(DomainObject domainObject) {
         User user = (User) domainObject;
         String deleteAdminById = "DELETE FROM public.user WHERE user_id = ?";
-
+        int result = 0;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(deleteAdminById);
             preparedStatement.setString(1, user.getId());
 
-            int result = preparedStatement.executeUpdate();
-            DBConnection.close(preparedStatement);
+            result = preparedStatement.executeUpdate();
+            DBConnection.dbConnection.commit();
 
-            return result != 0;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            try {
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = 0;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return false;
+        return result != 0;
     }
 
     /**
@@ -98,11 +121,22 @@ public class UserMapper extends DataMapper {
             preparedStatement.setString(7, user.getAddress());
             preparedStatement.setString(8, user.getId());
             result = preparedStatement.executeUpdate();
-            DBConnection.close(preparedStatement);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            DBConnection.dbConnection.commit();
 
+        } catch (SQLException e) {
+            try {
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = 0;
+            e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
+        }
         return result != 0;
     }
 

@@ -16,12 +16,7 @@ import java.io.IOException;
 public class UserLoginCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User user = new User();
-        user.setUsername("username");
-        UserService userService = new UserService();
-        user = userService.findUserByName(user);
-        session.setAttribute("user", user);
-        forward("/jsp/user/userHome.jsp");
+        forward("/jsp/user/userLogin.jsp");
     }
+
 }

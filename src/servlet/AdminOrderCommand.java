@@ -1,9 +1,11 @@
 package servlet;
 
-import servlet.FrontCommand;
+import domain.Order;
+import service.OrderService;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @program: CoffeeWeb
@@ -14,7 +16,10 @@ import java.io.IOException;
 public class AdminOrderCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
-        // TODO: 2019/9/15 implement in feature2
+        //get all categories
+        OrderService orderService = new OrderService();
+        List<Order> orders = orderService.getAllOrders();
+        request.setAttribute("orders", orders);
         forward("/jsp/admin/orderManage.jsp");
 
     }

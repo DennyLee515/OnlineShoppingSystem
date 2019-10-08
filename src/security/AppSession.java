@@ -1,6 +1,7 @@
 package security;
 
-import domain.User;
+import domain.Customer;
+import domain.Staff;
 import org.apache.shiro.SecurityUtils;
 import util.Params;
 
@@ -20,15 +21,27 @@ public class AppSession {
         return SecurityUtils.getSubject().isAuthenticated();
     }
 
-    public static void  init(User user){
-        SecurityUtils.getSubject().getSession().setAttribute(Params.USER_ATTRIBUTE_NAME,user);
+    public static void  init(Customer customer){
+        SecurityUtils.getSubject().getSession().setAttribute(Params.USER_ATTRIBUTE_NAME, customer);
     }
 
-    public static User getUser(){
-        return (User)SecurityUtils.getSubject().getSession().getAttribute(Params.USER_ATTRIBUTE_NAME);
+    public static Customer getUser(){
+        return (Customer)SecurityUtils.getSubject().getSession().getAttribute(Params.USER_ATTRIBUTE_NAME);
+    }
+
+    public static void  init(Staff staff){
+        SecurityUtils.getSubject().getSession().setAttribute(Params.STAFF_ATTRIBUTE_NAME,staff);
+    }
+
+    public static Staff getStaff(){
+        return (Staff) SecurityUtils.getSubject().getSession().getAttribute(Params.STAFF_ATTRIBUTE_NAME);
     }
 
     public static void logout(){
          SecurityUtils.getSubject().logout();
+    }
+
+    public static String getSessionId(){
+        return SecurityUtils.getSubject().getSession().getId().toString();
     }
 }

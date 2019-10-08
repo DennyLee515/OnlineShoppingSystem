@@ -2,12 +2,14 @@ package servlet;
 
 import domain.Order;
 import domain.OrderDetail;
+import domain.Product;
 import security.AppSession;
 import service.OrderService;
 import util.Params;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +28,14 @@ public class ViewOrderDetailCommand extends FrontCommand{
                 Order order = new Order();
                 order.setOrderId(orderId);
                 List<OrderDetail> orderDetails = orderService.findOrderDetailsByOrderId(order);
+                List<Product> products = new ArrayList<>();
+
+                for (OrderDetail orderDetail: orderDetails                     ) {
+                    products.add(orderDetail.getProduct());
+                }
                 request.setAttribute("orderDetails",orderDetails);
+                request.setAttribute("products",products);
+
                 forward("/jsp/user/viewOrderDetail.jsp");
             }
         }else {

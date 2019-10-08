@@ -1,18 +1,17 @@
 package servlet;
 
 import domain.Cart;
-import domain.User;
+import domain.Customer;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import service.CartService;
-import service.UserService;
+import service.CustomerService;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 
 /**
  * @program: CoffeeWeb
@@ -41,15 +40,14 @@ public class RegisterCommand extends FrontCommand {
         ByteSource salt = ByteSource.Util.bytes(username);
         String encryptedPassword = new SimpleHash("MD5", password, salt, 1024).toHex();
 
-        User user = new User(firstname, lastname, username, encryptedPassword, birthday, email,
+        Customer customer = new Customer(firstname, lastname, username, encryptedPassword, birthday, email,
                 address);
-        UserService userService = new UserService();
-        userService.insertUser(user);
+        CustomerService userService = new CustomerService();
+        userService.insertUser(customer);
 
-        Cart cart = new Cart(user);
+        Cart cart = new Cart(customer);
         CartService cartService = new CartService();
         cartService.newCart(cart);
-
-        redirect("frontservlet?command=UserLogin");
+        redirect("frontservlet?command=ForwardLogin");
     }
 }

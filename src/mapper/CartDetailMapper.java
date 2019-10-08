@@ -6,6 +6,7 @@ import util.IdentityMap;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class CartDetailMapper extends DataMapper {
         String insertCart = "INSERT INTO public.cart_detail " +
                 "(cart_detail_id, product_id, amount, sub_total, cart_id, category_id)" +
                 "VALUES(?,?,?,?,?,?)";
-        int result = 0;
+        boolean result;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(insertCart);
             preparedStatement.setString(1, cartDetail.getId());
@@ -38,13 +39,24 @@ public class CartDetailMapper extends DataMapper {
             preparedStatement.setDouble(4, cartDetail.getTotalPrice());
             preparedStatement.setString(5, cartDetail.getCart().getId());
             preparedStatement.setString(6, cartDetail.getCategory().getId());
-            result = preparedStatement.executeUpdate();
-
-        } catch (Exception e) {
+            result = preparedStatement.executeUpdate() ==1;
+            DBConnection.dbConnection.commit();
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-
-        return result != 0;
+        return result;
     }
 
     /**
@@ -57,15 +69,28 @@ public class CartDetailMapper extends DataMapper {
     public boolean delete(DomainObject domainObject) {
         CartDetail cartDetail = (CartDetail) domainObject;
         String deleteCart = "DELETE FROM public.cart_detail WHERE cart_detail_id = ?";
-        int result = 0;
+        boolean result;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(deleteCart);
             preparedStatement.setString(1, cartDetail.getId());
-            result = preparedStatement.executeUpdate();
-        } catch (Exception e) {
+            result = preparedStatement.executeUpdate() ==1 ;
+            DBConnection.dbConnection.commit();
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return result != 0;
+        return result;
     }
 
     /**
@@ -80,7 +105,7 @@ public class CartDetailMapper extends DataMapper {
         String updateCartById = "UPDATE public.cart_detail SET " +
                 "product_id = ?, amount = ?, sub_total = ?, cart_id = ?, category_id = ?" +
                 "WHERE cart_detail_id = ?";
-        int result = 0;
+        boolean result;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(updateCartById);
             preparedStatement.setString(1, cartDetail.getProduct().getId());
@@ -89,13 +114,26 @@ public class CartDetailMapper extends DataMapper {
             preparedStatement.setString(4, cartDetail.getCart().getId());
             preparedStatement.setString(5, cartDetail.getCategory().getId());
             preparedStatement.setString(6, cartDetail.getId());
-            result = preparedStatement.executeUpdate();
-        } catch (Exception e) {
+            result = preparedStatement.executeUpdate()==1;
+            DBConnection.dbConnection.commit();
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-
-        return result != 0;
+        return result;
     }
+
 
     /**
      * find a cart detail by id in table cart_detail

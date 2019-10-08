@@ -1,7 +1,9 @@
 package servlet;
 
 import domain.Category;
+import security.AppSession;
 import service.CategoryService;
+import util.Params;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -9,26 +11,31 @@ import java.io.IOException;
 public class AdminEditCategoryCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
+        if (AppSession.isAuthenticated()){
+            if(AppSession.hasRole(Params.CLERK_ROLE) || AppSession.hasRole(Params.MANAGER_ROLE)){
+                // get modify category id
+                String id = request.getParameter("category");
+                String name = request.getParameter("categoryName");
 
-        // get modify category id
-        String id = request.getParameter("category");
-        String name = request.getParameter("categoryName");
+                // category service findById
+                CategoryService categoryService = new CategoryService();
+                Category category = new Category();
+                category.setCategoryId(id);
+                category = categoryService.findCategroyById(category);
+                category.setCategoryName(name);
 
-        // category service findById
-        CategoryService categoryService = new CategoryService();
-        Category category = new Category();
-        category.setCategoryId(id);
-        category = categoryService.findCategroyById(category);
-        category.setCategoryName(name);
-
-        // update
-        boolean result = categoryService.updateCategory(category);
-        //return result
-        if (result){
-            redirect("frontservlet?command=AdminCategory");
-        }else {
-            request.setAttribute("errMsg", "Edit category fail.");
-            forward("/jsp/error.jsp");
+                // update
+                boolean result = categoryService.updateCategory(category);
+                //return result
+                if (result){
+                    redirect("frontservlet?command=AdminCategory");
+                }else {
+                    request.setAttribute("errMsg", "Edit category fail.");
+                    forward("/jsp/error.jsp");
+                }
+            }
+        }else{
+            redirect("frontservlet?command=ForwardAdminLogin");
         }
     }
 }

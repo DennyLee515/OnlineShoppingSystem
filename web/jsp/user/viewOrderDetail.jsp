@@ -16,45 +16,40 @@
     <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
-<div id="welcome" class="card-title"><b>Products</b></div>
-<div id="shop">
-    <ul>
-        <li><a href="frontservlet?command=UserLogin">Home</a></li>
-        <li><a href="frontservlet?command=ViewProducts">All Products</a></li>
-        <li><a href="frontservlet?command=ViewCategory">Roast</a></li>
-        <li><a href="frontservlet?command=ViewCart">Cart</a></li>
-        <li><a href=""></a> </li>
-        <li><a href="index.jsp">Logout</a> </li>
-        <li>
-            <div id = "search">
-                <form action="frontservlet?command=SearchProduct" method="post">
-                    <input type="text" name="name">
-                    <input type="submit" value="Search">
-                </form>
+<shiro:authenticated>
+    <div id="welcome" class="card-title"><b>Products</b></div>
+    <shiro:hasRole name="customer">
+        <%@include file="userNavi.jsp" %>
+        <div class="container">
+            <div id="product" class="table">
+                <table width="100%" align="center">
+                    <tr>
+                        <th width="20%" align="center"><b>Item</b></th>
+                        <th width="20%" align="center"><b>Name</b></th>
+                        <th width="20" align="center"><b>Roast</b></th>
+                        <th width="20%" align="center"><b>Price</b></th>
+                        <th width="20%" align="center"><b>Quantity</b></th>
+                    </tr>
+                    <c:forEach var="orderDetail" items="${orderDetails}" varStatus="loop">
+                        <tr>
+                            <td>${loop.count}</td>
+                            <td>${orderDetail.product.productName}</td>
+                            <td>${orderDetail.productCategory.categoryName}</td>
+                            <td>${orderDetail.product.price}</td>
+                            <td>${orderDetail.productAmount}</td>
+                        </tr>
+                    </c:forEach>
+                </table>
             </div>
-        </li>
-    </ul>
-
-</div>
-<div class="container">
-    <div id="product" class="table">
-        <table width="100%" align="center">
-            <tr>
-                <th width="15%" align="center"><b>Product</b></th>
-                <th width="40%" align="center"><b>Amount</b></th>
-                <th width="15" align="center"><b>Category</b></th>
-                <th><b></b></th>
-            </tr>
-            <c:forEach var="orderDetail" items="${orderDetails}">
-                <tr>
-                    <td></td>
-                    <td>${orderDetail.productAmount}</td>
-                    <td>${order.orderTime}</td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>
-</div>
+        </div>
+    </shiro:hasRole>
+</shiro:authenticated>
+<shiro:notAuthenticated>
+    <script>
+        alert("Please log in");
+        window.location.href = "frontservlet?command=UserLogin"
+    </script>
+</shiro:notAuthenticated>
 </body>
 </html>
 

@@ -1,8 +1,10 @@
 package servlet;
 
 import domain.Product;
+import security.AppSession;
 import service.ProductService;
 import servlet.FrontCommand;
+import util.Params;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -17,11 +19,17 @@ import java.util.List;
 public class AdminProductCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
-        //get all products
-        ProductService productService = new ProductService();
-        List<Product> products = productService.getAll();
-        //return result
-        request.setAttribute("products", products);
-        forward("/jsp/admin/productManage.jsp");
+        if (AppSession.isAuthenticated()){
+            if(AppSession.hasRole(Params.CLERK_ROLE) || AppSession.hasRole(Params.MANAGER_ROLE)){
+                //get all products
+                ProductService productService = new ProductService();
+                List<Product> products = productService.getAll();
+                //return result
+                request.setAttribute("products", products);
+                forward("/jsp/admin/productManage.jsp");
+            }
+        }else{
+            redirect("frontservlet?command=ForwardAdminLogin");
+        }
     }
 }

@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <html>
 <head>
     <title>York Way Coffee</title>
@@ -14,9 +14,10 @@
     <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
-<div id="welcome" class="card-title"><b>Sign Up</b></div>
+
+<div id="welcome" class="card-title"><b>Add Clerk</b></div>
 <div class="container">
-    <form action="frontservlet?command=Register" method="POST">
+    <form action="frontservlet?command=AdminAddStaff" method="POST">
         <div class="form-group row">
             <label for="inputUsername" class="col-sm-2 col-form-label">Username</label>
             <div class="col-sm-10">
@@ -42,28 +43,26 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="inputBirthday" class="col-sm-2 col-form-label">Birthday</label>
+            <label for="inputStartDate" class="col-sm-2 col-form-label">Start Date</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputBirthday"
-                       name="birthday" placeholder="yyyy-mm-dd">
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputEmail" name="email">
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="inputAddress" class="col-sm-2 col-form-label">Billing Address</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputAddress" name="address">
+                <input type="text" class="form-control" id="inputStartDate"
+                       name="startDate" placeholder="yyyy-mm-dd">
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <div class="form-group row">
+            <label for="inputEndDate" class="col-sm-2 col-form-label">End Date</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputEndDate"
+                       name="endDate" placeholder="yyyy-mm-dd">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Confirm</button>
         <button type="button" class="btn btn-light" onclick="history.go(-1);">Cancel</button>
     </form>
+
+
 </div>
 </body>
 </html>

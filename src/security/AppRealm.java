@@ -1,16 +1,16 @@
 package security;
 
 import domain.Clerk;
+import domain.Customer;
 import domain.Manager;
 import domain.Staff;
-import domain.User;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import service.CustomerService;
 import service.StaffService;
-import service.UserService;
 import util.Params;
 
 import java.util.HashSet;
@@ -28,9 +28,9 @@ public class AppRealm extends JdbcRealm {
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
         final String username = usernamePasswordToken.getUsername();
 
-        User user = new User();
-        user.setUsername(username);
-        user = new UserService().findUserByName(user);
+        Customer customer = new Customer();
+        customer.setUsername(username);
+        customer = new CustomerService().findUserByName(customer);
         Staff manager = new Manager();
         manager.setStaffUName(username);
         manager = new StaffService().findStaffByName(manager);
@@ -38,8 +38,12 @@ public class AppRealm extends JdbcRealm {
         clerk.setStaffUName(username);
         clerk = new StaffService().findStaffByName(clerk);
 
-        if (user != null) {
-            return new SimpleAuthenticationInfo(user.getId(), user.getuPassword(), getName());
+        if (customer != null) {
+            return new SimpleAuthenticationInfo(customer.getId(), customer.getuPassword(), getName());
+        }else if (manager != null){
+            return new SimpleAuthenticationInfo(manager.getId(), manager.getStaffPassword(), getName());
+        }else if (clerk != null){
+            return new SimpleAuthenticationInfo(clerk.getId(), clerk.getStaffPassword(), getName());
         }
         return null;
     }
@@ -53,16 +57,16 @@ public class AppRealm extends JdbcRealm {
         }
 
         String id = (String) principals.getPrimaryPrincipal();
-        User user = new User();
-        user.setUserId(id);
-        user = new UserService().findUserById(user);
+        Customer customer = new Customer();
+        customer.setUserId(id);
+        customer = new CustomerService().findUserById(customer);
         Staff manager = new Manager();
         manager.setStaffId(id);
         manager = new StaffService().findStaffById(manager);
         Staff clerk = new Clerk();
         clerk.setStaffId(id);
         clerk = new StaffService().findStaffById(clerk);
-        if (user != null) {
+        if (customer != null) {
             roles.add(Params.CUSTOMER_ROLE);
             return new SimpleAuthorizationInfo(roles);
         } else if (manager != null) {
@@ -72,7 +76,7 @@ public class AppRealm extends JdbcRealm {
             roles.add(Params.CLERK_ROLE);
             return new SimpleAuthorizationInfo(roles);
         } else {
-            System.out.println("No account found for user with id " + id);
+            System.out.println("No account found for customer with id " + id);
             return null;
         }
     }

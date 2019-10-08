@@ -1,8 +1,8 @@
 package service;
 
+import domain.Customer;
 import domain.Order;
 import domain.OrderDetail;
-import domain.User;
 import mapper.OrderDetailMapper;
 import mapper.OrderMapper;
 import util.IdentityMap;
@@ -48,8 +48,8 @@ public class OrderService {
         }
     }
 
-    public List<Order> findOrderByUser(User user){
-        return orderMapper.findOrderByUser(user);
+    public List<Order> findOrderByUser(Customer customer){
+        return orderMapper.findOrderByUser(customer);
     }
 
     public List<OrderDetail> findOrderDetailsByOrderId(Order order){

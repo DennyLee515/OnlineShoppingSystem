@@ -2,18 +2,18 @@ package domain;/**
  * Created by DennyLee on 2019/9/1.
  */
 
-import mapper.UserMapper;
+import mapper.CustomerMapper;
 
 import java.util.Date;
 import java.util.UUID;
 
 /**
  * @program: CoffeeWeb
- * @description: User object
+ * @description: Customer object
  * @author: DennyLee
  * @create: 2019-09-01 19:31
  **/
-public class User extends DomainObject {
+public class Customer extends DomainObject {
     //user id
     private String userId;
     //user firstname
@@ -32,14 +32,13 @@ public class User extends DomainObject {
     private String address;
 
     //constructor
-    public User() {
+    public Customer() {
     }
 
     //constructor with firstname, lastname, username, password, birthday, email, address
-    public User(String uFname, String uLname, String username, String uPassword, Date
+    public Customer(String uFname, String uLname, String username, String uPassword, Date
             birthday, String userEmail, String address) {
         this.userId = UUID.randomUUID().toString();
-        ;
         this.uFname = uFname;
         this.uLname = uLname;
         this.username = username;
@@ -117,8 +116,8 @@ public class User extends DomainObject {
 
     //use lazy load to reduce request
     private void load() {
-        UserMapper userMapper = new UserMapper();
-        User record = userMapper.findUserById(this);
+        CustomerMapper userMapper = new CustomerMapper();
+        Customer record = userMapper.findUserById(this);
         if (this.uFname == null) {
             this.uFname = record.getuFname();
         }

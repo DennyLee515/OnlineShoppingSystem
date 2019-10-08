@@ -11,14 +11,27 @@ public class DBConnection {
 //    private static final String DB_USER = "pwjesluumgiswf";
 //    private static final String DB_PASSWORD = "d0d4359a22d526b08b2810d7037c76dbf885faa2c357db503802524ce6a677cf";
 
-    public static Connection dbConnection = null;
+    public static Connection dbConnection;
+
+//    public static PreparedStatement prepareTrans(String stm) {
+//
+//        PreparedStatement preparedStatement = null;
+//        try {
+//            dbConnection.setAutoCommit(false);
+//            preparedStatement = dbConnection.prepareStatement(stm);
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//
+//        return preparedStatement;
+//    }
 
     public static PreparedStatement prepare(String stm) {
 
         PreparedStatement preparedStatement = null;
         try {
             Connection dbConnection = getDBConnection();
-
+            dbConnection.setAutoCommit(false);
             preparedStatement = dbConnection.prepareStatement(stm);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -32,7 +45,7 @@ public class DBConnection {
         dbConnection.close();
     }
 
-    private static Connection getDBConnection() {
+    public static Connection getDBConnection() {
         try {
 
             DriverManager.registerDriver(new org.postgresql.Driver());

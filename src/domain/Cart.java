@@ -13,17 +13,17 @@ import java.util.UUID;
 public class Cart extends DomainObject{
     //cart id
     private String cartId;
-    //user id the cart belongs to
-    private User user;
+    //customer id the cart belongs to
+    private Customer customer;
 
     //constructor
     public Cart() {
     }
 
-    //constructor with user
-    public Cart(User user) {
+    //constructor with customer
+    public Cart(Customer customer) {
         this.cartId = UUID.randomUUID().toString();
-        this.user = user;
+        this.customer = customer;
     }
 
     //getter and setter method
@@ -36,15 +36,15 @@ public class Cart extends DomainObject{
         this.cartId = cartId;
     }
 
-    public User getUser() {
-        if (this.user == null){
+    public Customer getCustomer() {
+        if (this.customer == null){
             load();
         }
-        return user;
+        return customer;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     //use lazy load to reduce request
@@ -52,8 +52,8 @@ public class Cart extends DomainObject{
         CartMapper cartMapper = new CartMapper();
         Cart record = cartMapper.findCartById(this);
 
-        if (this.user == null) {
-            this.user = record.getUser();
+        if (this.customer == null) {
+            this.customer = record.getCustomer();
         }
 
     }

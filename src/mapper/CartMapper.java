@@ -1,14 +1,15 @@
 package mapper;
 
 import domain.Cart;
+import domain.Customer;
 import domain.DomainObject;
-import domain.User;
-import sun.dc.pr.PRError;
 import util.DBConnection;
 import util.IdentityMap;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * @program: CoffeeWeb
@@ -29,18 +30,31 @@ public class CartMapper extends DataMapper {
         String insertNewCart = "INSERT INTO public.cart " +
                 "(cart_id, user_id)" +
                 "VALUES (?,?)";
-        int result = 0;
+        boolean result;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(insertNewCart);
             preparedStatement.setString(1, cart.getId());
-            preparedStatement.setString(2, cart.getUser().getId());
-            result = preparedStatement.executeUpdate();
-            DBConnection.close(preparedStatement);
+            preparedStatement.setString(2, cart.getCustomer().getId());
+            result = preparedStatement.executeUpdate()==1;
 
-        } catch (Exception e) {
+            DBConnection.dbConnection.commit();
+
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return result != 0;
+        return result;
     }
 
     /**
@@ -53,15 +67,28 @@ public class CartMapper extends DataMapper {
     public boolean delete(DomainObject domainObject) {
         Cart cart = (Cart) domainObject;
         String deletCategoryById = "DELETE FROM public.cart WHERE cart_id = ?";
-        int result = 0;
+        boolean result;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(deletCategoryById);
             preparedStatement.setString(1, cart.getId());
-            result = preparedStatement.executeUpdate();
-        } catch (Exception e) {
+            result = preparedStatement.executeUpdate() ==1;
+            DBConnection.dbConnection.commit();
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return result != 0;
+        return result;
     }
 
     /**
@@ -75,18 +102,29 @@ public class CartMapper extends DataMapper {
         Cart cart = (Cart) domainObject;
         String updateCartById = "UPDATE public.cart SET " +
                 "user_id =? WHERE cart_id = ?";
-        int result = 0;
+        boolean result;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(updateCartById);
-            preparedStatement.setString(1, cart.getUser().getId());
+            preparedStatement.setString(1, cart.getCustomer().getId());
             preparedStatement.setString(2, cart.getId());
-            result = preparedStatement.executeUpdate();
-
-            DBConnection.close(preparedStatement);
-        } catch (Exception e) {
+            result = preparedStatement.executeUpdate()==1;
+            DBConnection.dbConnection.commit();
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return result != 0;
+        return result;
     }
 
     /**
@@ -109,11 +147,11 @@ public class CartMapper extends DataMapper {
                 IdentityMap<Cart> identityMap = IdentityMap.getInstance(cart1);
 
                 cart1.setCartId(resultSet.getString(1));
-                User user = new User();
-                user.setUserId(resultSet.getString(2));
-                UserMapper userMapper = new UserMapper();
-                user = userMapper.findUserById(user);
-                cart1.setUser(user);
+                Customer customer = new Customer();
+                customer.setUserId(resultSet.getString(2));
+                CustomerMapper userMapper = new CustomerMapper();
+                customer = userMapper.findUserById(customer);
+                cart1.setCustomer(customer);
 
                 identityMap.put(cart1.getId(), cart1);
                 return cart1;
@@ -128,16 +166,16 @@ public class CartMapper extends DataMapper {
     /**
      * find a cart by user_id in cart table
      *
-     * @param domainObject User
+     * @param domainObject Customer
      * @return a Cart object or null
      */
     public Cart findCartByUserId(DomainObject domainObject) {
-        User user = (User) domainObject;
+        Customer customer = (Customer) domainObject;
         String findCartById = "SELECT * FROM public.cart WHERE user_id = ?";
 
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(findCartById);
-            preparedStatement.setString(1, user.getId());
+            preparedStatement.setString(1, customer.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
@@ -145,11 +183,11 @@ public class CartMapper extends DataMapper {
                 IdentityMap<Cart> identityMap = IdentityMap.getInstance(cart1);
 
                 cart1.setCartId(resultSet.getString(1));
-                User user1 = new User();
-                user.setUserId(resultSet.getString(2));
-                UserMapper userMapper = new UserMapper();
-                user1 = userMapper.findUserById(user1);
-                cart1.setUser(user1);
+                Customer customer1 = new Customer();
+                customer.setUserId(resultSet.getString(2));
+                CustomerMapper userMapper = new CustomerMapper();
+                customer1 = userMapper.findUserById(customer1);
+                cart1.setCustomer(customer1);
 
                 identityMap.put(cart1.getId(), cart1);
                 return cart1;

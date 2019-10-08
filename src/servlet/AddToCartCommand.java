@@ -3,7 +3,7 @@ package servlet;
 import domain.CartDetail;
 import domain.Category;
 import domain.Product;
-import domain.User;
+import domain.Customer;
 import security.AppSession;
 import service.CartService;
 import service.CategoryService;
@@ -27,9 +27,9 @@ public class AddToCartCommand extends FrontCommand{
 
         if (AppSession.isAuthenticated()){
             if (AppSession.hasRole(Params.CUSTOMER_ROLE)){
-                User user = AppSession.getUser();
+                Customer customer = AppSession.getUser();
                 try {
-                    LockManager.getInstance().acquireWriteLock(user);
+                    LockManager.getInstance().acquireWriteLock(customer);
                 }catch (InterruptedException e){
                     System.out.println("Acquiring write lock when adding a product failed.");
                 }
@@ -53,11 +53,11 @@ public class AddToCartCommand extends FrontCommand{
                 CartService cartService = new CartService();
 
                 //add to cart
-                boolean result=cartService.AddToCart(user,product,amount,category);
-                LockManager.getInstance().releaseWriteLock(user);
+                boolean result=cartService.AddToCart(customer,product,amount,category);
+                LockManager.getInstance().releaseWriteLock(customer);
 
                 if (result){
-                    List<CartDetail> cartDetails = cartService.findCartDetailByUserId(user);
+                    List<CartDetail> cartDetails = cartService.findCartDetailByUserId(customer);
                     request.setAttribute("cartDetails", cartDetails);
                     forward("/jsp/user/cart.jsp");
                 }else {

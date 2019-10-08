@@ -17,14 +17,7 @@
 </head>
 <body>
 <div id="welcome" class="card-title"><b>Product Management</b></div>
-<div id="navi">
-    <ul>
-        <li><a href="frontservlet?command=AdminProduct">Product Management</a></li>
-        <li><a href="frontservlet?command=AdminCategory">Category Management</a></li>
-        <li><a href="frontservlet?command=AdminOrder">OrderManagement</a></li>
-        <li><a href="index.jsp">Logout</a></li>
-    </ul>
-</div>
+<%@include file="adminNavi.jsp"%>
 <div id="product" class="container">
     <div class="table">
         <table width="100%">

@@ -3,8 +3,6 @@ package service;
 import domain.*;
 import mapper.CartDetailMapper;
 import mapper.CartMapper;
-import mapper.ProductMapper;
-import mapper.UserMapper;
 import util.UnitOfWork;
 
 import java.util.List;
@@ -27,15 +25,15 @@ public class CartService {
     /**
      * Add a product to cart, create new cart detail and related to cart
      *
-     * @param user     User logged in
+     * @param customer     Customer logged in
      * @param product  Product to add
      * @param amount   product amount
      * @param category product category
      * @return result
      */
-    public boolean AddToCart(User user, Product product, int amount, Category category) {
+    public boolean AddToCart(Customer customer, Product product, int amount, Category category) {
         try {
-            Cart cart = findCartByUserId(user);
+            Cart cart = findCartByUserId(customer);
             CartDetail cartDetailFinded = cartDetailMapper.findProductInCart(cart, product,
                     category);
             boolean result;
@@ -117,13 +115,13 @@ public class CartService {
     }
 
     /**
-     * find all cart details related to a user by user id
+     * find all cart details related to a customer by customer id
      *
-     * @param user User
+     * @param customer Customer
      * @return a list of CartDetail object or null
      */
-    public List<CartDetail> findCartDetailByUserId(User user) {
-        Cart cart = findCartByUserId(user);
+    public List<CartDetail> findCartDetailByUserId(Customer customer) {
+        Cart cart = findCartByUserId(customer);
         List<CartDetail> cartDetails = cartDetailMapper.findCartDetailByCartId(cart);
         for (CartDetail cartDetail:cartDetails) {
             Product product = cartDetail.getProduct();
@@ -138,13 +136,13 @@ public class CartService {
     }
 
     /**
-     * find a cart related to a user by user id
+     * find a cart related to a customer by customer id
      *
-     * @param user User
+     * @param customer Customer
      * @return a Cartobject or null
      */
-    public Cart findCartByUserId(User user) {
-        return cartMapper.findCartByUserId(user);
+    public Cart findCartByUserId(Customer customer) {
+        return cartMapper.findCartByUserId(customer);
     }
 
     public boolean updatePrice(Product product) {
@@ -153,9 +151,9 @@ public class CartService {
         return cartDetailMapper.updatePrice(product1);
     }
 
-    public boolean clearCartByUser(User user){
-        Cart cart = new Cart(user);
-        boolean result = deleteCart(findCartByUserId(user)) && newCart(cart);
+    public boolean clearCartByUser(Customer customer){
+        Cart cart = new Cart(customer);
+        boolean result = deleteCart(findCartByUserId(customer)) && newCart(cart);
         return result;
     }
 }

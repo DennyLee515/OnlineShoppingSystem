@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import mapper.LockingMapper;
 import org.junit.Assert;
 
 public class UnitOfWork {
@@ -100,24 +101,30 @@ public class UnitOfWork {
         boolean result;
         try {
             for (DomainObject obj : newObjects) {
-                result = DataMapper.getMapper(obj).insert(obj);
-                if (!result){
+                DataMapper dataMapper = DataMapper.getMapper(obj);
+                LockingMapper lockingMapper = new LockingMapper(dataMapper);
+                result =lockingMapper.insert(obj);
+
                     return result;
-                }
+
             }
             for (DomainObject obj : dirtyObjects) {
-                result = DataMapper.getMapper(obj).update(obj);
-                if (!result){
+                DataMapper dataMapper = DataMapper.getMapper(obj);
+                LockingMapper lockingMapper = new LockingMapper(dataMapper);
+                result =lockingMapper.update(obj);
+
                     return result;
-                }
+
             }
             for (DomainObject obj : deleteObjects) {
-                result = DataMapper.getMapper(obj).delete(obj);
-                if (!result){
+                DataMapper dataMapper = DataMapper.getMapper(obj);
+                LockingMapper lockingMapper = new LockingMapper(dataMapper);
+                result =lockingMapper.delete(obj);
+
                     return result;
-                }
+
             }
-            return true;
+            return false;
         } catch (Exception e) {
             e.printStackTrace();
         }

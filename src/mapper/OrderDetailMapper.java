@@ -4,12 +4,11 @@ import domain.*;
 import service.CategoryService;
 import service.OrderService;
 import service.ProductService;
-import service.UserService;
 import util.DBConnection;
-import util.IdentityMap;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,19 +26,32 @@ public class OrderDetailMapper extends DataMapper{
         String insertOrderDetail = "INSERT INTO public.order_detail " +
                 "(order_id, product_id, product_amount, p_category_id) " +
                 "VALUES (?,?,?,?)";
-        int result = 0;
+        boolean result;
         try{
             PreparedStatement preparedStatement = DBConnection.prepare(insertOrderDetail);
             preparedStatement.setString(1,orderDetail.getOrder().getId());
             preparedStatement.setString(2,orderDetail.getProduct().getId());
             preparedStatement.setInt(3,orderDetail.getProductAmount());
             preparedStatement.setString(4,orderDetail.getProductCategory().getId());
-            result = preparedStatement.executeUpdate();
+            result = preparedStatement.executeUpdate() ==1;
 
-        }catch (Exception e){
+            DBConnection.dbConnection.commit();
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return result!=0;
+        return result;
     }
 
     @Override

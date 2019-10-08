@@ -34,7 +34,7 @@ public class ProductMapper extends DataMapper {
         String insertProduct = "INSERT INTO public.product " +
                 "(product_id, product_name, info, price, weight, created_at,inventory)" +
                 "VALUES(?,?,?,?,?,?,?)";
-        int result = 0;
+        boolean result;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(insertProduct);
             preparedStatement.setString(1, product.getId());
@@ -44,13 +44,25 @@ public class ProductMapper extends DataMapper {
             preparedStatement.setInt(5, product.getWeight());
             preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
             preparedStatement.setInt(7, product.getInventory());
-            result = preparedStatement.executeUpdate();
+            result = preparedStatement.executeUpdate()==1;
 
-            DBConnection.close(preparedStatement);
-        } catch (Exception e) {
+            DBConnection.dbConnection.commit();
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return result != 0;
+        return result;
     }
 
     /**
@@ -63,17 +75,29 @@ public class ProductMapper extends DataMapper {
     public boolean delete(DomainObject domainObject) {
         Product product = (Product) domainObject;
         String deleteProductById = "DELETE FROM public.product WHERE product_id = ?";
-        int result = 0;
+        boolean result;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(deleteProductById);
             preparedStatement.setString(1, product.getId());
-            result = preparedStatement.executeUpdate();
+            result = preparedStatement.executeUpdate()==1;
 
-            DBConnection.close(preparedStatement);
-        } catch (Exception e) {
+            DBConnection.dbConnection.commit();
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return result != 0;
+        return result;
     }
 
     /**
@@ -88,7 +112,7 @@ public class ProductMapper extends DataMapper {
         String updateProductById = "UPDATE public.product SET " +
                 "product_name=?, info=?, price=?, weight=?, created_at=? ,inventory=?" +
                 "WHERE product_id=?";
-        int result = 0;
+        boolean result;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(updateProductById);
             preparedStatement.setString(1, product.getProductName());
@@ -98,13 +122,25 @@ public class ProductMapper extends DataMapper {
             preparedStatement.setTimestamp(5, new Timestamp(product.getCreatedAt().getTime()));
             preparedStatement.setInt(6, product.getInventory());
             preparedStatement.setString(7, product.getId());
-            result = preparedStatement.executeUpdate();
+            result = preparedStatement.executeUpdate() ==1;
 
-            DBConnection.close(preparedStatement);
-        } catch (Exception e) {
+            DBConnection.dbConnection.commit();
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return result != 0;
+        return result;
     }
 
     /**
@@ -289,19 +325,30 @@ public class ProductMapper extends DataMapper {
     public boolean deleteRelation(Product product, Category category) {
         String deleteRelationByProduct = "DELETE FROM public.product_category WHERE " +
                 "category_id = ? and product_id = ?";
+        boolean result;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(deleteRelationByProduct);
             preparedStatement.setString(1, category.getId());
             preparedStatement.setString(2, product.getId());
-            int result = preparedStatement.executeUpdate();
+             result = preparedStatement.executeUpdate() ==1;
 
-            DBConnection.close(preparedStatement);
-            return result != 0;
-
-        } catch (Exception e) {
+            DBConnection.dbConnection.commit();
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return false;
+        return result;
     }
 
     /**
@@ -313,18 +360,29 @@ public class ProductMapper extends DataMapper {
     public boolean deleteAllRelationsByProduct(Product product) {
         String deleteRelationByProduct = "DELETE FROM public.product_category WHERE " +
                 "product_id = ?";
+        boolean result;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(deleteRelationByProduct);
             preparedStatement.setString(1, product.getId());
-            int result = preparedStatement.executeUpdate();
+             result = preparedStatement.executeUpdate() ==1;
 
-            DBConnection.close(preparedStatement);
-            return result != 0;
-
-        } catch (Exception e) {
+            DBConnection.dbConnection.commit();
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return false;
+        return result;
     }
 
     /**
@@ -338,18 +396,30 @@ public class ProductMapper extends DataMapper {
         String deleteRelationByProduct = "INSERT INTO public.product_category " +
                 "(category_id, product_id) " +
                 "VALUES (?,?)";
+        boolean result;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(deleteRelationByProduct);
             preparedStatement.setString(1, category.getId());
             preparedStatement.setString(2, product.getId());
-            int result = preparedStatement.executeUpdate();
+             result = preparedStatement.executeUpdate() ==1;
 
-            DBConnection.close(preparedStatement);
-            return result != 0;
-        } catch (Exception e) {
+            DBConnection.dbConnection.commit();
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return false;
+        return result;
     }
 
     /**

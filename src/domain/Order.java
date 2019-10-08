@@ -16,8 +16,8 @@ import java.util.UUID;
 public class Order extends DomainObject {
     //order id
     private String orderId;
-    //the user a order belongs to
-    private User user;
+    //the customer a order belongs to
+    private Customer customer;
     //total price of order
     private double totalPrice;
     //date of the order
@@ -31,10 +31,10 @@ public class Order extends DomainObject {
     public Order() {
     }
 
-    //constructor with user, total price, order time
-    public Order(User user, double totalPrice,String address,String status){
+    //constructor with customer, total price, order time
+    public Order(Customer customer, double totalPrice, String address, String status){
         this.orderId = UUID.randomUUID().toString();
-        this.user = user;
+        this.customer = customer;
         this.totalPrice = totalPrice;
         this.orderTime = this.updateTime = new Date();
         this.address = address;
@@ -55,14 +55,14 @@ public class Order extends DomainObject {
         this.orderId = orderId;
     }
 
-    public User getUser() {
-        if (this.user == null)
+    public Customer getCustomer() {
+        if (this.customer == null)
             load();
-        return user;
+        return customer;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public double getTotalPrice() {
@@ -126,8 +126,8 @@ public class Order extends DomainObject {
         if (this.totalPrice == 0.0) {
             this.totalPrice = record.getTotalPrice();
         }
-        if (this.user == null) {
-            this.user = record.getUser();
+        if (this.customer == null) {
+            this.customer = record.getCustomer();
         }
         if (this.address == null){
             this.address = record.getAddress();

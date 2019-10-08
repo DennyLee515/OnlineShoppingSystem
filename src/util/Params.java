@@ -10,6 +10,7 @@ public class Params {
     public static final String USER = "user";
 
     public static final String USER_ATTRIBUTE_NAME = "user";
+    public static final String STAFF_ATTRIBUTE_NAME = "staff";
     public static final String CUSTOMER_ROLE = "customer";
     public static final String MANAGER_ROLE = "manager";
     public static final String CLERK_ROLE = "clerk";

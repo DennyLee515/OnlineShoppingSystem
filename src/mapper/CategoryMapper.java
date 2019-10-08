@@ -8,6 +8,7 @@ import util.IdentityMap;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,18 +32,29 @@ public class CategoryMapper extends DataMapper {
         String insertNewCategory = "INSERT INTO public.category " +
                 "(category_id, category_name)" +
                 "VALUES (?,?)";
-        int result = 0;
+        boolean result;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(insertNewCategory);
             preparedStatement.setString(1, category.getId());
             preparedStatement.setString(2, category.getCategoryName());
-            result = preparedStatement.executeUpdate();
-            DBConnection.close(preparedStatement);
-
-        } catch (Exception e) {
+            result = preparedStatement.executeUpdate() == 1;
+            DBConnection.dbConnection.commit();
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return result != 0;
+        return result;
     }
 
     /**
@@ -55,15 +67,28 @@ public class CategoryMapper extends DataMapper {
     public boolean delete(DomainObject domainObject) {
         Category category = (Category) domainObject;
         String deletCategoryById = "DELETE FROM public.category WHERE category_id = ?";
-        int result = 0;
+        boolean result;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(deletCategoryById);
             preparedStatement.setString(1, category.getId());
-            result = preparedStatement.executeUpdate();
-        } catch (Exception e) {
+            result = preparedStatement.executeUpdate() == 1;
+            DBConnection.dbConnection.commit();
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return result != 0;
+        return result;
     }
 
     /**
@@ -77,18 +102,30 @@ public class CategoryMapper extends DataMapper {
         Category category = (Category) domainObject;
         String updateCategoryById = "UPDATE public.category SET " +
                 "category_name=? WHERE category_id = ?";
-        int result = 0;
+        boolean result;
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(updateCategoryById);
             preparedStatement.setString(1, category.getCategoryName());
             preparedStatement.setString(2, category.getId());
-            result = preparedStatement.executeUpdate();
+            result = preparedStatement.executeUpdate() == 1;
 
-            DBConnection.close(preparedStatement);
-        } catch (Exception e) {
+            DBConnection.dbConnection.commit();
+        } catch (SQLException e) {
+            try {
+                System.out.println("Rollback");
+                DBConnection.dbConnection.rollback();
+            } catch (SQLException ignored) {
+                System.out.println("Rollback failed.");
+            }
+            result = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (DBConnection.dbConnection != null) DBConnection.dbConnection.close();
+            } catch (SQLException ignored) {
+            }
         }
-        return result != 0;
+        return result;
     }
 
     /**

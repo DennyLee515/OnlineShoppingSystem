@@ -11,7 +11,7 @@
 <div id="navi">
     <ul>
         <li><a href="frontservlet?command=ForwardUserHome">Customer</a></li>
-        <li><a href="frontservlet?command=AdminLogin">Login as Admin</a></li>
+        <li><a href="frontservlet?command=ForwardAdminLogin">Staff</a></li>
     </ul>
 </div>
 </body>

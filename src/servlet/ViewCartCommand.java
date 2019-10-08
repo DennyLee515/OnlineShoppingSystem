@@ -2,14 +2,12 @@ package servlet;
 
 
 import domain.CartDetail;
-import domain.User;
+import domain.Customer;
 import security.AppSession;
 import service.CartService;
-import service.UserService;
 import util.Params;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -22,10 +20,10 @@ public class ViewCartCommand extends FrontCommand {
 
         if (AppSession.isAuthenticated()) {
             if (AppSession.hasRole(Params.CUSTOMER_ROLE)) {
-                //find a cart by user
+                //find a cart by customer
                 CartService cartService = new CartService();
-                User user = AppSession.getUser();
-                List<CartDetail> cartDetails = cartService.findCartDetailByUserId(user);
+                Customer customer = AppSession.getUser();
+                List<CartDetail> cartDetails = cartService.findCartDetailByUserId(customer);
                 //return result
                 request.setAttribute("cartDetails", cartDetails);
                 forward("/jsp/user/cart.jsp");

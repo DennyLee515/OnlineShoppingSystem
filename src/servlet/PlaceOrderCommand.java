@@ -20,11 +20,11 @@ public class PlaceOrderCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         String address = request.getParameter("address");
-        User user = AppSession.getUser();
+        Customer customer = AppSession.getUser();
         Double totalPrice = 0.0;
-        Order order = new Order(user,totalPrice,address,Params.PENDING);
+        Order order = new Order(customer,totalPrice,address,Params.PENDING);
         CartService cartService = new CartService();
-        List<CartDetail> cartDetails = cartService.findCartDetailByUserId(user);
+        List<CartDetail> cartDetails = cartService.findCartDetailByUserId(customer);
         OrderService orderService = new OrderService();
         boolean result = true;
         for (CartDetail cartDetail:cartDetails){
@@ -39,7 +39,7 @@ public class PlaceOrderCommand extends FrontCommand {
             result = result&&orderService.insertOrderDetail(orderDetail);
         }
         order.setTotalPrice(totalPrice);
-        if (result && orderService.insertOrder(order) && cartService.clearCartByUser(user)){
+        if (result && orderService.insertOrder(order) && cartService.clearCartByUser(customer)){
         forward("/jsp/user/orderSuccess.jsp");}else {
             request.setAttribute("ErrMsg","Fail to place the order!");
             forward("/jsp/error.jsp");

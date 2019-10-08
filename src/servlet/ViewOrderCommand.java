@@ -1,8 +1,7 @@
 package servlet;
 
 import domain.Order;
-import domain.OrderDetail;
-import domain.User;
+import domain.Customer;
 import security.AppSession;
 import service.OrderService;
 import util.Params;
@@ -22,9 +21,9 @@ public class ViewOrderCommand extends FrontCommand{
     public void process() throws ServletException, IOException {
         if (AppSession.isAuthenticated()){
             if (AppSession.hasRole(Params.CUSTOMER_ROLE)){
-                User user =AppSession.getUser();
+                Customer customer =AppSession.getUser();
                 OrderService orderService = new OrderService();
-                List<Order> orders = orderService.findOrderByUser(user);
+                List<Order> orders = orderService.findOrderByUser(customer);
                 request.setAttribute("orders",orders);
                 forward("/jsp/user/viewOrders.jsp");
             }

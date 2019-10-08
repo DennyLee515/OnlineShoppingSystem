@@ -15,7 +15,7 @@
                 Logout</a></b>
         </shiro:authenticated>
         <shiro:notAuthenticated>
-            <b><a href="frontservlet?command=UserLogin">Log In</a></b>
+            <b><a href="frontservlet?command=ForwardUserLogin">Log In</a></b>
         </shiro:notAuthenticated>
     </div>
 </div>

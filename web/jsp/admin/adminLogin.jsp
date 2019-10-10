@@ -7,19 +7,35 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="security.AppSession" %>
-<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <html>
 <head>
     <title>York Way Coffee</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
 <shiro:notAuthenticated>
-    <form action="frontservlet?command=Login" method="post">
-        <input type="text" name="username">
-        <input type="password" name="password">
-        <input type="submit" value="Login">
-    </form>
-<%--    <div><a href="frontservlet?command=ForwardAddAdmin">Sign up</a> </div>--%>
+    <div id="welcome" class="card-title"><b>Login</b></div>
+    <div class="container">
+        <form action="frontservlet?command=Login" method="post">
+            <div class="form-group row">
+                <label for="inputUsername" class="col-sm-2 col-form-label">Username</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputUsername" name="username">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="inputPassword"
+                           name="password">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="button" class="btn btn-light" onclick="history.go(-1);">Cancel</button>
+        </form>
+    </div>
 </shiro:notAuthenticated>
 <shiro:authenticated>
     You are already logged in as <%=AppSession.getStaff().getStaffUName()%>

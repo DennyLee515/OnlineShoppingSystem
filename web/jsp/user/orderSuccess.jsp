@@ -17,16 +17,17 @@
         Thank you for your purchase!
         Your order is pending confirm.
         <div class="float-left">
-            <button type="button" class="btn btn-light" href="frontservlet?command=ViewOrder">My Orders</button>
+            <a role="button" methods="post" href="frontservlet?command=ViewOrder">My
+                Orders</a>
         </div>
     </shiro:hasRole>
 </shiro:authenticated>
 <shiro:notAuthenticated>
     <script>
-    alert("Please log in");
-    window.location.href = "frontservlet?command=UserLogin"
+        alert("Please log in");
+        window.location.href = "frontservlet?command=UserLogin"
     </script>
-</shiro:notAuthenticated>>
+</shiro:notAuthenticated>
 
 </body>
 </html>

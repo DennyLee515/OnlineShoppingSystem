@@ -61,7 +61,7 @@ public class AdminManageOrderCommand extends FrontCommand {
 
                         boolean result = new OrderService().updateOrderById(order);
                         if (result)
-                            forward("/jsp/admin/orderManage.jsp");
+                            redirect("frontservlet?command=AdminOrder");
                         break;
 
                     default:

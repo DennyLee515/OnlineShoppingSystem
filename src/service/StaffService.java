@@ -1,5 +1,6 @@
 package service;
 
+import domain.Clerk;
 import domain.Manager;
 import domain.Staff;
 import mapper.StaffMapper;
@@ -61,12 +62,21 @@ public class StaffService {
      * @return a staff object or null
      */
     public Staff findStaffById(Staff staff) {
+        Staff result;
         IdentityMap<Staff> identityMap = IdentityMap.getInstance(staff);
         Staff staffFinded = identityMap.get(staff.getId());
         if (staffFinded != null) {
-            return staffFinded;
+            result = staffFinded;
+        }else{
+            result =staffMapper.findStaffById(staff);
         }
-        return staffMapper.findStaffById(staff);
+        if (result instanceof Manager && staff instanceof Manager){
+            return (Manager)result;
+        }else if (result instanceof Clerk && staff instanceof Clerk){
+            return (Clerk)result;
+        }else {
+            return null;
+        }
     }
 
     public Staff findStaffByName(Staff staff) {

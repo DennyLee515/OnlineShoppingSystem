@@ -2,8 +2,11 @@ package util;
 
 import domain.*;
 import mapper.*;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 import org.junit.Assert;
 import service.CategoryService;
+import service.StaffService;
 import service.facade.OrderServiceBean;
 
 /**
@@ -59,7 +62,12 @@ public class test {
 
 //            Category category =new Category();
 //            category.setCategoryId("d40a490e-c242-441a-8a44-e1b4550c15ca");
-//
+String username = "manager";
+String password = "password";
+            ByteSource salt = ByteSource.Util.bytes(username);
+            String encryptedPassword = new SimpleHash("MD5", password, salt, 1024).toHex();
+            Manager manager = new Manager(username,encryptedPassword,"manager@email.com");
+            new StaffService().insert(manager);
 //            CategoryService categoryService = new CategoryService();
 //            System.out.println(categoryService.findCategroyById(category));
 
@@ -91,7 +99,7 @@ public class test {
 //            System.out.println(staff2);
 //            staffMapper.insert(manager);
 //            staffMapper.insert(clerk);
-            System.out.println(new OrderServiceBean().findOrderById("bde2e64a-8907-4831-a368-4427f5975fcb"));
+//            System.out.println(new OrderServiceBean().findOrderById("bde2e64a-8907-4831-a368-4427f5975fcb"));
 //            Category category = new Category("Medium Roast");
 //            System.out.println(new CategoryService().newCategory(category));
 //            System.out.println(staffMapper.delete(staff));

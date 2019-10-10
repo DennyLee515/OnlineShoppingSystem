@@ -4,6 +4,7 @@ import domain.*;
 import mapper.*;
 import org.junit.Assert;
 import service.CategoryService;
+import service.facade.OrderServiceBean;
 
 /**
  * @program: CoffeeWeb
@@ -90,9 +91,9 @@ public class test {
 //            System.out.println(staff2);
 //            staffMapper.insert(manager);
 //            staffMapper.insert(clerk);
-
-            Category category = new Category("Medium Roast");
-            System.out.println(new CategoryService().newCategory(category));
+            System.out.println(new OrderServiceBean().findOrderById("bde2e64a-8907-4831-a368-4427f5975fcb"));
+//            Category category = new Category("Medium Roast");
+//            System.out.println(new CategoryService().newCategory(category));
 //            System.out.println(staffMapper.delete(staff));
 //            System.out.println(productMapper.getAllCategories().get(0).getProductName());
 //            ProductService productService = new ProductService();

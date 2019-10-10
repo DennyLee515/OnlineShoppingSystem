@@ -122,6 +122,16 @@ public class CartService {
      */
     public List<CartDetail> findCartDetailByUserId(Customer customer) {
         Cart cart = findCartByUserId(customer);
+        return findCartDetailByCartId(cart);
+    }
+
+    /**
+     * find all cart details related to a cart
+     *
+     * @param cart Cart
+     * @return a list of CartDetail object or null
+     */
+    public List<CartDetail> findCartDetailByCartId(Cart cart) {
         List<CartDetail> cartDetails = cartDetailMapper.findCartDetailByCartId(cart);
         for (CartDetail cartDetail:cartDetails) {
             Product product = cartDetail.getProduct();
@@ -133,6 +143,16 @@ public class CartService {
             }
         }
         return cartDetails;
+    }
+
+    /**
+     * find a cart related to a customer by customer id
+     *
+     * @param cart Cart
+     * @return a Cartobject or null
+     */
+    public Cart findCartById(Cart cart) {
+        return cartMapper.findCartById(cart);
     }
 
     /**
@@ -152,8 +172,17 @@ public class CartService {
     }
 
     public boolean clearCartByUser(Customer customer){
-        Cart cart = new Cart(customer);
-        boolean result = deleteCart(findCartByUserId(customer)) && newCart(cart);
+        Cart cart = findCartByUserId(customer);
+        boolean result = deleteAllCartDetails(cart);
+        return result;
+    }
+
+    public boolean deleteAllCartDetails(Cart cart){
+        boolean result = true;
+        List<CartDetail> cartDetails = findCartDetailByCartId(cart);
+        for (CartDetail cartDetail:cartDetails) {
+            result= result && deleteCartDetail(cartDetail);
+        }
         return result;
     }
 }

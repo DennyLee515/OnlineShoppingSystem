@@ -21,16 +21,16 @@ import java.util.List;
  * @author: DennyLee
  * @create: 2019-09-07 18:01
  **/
-public class AddToCartCommand extends FrontCommand{
+public class AddToCartCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
 
-        if (AppSession.isAuthenticated()){
-            if (AppSession.hasRole(Params.CUSTOMER_ROLE)){
+        if (AppSession.isAuthenticated()) {
+            if (AppSession.hasRole(Params.CUSTOMER_ROLE)) {
                 Customer customer = AppSession.getUser();
                 try {
                     LockManager.getInstance().acquireWriteLock(customer);
-                }catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     System.out.println("Acquiring write lock when adding a product failed.");
                 }
                 //get parameters
@@ -39,32 +39,40 @@ public class AddToCartCommand extends FrontCommand{
                 int amount = Integer.parseInt(request.getParameter("amount"));
 
                 //find product by id
-                ProductService productService =new ProductService();
+                ProductService productService = new ProductService();
                 Product product = new Product();
                 product.setProductId(productId);
                 product = productService.findProductByID(product);
 
-                //find category by id
-                CategoryService categoryService = new CategoryService();
-                Category category = new Category();
-                category.setCategoryId(categoryId);
-                category = categoryService.findCategroyById(category);
+                if (amount > product.getInventory()) {
+                    LockManager.getInstance().releaseWriteLock(customer);
+                    request.setAttribute("errMsg", "Do not have enough products.");
+                    forward("/jsp/error.jsp");
+                } else {
+                    product.setInventory(product.getInventory()-amount);
+                    productService.updateProduct(product);
+                    //find category by id
+                    CategoryService categoryService = new CategoryService();
+                    Category category = new Category();
+                    category.setCategoryId(categoryId);
+                    category = categoryService.findCategroyById(category);
 
-                CartService cartService = new CartService();
+                    CartService cartService = new CartService();
 
-                //add to cart
-                boolean result=cartService.AddToCart(customer,product,amount,category);
-                LockManager.getInstance().releaseWriteLock(customer);
-
-                if (result){
-                    List<CartDetail> cartDetails = cartService.findCartDetailByUserId(customer);
-                    request.setAttribute("cartDetails", cartDetails);
-                    forward("/jsp/user/cart.jsp");
-                }else {
-                    request.setAttribute("errMsg","Add to cart failed.");
+                    //add to cart
+                    boolean result = cartService.AddToCart(customer, product, amount, category);
+                    LockManager.getInstance().releaseWriteLock(customer);
+                    if (result) {
+                        List<CartDetail> cartDetails = cartService.findCartDetailByUserId(customer);
+                        request.setAttribute("cartDetails", cartDetails);
+                        forward("/jsp/user/cart.jsp");
+                    } else {
+                        request.setAttribute("errMsg", "Add to cart failed.");
+                        forward("/jsp/error.jsp");
+                    }
                 }
             }
-        }else{
+        } else {
             forward("/jsp/user/userLogin.jsp");
         }
     }

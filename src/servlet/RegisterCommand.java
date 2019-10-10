@@ -48,6 +48,6 @@ public class RegisterCommand extends FrontCommand {
         Cart cart = new Cart(customer);
         CartService cartService = new CartService();
         cartService.newCart(cart);
-        redirect("frontservlet?command=ForwardLogin");
+        redirect("frontservlet?command=ForwardUserLogin");
     }
 }

@@ -1,13 +1,17 @@
 package servlet;
 
 import domain.Category;
+import domain.Customer;
 import domain.Product;
+import security.AppSession;
 import service.CategoryService;
 import service.ProductService;
+import util.LockManager;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
 
 /**
  * @program: CoffeeWeb
@@ -23,6 +27,12 @@ public class ViewProductCategoryCommand extends FrontCommand {
         Product product = new Product();
         product.setProductId(productId);
 
+        Customer customer = AppSession.getUser();
+        try {
+            LockManager.getInstance().acquireReadLock(customer);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //find product by id
         ProductService productService = new ProductService();
         product = productService.findProductByID(product);
@@ -43,5 +53,6 @@ public class ViewProductCategoryCommand extends FrontCommand {
                 forward("/jsp/viewRoast.jsp");
             }
         }
+        LockManager.getInstance().releaseReadLock(customer);
     }
 }

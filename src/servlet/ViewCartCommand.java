@@ -5,6 +5,7 @@ import domain.CartDetail;
 import domain.Customer;
 import security.AppSession;
 import service.CartService;
+import util.LockManager;
 import util.Params;
 
 import javax.servlet.ServletException;
@@ -23,7 +24,13 @@ public class ViewCartCommand extends FrontCommand {
                 //find a cart by customer
                 CartService cartService = new CartService();
                 Customer customer = AppSession.getUser();
+                try {
+                    LockManager.getInstance().acquireReadLock(customer);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 List<CartDetail> cartDetails = cartService.findCartDetailByUserId(customer);
+                LockManager.getInstance().releaseReadLock(customer);
                 //return result
                 request.setAttribute("cartDetails", cartDetails);
                 forward("/jsp/user/cart.jsp");

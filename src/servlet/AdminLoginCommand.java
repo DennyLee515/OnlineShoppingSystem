@@ -12,6 +12,7 @@ import org.apache.shiro.util.ByteSource;
 import security.AppSession;
 import service.StaffService;
 import servlet.FrontCommand;
+import util.LockManager;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.ServletException;
@@ -31,6 +32,7 @@ public class AdminLoginCommand extends FrontCommand {
         String password = request.getParameter("password");
         ByteSource salt = ByteSource.Util.bytes(username);
         String encryptedPassword = new SimpleHash("MD5",password,salt,1024).toHex();
+
         UsernamePasswordToken token = new UsernamePasswordToken(username, encryptedPassword);
         token.setRememberMe(true);
         Subject currentUser = SecurityUtils.getSubject();
@@ -51,7 +53,7 @@ public class AdminLoginCommand extends FrontCommand {
             target = "/jsp/admin/adminHome.jsp";
         } catch (AuthenticationException e) {
             e.printStackTrace();
-            request.setAttribute("ErrMsg", "Log in failed");
+            request.setAttribute("errMsg", "Log in failed");
             target = "/jsp/error.jsp";
         } finally {
             forward(target);

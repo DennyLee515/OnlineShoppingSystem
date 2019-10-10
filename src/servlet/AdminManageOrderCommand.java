@@ -2,8 +2,10 @@ package servlet;
 
 import domain.Order;
 import domain.OrderDetail;
+import domain.Staff;
 import security.AppSession;
 import service.OrderService;
+import util.LockManager;
 import util.Params;
 
 import javax.servlet.ServletException;
@@ -26,6 +28,13 @@ public class AdminManageOrderCommand extends FrontCommand {
                 String orderId = request.getParameter("order");
                 Order order = new Order();
                 order.setOrderId(orderId);
+
+                Staff staff = AppSession.getStaff();
+                try {
+                    LockManager.getInstance().acquireReadLock(staff);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 switch (method) {
                     case "view":
@@ -52,12 +61,13 @@ public class AdminManageOrderCommand extends FrontCommand {
 
                         boolean result = new OrderService().updateOrderById(order);
                         if (result)
-                            forward("/jsp/admin/updateOrder.jsp");
+                            forward("/jsp/admin/orderManage.jsp");
                         break;
 
                     default:
                         System.out.println("Wrong product manage method input");
                 }
+                LockManager.getInstance().releaseReadLock(staff);
             }
         }else{
             redirect("frontservlet?command=ForwardAdminLogin");

@@ -1,10 +1,12 @@
 package servlet;
 
 import domain.Clerk;
+import domain.Staff;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import security.AppSession;
 import service.StaffService;
+import util.LockManager;
 import util.Params;
 
 import javax.servlet.ServletException;
@@ -12,6 +14,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.locks.Lock;
 
 /**
  * @program: CoffeeWeb
@@ -41,10 +44,17 @@ public class AdminAddStaffCommand extends FrontCommand {
                 ByteSource salt = ByteSource.Util.bytes(username);
                 String encryptedPassword = new SimpleHash("MD5", password, salt, 1024).toHex();
 
+                Staff staff = AppSession.getStaff();
+                try {
+                    LockManager.getInstance().acquireWriteLock(staff);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 Clerk clerk = new Clerk(username,encryptedPassword,firstname,lastname,startDate,endDate);
                 StaffService staffService = new StaffService();
                 staffService.insert(clerk);
 
+                LockManager.getInstance().releaseWriteLock(staff);
                 redirect("frontservlet?command=ForwardAdminHome");
             }
         }else{

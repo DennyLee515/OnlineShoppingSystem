@@ -16,10 +16,11 @@
     <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
-<shiro:authenticated>
+
     <div id="welcome" class="card-title"><b>Products</b></div>
-    <shiro:hasRole name="customer">
         <%@include file="userNavi.jsp" %>
+        <shiro:authenticated>
+            <shiro:hasRole name="customer">
         <div class="container">
             <div id="product" class="table">
                 <table width="100%" align="center">

@@ -2,9 +2,11 @@ package servlet;
 
 import domain.Category;
 import domain.Product;
+import domain.Staff;
 import security.AppSession;
 import service.CategoryService;
 import service.ProductService;
+import util.LockManager;
 import util.Params;
 
 import javax.servlet.ServletException;
@@ -34,6 +36,13 @@ public class AdminAddProductCommand extends FrontCommand {
                 //create new product object
                 Product product = new Product(name, info, price, weight, inventory);
                 ProductService productService = new ProductService();
+
+                Staff staff = AppSession.getStaff();
+                try {
+                    LockManager.getInstance().acquireWriteLock(staff);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 if (productService.findProductByName(product) != null) {
                     request.setAttribute("errMsg", "Product name exists.");
                     forward("/jsp/error.jsp");
@@ -55,7 +64,6 @@ public class AdminAddProductCommand extends FrontCommand {
                                 result = productService.addRelation(product, category1) && result;
                             }
                         }
-
                         //return result
                         if (result) {
                             redirect("frontservlet?command=AdminProduct");
@@ -65,6 +73,7 @@ public class AdminAddProductCommand extends FrontCommand {
                         }
                     }
                 }
+                LockManager.getInstance().releaseWriteLock(staff);
             }
         }else{
             redirect("frontservlet?command=ForwardAdminLogin");

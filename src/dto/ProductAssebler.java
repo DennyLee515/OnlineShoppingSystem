@@ -1,11 +1,15 @@
 package dto;
 
+import domain.Category;
 import domain.Product;
+import service.CategoryService;
 import service.ProductService;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @program: CoffeeWeb
@@ -22,18 +26,18 @@ public class ProductAssebler {
         result.setInfo(product.getInfo());
         result.setPrice(product.getPrice());
         result.setWeight(product.getWeight());
-        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        result.setCreatedAt(sdf.format(product.getCreatedAt()));
+        result.setCreatedAt(product.getCreatedAt());
         result.setInventory(product.getInventory());
+        List<Category> categories = new CategoryService().findCategoryByProduct(product);
+        List<CategoryDTO> categoryDTOs = new ArrayList<>();
+        for (Category category: categories
+             ) {
+            categoryDTOs.add(CategoryAssembler.createCategoryDTO(category));
+        }
+        result.setCategoryDTO(categoryDTOs);
         return result;
     }
 
-//    private boolean writeCategory(CategoryDTO categoryDTO, Product product){
-//        for (String category:
-//             ) {
-//
-//        }
-//    }
     public static boolean createProduct(ProductDTO productDTO){
         Product product = new Product();
 

@@ -2,13 +2,16 @@ package servlet;
 
 import domain.Category;
 import domain.Product;
+import domain.Staff;
 import security.AppSession;
 import service.CategoryService;
 import service.ProductService;
+import util.LockManager;
 import util.Params;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.concurrent.locks.Lock;
 
 /**
  * @program: CoffeeWeb
@@ -25,6 +28,12 @@ public class AdminDeleteRelationCommand extends FrontCommand {
                 String categoryId = request.getParameter("category");
                 String productId = request.getParameter("product");
 
+                Staff staff = AppSession.getStaff();
+                try {
+                    LockManager.getInstance().acquireWriteLock(staff);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 //find category by id
                 Category category = new Category();
                 category.setCategoryId(categoryId);
@@ -39,7 +48,7 @@ public class AdminDeleteRelationCommand extends FrontCommand {
 
                 //delete relation
                 boolean result = productService.deleteRelation(product, category);
-
+                LockManager.getInstance().releaseWriteLock(staff);
                 if (result){
                     redirect("frontservlet?command=AdminCategory");
                 }else{

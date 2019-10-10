@@ -2,10 +2,12 @@ package servlet;
 
 import domain.Category;
 import domain.Product;
+import domain.Staff;
 import javafx.css.CssMetaData;
 import security.AppSession;
 import service.CategoryService;
 import service.ProductService;
+import util.LockManager;
 import util.Params;
 
 import javax.servlet.ServletException;
@@ -30,6 +32,12 @@ public class AdminAddRelationCommand extends FrontCommand {
                 Product product = new Product();
                 product.setProductId(productId);
                 ProductService productService = new ProductService();
+                Staff staff = AppSession.getStaff();
+                try {
+                    LockManager.getInstance().acquireWriteLock(staff);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 product = productService.findProductByID(product);
 
                 CategoryService categoryService = new CategoryService();
@@ -51,6 +59,7 @@ public class AdminAddRelationCommand extends FrontCommand {
                     request.setAttribute("errMsg", "Add relation fail.");
                     forward("/jsp/error.jsp");
                 }
+                LockManager.getInstance().releaseWriteLock(staff);
             }
         }else{
             redirect("frontservlet?command=ForwardAdminLogin");

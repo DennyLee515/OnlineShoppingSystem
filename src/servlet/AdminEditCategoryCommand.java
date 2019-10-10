@@ -1,8 +1,10 @@
 package servlet;
 
 import domain.Category;
+import domain.Staff;
 import security.AppSession;
 import service.CategoryService;
+import util.LockManager;
 import util.Params;
 
 import javax.servlet.ServletException;
@@ -17,6 +19,12 @@ public class AdminEditCategoryCommand extends FrontCommand {
                 String id = request.getParameter("category");
                 String name = request.getParameter("categoryName");
 
+                Staff staff = AppSession.getStaff();
+                try {
+                    LockManager.getInstance().acquireWriteLock(staff);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 // category service findById
                 CategoryService categoryService = new CategoryService();
                 Category category = new Category();
@@ -26,6 +34,7 @@ public class AdminEditCategoryCommand extends FrontCommand {
 
                 // update
                 boolean result = categoryService.updateCategory(category);
+                LockManager.getInstance().releaseWriteLock(staff);
                 //return result
                 if (result){
                     redirect("frontservlet?command=AdminCategory");

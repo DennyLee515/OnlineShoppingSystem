@@ -4,10 +4,13 @@ import domain.*;
 import security.AppSession;
 import service.CartService;
 import service.OrderService;
+import service.ProductService;
+import util.LockManager;
 import util.Params;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,30 +22,44 @@ import java.util.List;
 public class PlaceOrderCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
-        String address = request.getParameter("address");
-        Customer customer = AppSession.getUser();
-        Double totalPrice = 0.0;
-        Order order = new Order(customer,totalPrice,address,Params.PENDING);
-        CartService cartService = new CartService();
-        List<CartDetail> cartDetails = cartService.findCartDetailByUserId(customer);
-        OrderService orderService = new OrderService();
-        boolean result = true;
-        for (CartDetail cartDetail:cartDetails){
-            OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setOrder(order);
-            orderDetail.setProduct(cartDetail.getProduct());
-            orderDetail.setProductAmount(cartDetail.getProductAmount());
-            orderDetail.setProductCategory(cartDetail.getCategory());
-            totalPrice =
-                    totalPrice + cartDetail.getProduct().getPrice()*cartDetail.getProductAmount();
+        if (AppSession.isAuthenticated()) {
+            if (AppSession.hasRole(Params.CUSTOMER_ROLE)) {
+                try {
+                    LockManager.getInstance().acquireWriteLock(AppSession.getUser());
+                } catch (InterruptedException ie) {
+                    ie.printStackTrace();
+                }
 
-            result = result&&orderService.insertOrderDetail(orderDetail);
-        }
-        order.setTotalPrice(totalPrice);
-        if (result && orderService.insertOrder(order) && cartService.clearCartByUser(customer)){
-        forward("/jsp/user/orderSuccess.jsp");}else {
-            request.setAttribute("ErrMsg","Fail to place the order!");
-            forward("/jsp/error.jsp");
+                String address = request.getParameter("address");
+                Customer customer = AppSession.getUser();
+                double totalPrice = 0.0;
+                Order order = new Order(customer, totalPrice, address, Params.PENDING);
+                CartService cartService = new CartService();
+                List<CartDetail> cartDetails = cartService.findCartDetailByUserId(customer);
+                OrderService orderService = new OrderService();
+                boolean result = true;
+                for (CartDetail cartDetail : cartDetails) {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.setOrder(order);
+                    orderDetail.setProduct(cartDetail.getProduct());
+                    orderDetail.setProductAmount(cartDetail.getProductAmount());
+                    orderDetail.setProductCategory(cartDetail.getCategory());
+                    totalPrice =
+                            totalPrice + cartDetail.getProduct().getPrice() * cartDetail.getProductAmount();
+                    result = result && orderService.insertOrderDetail(orderDetail);
+                }
+                order.setTotalPrice(totalPrice);
+                result = orderService.insertOrder(order) && cartService.clearCartByUser(customer);
+
+                if (result) {
+                    forward("/jsp/user/orderSuccess.jsp");
+                } else {
+                    request.setAttribute("errMsg", "Fail to place the order!");
+                    forward("/jsp/error.jsp");
+                }
+                LockManager.getInstance().releaseWriteLock(AppSession.getUser());
+            }
         }
     }
 }
+

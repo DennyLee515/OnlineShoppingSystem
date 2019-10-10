@@ -57,7 +57,7 @@ public class LoginCommand extends FrontCommand {
                 target = "/jsp/admin/adminHome.jsp";
             }
         } catch (AuthenticationException e) {
-            request.setAttribute("ErrMsg", "Log in failed");
+            request.setAttribute("errMsg", "Unrecognized username and password.");
             target = "/jsp/error.jsp";
         } finally {
             forward(target);

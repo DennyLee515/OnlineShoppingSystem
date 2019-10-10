@@ -1,9 +1,11 @@
 package servlet;
 
 import domain.Category;
+import domain.Staff;
 import security.AppSession;
 import service.CategoryService;
 import servlet.FrontCommand;
+import util.LockManager;
 import util.Params;
 
 import javax.servlet.ServletException;
@@ -21,9 +23,16 @@ public class AdminCategoryCommand extends FrontCommand {
     public void process() throws ServletException, IOException {
         if (AppSession.isAuthenticated()){
             if(AppSession.hasRole(Params.CLERK_ROLE) || AppSession.hasRole(Params.MANAGER_ROLE)){
+                Staff staff = AppSession.getStaff();
+                try {
+                    LockManager.getInstance().acquireReadLock(staff);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 //get all categories
                 CategoryService categoryService = new CategoryService();
                 List<Category> category = categoryService.getAllCategories();
+                LockManager.getInstance().releaseReadLock(staff);
                 request.setAttribute("categories", category);
                 forward("/jsp/admin/categoryManage.jsp");
             }

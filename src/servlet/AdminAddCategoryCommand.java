@@ -1,12 +1,15 @@
 package servlet;
 
 import domain.Category;
+import domain.Staff;
 import security.AppSession;
 import service.CategoryService;
+import util.LockManager;
 import util.Params;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.concurrent.locks.Lock;
 
 /**
  * @program: CoffeeWeb
@@ -22,6 +25,12 @@ public class AdminAddCategoryCommand extends FrontCommand {
             if (AppSession.hasRole(Params.CLERK_ROLE) || AppSession.hasRole(Params.MANAGER_ROLE)) {
                 //get parameters and create new category object
                 String categoryName = request.getParameter("categoryName");
+                Staff staff = AppSession.getStaff();
+                try {
+                    LockManager.getInstance().acquireWriteLock(staff);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 Category category = new Category(categoryName);
                 CategoryService categoryService = new CategoryService();
 
@@ -41,6 +50,7 @@ public class AdminAddCategoryCommand extends FrontCommand {
                         forward("/jsp/error.jsp");
                     }
                 }
+                LockManager.getInstance().releaseWriteLock(staff);
             }
         } else {
             redirect("frontservlet?command=ForwardAdminLogin");

@@ -24,8 +24,9 @@
             <tr>
                 <th width="15%" align="center"><b>Product Name</b></th>
                 <th width="40%" align="center"><b>Info</b></th>
-                <th width="15" align="center"><b>Price</b></th>
-                <th width="15%" align="center"><b>Weight</b></th>
+                <th width="10" align="center"><b>Price</b></th>
+                <th width="10" align="center"><b>Inventory</b></th>
+                <th width="10%" align="center"><b>Weight</b></th>
                 <th><b></b></th>
             </tr>
             <c:forEach var="product" items="${products}">
@@ -33,6 +34,7 @@
                     <td>${product.productName}</td>
                     <td>${product.info}</td>
                     <td>${product.price}</td>
+                    <td>${product.inventory}</td>
                     <td>${product.weight}</td>
                     <td>
                         <a href="frontservlet?command=ViewProductCategory&product=${product.productId}"

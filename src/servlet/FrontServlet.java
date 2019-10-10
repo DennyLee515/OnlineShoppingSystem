@@ -17,15 +17,21 @@ import java.io.IOException;
 public class FrontServlet extends HttpServlet {
     private static final long serialVersioinUID = 1L;
 
-    public FrontServlet(){
+    public FrontServlet() {
         super();
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        FrontCommand command = getCommand(req);
-        command.init(getServletContext(),req,resp);
-        command.process();
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            FrontCommand command = getCommand(req);
+            command.init(getServletContext(), req, resp);
+            command.process();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.sendError(500,"Cannot parse url.");
+        }
+
     }
 
     @Override
@@ -35,26 +41,28 @@ public class FrontServlet extends HttpServlet {
 
     /**
      * get command
+     *
      * @param req request
      * @return frontcomman
      */
-    private FrontCommand getCommand(HttpServletRequest req){
-        try{
+    private FrontCommand getCommand(HttpServletRequest req) {
+        try {
             return (FrontCommand) getCommandClass(req).newInstance();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Get command fail.");
             return null;
         }
     }
 
-    private Class getCommandClass(HttpServletRequest req){
+    private Class getCommandClass(HttpServletRequest req) {
         Class result;
         //parse name
-        final String commandClassName = "servlet." + (String)req.getParameter("command")+ "Command";
+        final String commandClassName = "servlet." + (String) req.getParameter("command") +
+                "Command";
 
         try {
             result = Class.forName(commandClassName);
-        }catch (ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             System.out.println("Get Command Class Fail.");
             result = null;
         }

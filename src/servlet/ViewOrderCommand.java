@@ -4,6 +4,7 @@ import domain.Order;
 import domain.Customer;
 import security.AppSession;
 import service.OrderService;
+import util.LockManager;
 import util.Params;
 
 import javax.servlet.ServletException;
@@ -22,8 +23,14 @@ public class ViewOrderCommand extends FrontCommand{
         if (AppSession.isAuthenticated()){
             if (AppSession.hasRole(Params.CUSTOMER_ROLE)){
                 Customer customer =AppSession.getUser();
+                try {
+                    LockManager.getInstance().acquireReadLock(customer);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 OrderService orderService = new OrderService();
                 List<Order> orders = orderService.findOrderByUser(customer);
+                LockManager.getInstance().releaseReadLock(customer);
                 request.setAttribute("orders",orders);
                 forward("/jsp/user/viewOrders.jsp");
             }

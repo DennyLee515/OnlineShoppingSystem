@@ -125,6 +125,9 @@ public class CartService {
         return findCartDetailByCartId(cart);
     }
 
+    public CartDetail findCartDetailById(CartDetail cartDetail){
+        return cartDetailMapper.findCartDetailById(cartDetail);
+    }
     /**
      * find all cart details related to a cart
      *

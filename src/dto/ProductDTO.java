@@ -1,6 +1,7 @@
 package dto;
 
 import com.google.gson.Gson;
+import domain.Category;
 import domain.Product;
 
 import java.util.Date;
@@ -19,11 +20,12 @@ public class ProductDTO {
     //product weight
     private int weight;
     //product create time
-    private String createdAt;
+    private Date createdAt;
     //product inventory
     private int inventory;
 
-    private List<String> categories;
+    private List<CategoryDTO> categoryDTO;
+
 
     public String getProductId() {
         return productId;
@@ -65,11 +67,11 @@ public class ProductDTO {
         this.weight = weight;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -81,12 +83,13 @@ public class ProductDTO {
         this.inventory = inventory;
     }
 
-    public List<String> getCategories() {
-        return categories;
+
+    public List<CategoryDTO> getCategoryDTO() {
+        return categoryDTO;
     }
 
-    public void setCategories(List<String> categories) {
-        this.categories = categories;
+    public void setCategoryDTO(List<CategoryDTO> categoryDTO) {
+        this.categoryDTO = categoryDTO;
     }
 
     public static String serialize(ProductDTO productDTO){

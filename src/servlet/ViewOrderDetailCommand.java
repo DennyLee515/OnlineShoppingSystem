@@ -1,10 +1,12 @@
 package servlet;
 
+import domain.Customer;
 import domain.Order;
 import domain.OrderDetail;
 import domain.Product;
 import security.AppSession;
 import service.OrderService;
+import util.LockManager;
 import util.Params;
 
 import javax.servlet.ServletException;
@@ -24,6 +26,12 @@ public class ViewOrderDetailCommand extends FrontCommand{
         if (AppSession.isAuthenticated()){
             if (AppSession.hasRole(Params.CUSTOMER_ROLE)){
                 String orderId = request.getParameter("order");
+                Customer customer = AppSession.getUser();
+                try {
+                    LockManager.getInstance().acquireReadLock(customer);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 OrderService orderService = new OrderService();
                 Order order = new Order();
                 order.setOrderId(orderId);
@@ -33,6 +41,7 @@ public class ViewOrderDetailCommand extends FrontCommand{
                 for (OrderDetail orderDetail: orderDetails                     ) {
                     products.add(orderDetail.getProduct());
                 }
+                LockManager.getInstance().releaseReadLock(customer);
                 request.setAttribute("orderDetails",orderDetails);
                 request.setAttribute("products",products);
 

@@ -2,10 +2,12 @@ package servlet;
 
 import domain.Category;
 import domain.Product;
+import domain.Staff;
 import security.AppSession;
 import service.CategoryService;
 import service.ProductService;
 import servlet.FrontCommand;
+import util.LockManager;
 import util.Params;
 
 import javax.servlet.ServletException;
@@ -24,7 +26,12 @@ public class AdminManageCategoryCommand extends FrontCommand {
                 String categoryId;
                 Category category;
                 CategoryService categoryService;
-
+                Staff staff = AppSession.getStaff();
+                try {
+                    LockManager.getInstance().acquireReadLock(staff);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 switch (method) {
                     case "create":
                         forward("/jsp/admin/newCategory.jsp");
@@ -68,6 +75,7 @@ public class AdminManageCategoryCommand extends FrontCommand {
                     default:
                         System.out.println("Wrong category manage method input");
                 }
+                LockManager.getInstance().releaseReadLock(staff);
             }
         }else{
             redirect("frontservlet?command=ForwardAdminLogin");

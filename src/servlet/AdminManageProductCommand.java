@@ -2,9 +2,11 @@ package servlet;
 
 import domain.Category;
 import domain.Product;
+import domain.Staff;
 import security.AppSession;
 import service.CategoryService;
 import service.ProductService;
+import util.LockManager;
 import util.Params;
 
 import javax.servlet.ServletException;
@@ -26,6 +28,13 @@ public class AdminManageProductCommand extends FrontCommand {
                 ProductService productService;
                 CategoryService categoryService;
                 List<Category> categories;
+
+                Staff staff = AppSession.getStaff();
+                try {
+                    LockManager.getInstance().acquireReadLock(staff);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 switch (method) {
                     //create new product
@@ -69,6 +78,8 @@ public class AdminManageProductCommand extends FrontCommand {
                     default:
                         System.out.println("Wrong product manage method input");
                 }
+
+                LockManager.getInstance().releaseReadLock(staff);
             }
         }else{
             redirect("frontservlet?command=ForwardAdminLogin");

@@ -2,10 +2,12 @@ package servlet;
 
 import domain.Category;
 import domain.Product;
+import domain.Staff;
 import security.AppSession;
 import service.CartService;
 import service.CategoryService;
 import service.ProductService;
+import util.LockManager;
 import util.Params;
 
 import javax.servlet.ServletException;
@@ -31,6 +33,12 @@ public class AdminEditProductCommand extends FrontCommand {
                 int weight = Integer.parseInt(request.getParameter("weight"));
                 int inventory = Integer.parseInt(request.getParameter("inventory"));
 
+                Staff staff = AppSession.getStaff();
+                try {
+                    LockManager.getInstance().acquireWriteLock(staff);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 Product product = new Product();
                 product.setProductId(productId);
                 ProductService productService = new ProductService();
@@ -68,6 +76,8 @@ public class AdminEditProductCommand extends FrontCommand {
                         result = productService.addRelation(product, category1) && result;
                     }
                 }
+
+                LockManager.getInstance().releaseWriteLock(staff);
                 if (result) {
                     redirect("frontservlet?command=AdminProduct");
                 } else {

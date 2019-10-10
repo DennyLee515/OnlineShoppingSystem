@@ -22,6 +22,7 @@
     <div><a href="frontservlet?command=ForwardRegister">Sign up</a> </div>
 </shiro:notAuthenticated>
 <shiro:authenticated>
+
     You are already logged in as <%=AppSession.getUser().getUsername()%>
     <div class="float-left">
         <button type="button" class="btn btn-light" onclick="history.go(-1);">Back</button>

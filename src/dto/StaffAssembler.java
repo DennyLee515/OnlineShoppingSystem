@@ -60,4 +60,48 @@ public class StaffAssembler {
         return false;
     }
 
+    public static boolean updateStaff(StaffDTO staffDTO){
+        String type = staffDTO.getType();
+        if (type.equals(Params.MANAGER_ROLE)){
+            Manager manager = new Manager();
+            manager.setStaffUName(staffDTO.getUsername());
+            manager.setStaffPassword(staffDTO.getPassword());
+            manager.setStaffId(staffDTO.getId());
+            manager.setManagerEmail(staffDTO.getManagerEmail());
+            return new StaffService().update(manager);
+        }else if (type.equals(Params.CLERK_ROLE)){
+            Clerk clerk = new Clerk();
+            clerk.setStaffUName(staffDTO.getUsername());
+            clerk.setStaffPassword(staffDTO.getPassword());
+            clerk.setStaffId(staffDTO.getId());
+            clerk.setClerkFirstname(staffDTO.getClerkFirstname());
+            clerk.setClerkLastName(staffDTO.getClerkLastname());
+            clerk.setTimeRange(new TimeRange(staffDTO.getStartDate(),staffDTO.getEndDate()));
+            return new StaffService().update(clerk);
+        }
+        return false;
+    }
+
+    public static boolean deleteStaff(StaffDTO staffDTO){
+        String type = staffDTO.getType();
+        if (type.equals(Params.MANAGER_ROLE)){
+            Manager manager = new Manager();
+            manager.setStaffUName(staffDTO.getUsername());
+            manager.setStaffPassword(staffDTO.getPassword());
+            manager.setStaffId(staffDTO.getId());
+            manager.setManagerEmail(staffDTO.getManagerEmail());
+            return new StaffService().delete(manager);
+        }else if (type.equals(Params.CLERK_ROLE)){
+            Clerk clerk = new Clerk();
+            clerk.setStaffUName(staffDTO.getUsername());
+            clerk.setStaffPassword(staffDTO.getPassword());
+            clerk.setStaffId(staffDTO.getId());
+            clerk.setClerkFirstname(staffDTO.getClerkFirstname());
+            clerk.setClerkLastName(staffDTO.getClerkLastname());
+            clerk.setTimeRange(new TimeRange(staffDTO.getStartDate(),staffDTO.getEndDate()));
+            return new StaffService().delete(clerk);
+        }
+        return false;
+    }
+
 }

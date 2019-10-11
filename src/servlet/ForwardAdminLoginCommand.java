@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /**
  * @program: CoffeeWeb
- * @description: user login
+ * @description: forward to admin login
  * @author: DennyLee
  * @create: 2019-09-12 14:41
  **/

@@ -15,13 +15,14 @@ import java.util.List;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: handle request to purchase all products in shopping cart of current session customer
  * @author: DennyLee
  * @create: 2019-09-27 20:02
  **/
 public class PlaceOrderCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
+        //if a customer logged in
         if (AppSession.isAuthenticated()) {
             if (AppSession.hasRole(Params.CUSTOMER_ROLE)) {
                 try {

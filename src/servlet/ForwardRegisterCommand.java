@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Forward to customer register page
  * @author: DennyLee
  * @create: 2019-10-02 23:16
  **/

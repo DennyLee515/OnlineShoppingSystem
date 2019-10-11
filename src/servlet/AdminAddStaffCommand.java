@@ -25,8 +25,9 @@ import java.util.concurrent.locks.Lock;
 public class AdminAddStaffCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
+        //if a manager logged in
         if (AppSession.isAuthenticated()){
-            if(AppSession.hasRole(Params.CLERK_ROLE) || AppSession.hasRole(Params.MANAGER_ROLE)){
+            if(AppSession.hasRole(Params.MANAGER_ROLE)){
                 String firstname = request.getParameter("firstName");
                 String lastname = request.getParameter("lastName");
                 String username = request.getParameter("username");

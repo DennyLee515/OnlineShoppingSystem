@@ -21,6 +21,7 @@ import java.io.IOException;
 public class DeleteProductInCartCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
+        //if a customer logged in
         if (AppSession.isAuthenticated()) {
             if (AppSession.hasRole(Params.CUSTOMER_ROLE)) {
                 //get parameters

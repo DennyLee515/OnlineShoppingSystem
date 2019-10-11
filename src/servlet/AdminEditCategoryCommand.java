@@ -10,9 +10,13 @@ import util.Params;
 import javax.servlet.ServletException;
 import java.io.IOException;
 
+/**
+ * edit a category
+ */
 public class AdminEditCategoryCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
+        //if a staff logged in
         if (AppSession.isAuthenticated()){
             if(AppSession.hasRole(Params.CLERK_ROLE) || AppSession.hasRole(Params.MANAGER_ROLE)){
                 // get modify category id

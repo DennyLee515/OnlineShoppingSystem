@@ -19,7 +19,7 @@ import java.io.IOException;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Handle request to verify username and password and assign role
  * @author: DennyLee
  * @create: 2019-10-01 23:10
  **/

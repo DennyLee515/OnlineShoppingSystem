@@ -20,6 +20,7 @@ import java.util.List;
 public class AdminManageCategoryCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
+        //if a staff logged in
         if (AppSession.isAuthenticated()){
             if(AppSession.hasRole(Params.CLERK_ROLE) || AppSession.hasRole(Params.MANAGER_ROLE)){
                 String method = request.getParameter("method");

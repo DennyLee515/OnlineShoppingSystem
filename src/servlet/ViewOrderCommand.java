@@ -13,13 +13,14 @@ import java.util.List;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: view orders of current user
  * @author: DennyLee
  * @create: 2019-09-27 23:49
  **/
 public class ViewOrderCommand extends FrontCommand{
     @Override
     public void process() throws ServletException, IOException {
+        //if a customer logged in
         if (AppSession.isAuthenticated()){
             if (AppSession.hasRole(Params.CUSTOMER_ROLE)){
                 Customer customer =AppSession.getUser();

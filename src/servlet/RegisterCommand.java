@@ -15,7 +15,7 @@ import java.util.Date;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Customer register
  * @author: DennyLee
  * @create: 2019-10-02 22:56
  **/

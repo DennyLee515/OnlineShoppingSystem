@@ -18,7 +18,7 @@ import java.util.List;
 public class ViewCartCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
-
+        //if a customer logged in
         if (AppSession.isAuthenticated()) {
             if (AppSession.hasRole(Params.CUSTOMER_ROLE)) {
                 //find a cart by customer

@@ -14,13 +14,14 @@ import java.util.List;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: handle requests to manage orders by viewing and editing
  * @author: DennyLee
  * @create: 2019-10-01 14:04
  **/
 public class AdminManageOrderCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
+        //if a staff logged in
         if (AppSession.isAuthenticated()){
             if(AppSession.hasRole(Params.CLERK_ROLE) || AppSession.hasRole(Params.MANAGER_ROLE)){
                 //get parameters

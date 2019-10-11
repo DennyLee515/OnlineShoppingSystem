@@ -15,13 +15,14 @@ import java.io.IOException;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Edit a product
  * @author: DennyLee
  * @create: 2019-09-12 17:13
  **/
 public class AdminEditProductCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
+        //if a staff logged in
         if (AppSession.isAuthenticated()){
             if(AppSession.hasRole(Params.CLERK_ROLE) || AppSession.hasRole(Params.MANAGER_ROLE)){
                 String productId = request.getParameter("product");

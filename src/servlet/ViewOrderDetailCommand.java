@@ -16,13 +16,14 @@ import java.util.List;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: View order details
  * @author: DennyLee
  * @create: 2019-09-28 13:46
  **/
 public class ViewOrderDetailCommand extends FrontCommand{
     @Override
     public void process() throws ServletException, IOException {
+        //if a customer logged in
         if (AppSession.isAuthenticated()){
             if (AppSession.hasRole(Params.CUSTOMER_ROLE)){
                 String orderId = request.getParameter("order");

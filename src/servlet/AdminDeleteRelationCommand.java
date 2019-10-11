@@ -31,6 +31,7 @@ public class AdminDeleteRelationCommand extends FrontCommand {
 
                 Staff staff = AppSession.getStaff();
                 try {
+                    //acquire write lock
                     LockManager.getInstance().acquireWriteLock(staff);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

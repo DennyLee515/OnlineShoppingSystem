@@ -35,6 +35,7 @@ public class AdminAddRelationCommand extends FrontCommand {
                 ProductService productService = new ProductService();
                 Staff staff = AppSession.getStaff();
                 try {
+                    //acquire write lock
                     LockManager.getInstance().acquireWriteLock(staff);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

@@ -24,11 +24,12 @@ import java.util.List;
 public class AddToCartCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
-
+        //if a user logged in
         if (AppSession.isAuthenticated()) {
             if (AppSession.hasRole(Params.CUSTOMER_ROLE)) {
                 Customer customer = AppSession.getUser();
                 try {
+                    //acquire write lock
                     LockManager.getInstance().acquireWriteLock(customer);
                 } catch (InterruptedException e) {
                     System.out.println("Acquiring write lock when adding a product failed.");

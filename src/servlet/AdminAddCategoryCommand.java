@@ -21,12 +21,14 @@ public class AdminAddCategoryCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        //if a staff logged in
         if (AppSession.isAuthenticated()) {
             if (AppSession.hasRole(Params.CLERK_ROLE) || AppSession.hasRole(Params.MANAGER_ROLE)) {
                 //get parameters and create new category object
                 String categoryName = request.getParameter("categoryName");
                 Staff staff = AppSession.getStaff();
                 try {
+                    //acquire write lock
                     LockManager.getInstance().acquireWriteLock(staff);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

@@ -26,6 +26,7 @@ public class AdminCategoryCommand extends FrontCommand {
             if(AppSession.hasRole(Params.CLERK_ROLE) || AppSession.hasRole(Params.MANAGER_ROLE)){
                 Staff staff = AppSession.getStaff();
                 try {
+                    //acquire write lock
                     LockManager.getInstance().acquireReadLock(staff);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

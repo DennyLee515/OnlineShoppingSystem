@@ -17,6 +17,7 @@ public class OrderDetail extends DomainObject {
     private Product product;
     //the product amount of the detail item
     private int productAmount;
+    //categories the product contains
     private Category productCategory;
 
     //constructor
@@ -72,21 +73,4 @@ public class OrderDetail extends DomainObject {
         this.productCategory = productCategory;
     }
 
-//    //use lazy load to reduce request
-//    private void load() {
-//        OrderDetailMapper orderDetailMapper = new OrderDetailMapper();
-//        OrderDetail record = orderDetailMapper.findOrderDetailByOrderId(this);
-//        if (this.order == null) {
-//            this.order = record.getOrder();
-//        }
-//        if (this.product == null) {
-//            this.product = record.getProduct();
-//        }
-//        if (this.productAmount == 0) {
-//            this.productAmount = record.getProductAmount();
-//        }
-//        if (this.productCategory == null){
-//            this.productCategory = record.getProductCategory();
-//        }
-//    }
 }

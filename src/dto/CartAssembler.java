@@ -12,17 +12,24 @@ import java.util.List;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Functions of CartDTO
  * @author: DennyLee
  * @create: 2019-10-10 00:39
  **/
 public class CartAssembler {
+
+    /**
+     * create CartDTO from cart
+     * @param cart Cart
+     * @return CartDTO
+     */
     public static CartDTO createCartDTO(Cart cart){
         CartDTO result = new CartDTO();
         result.setCartId(cart.getId());
         result.setCustomerDTO(CustomerAssembler.createCustomerDTO(cart.getCustomer()));
         List<CartDetail> cartDetails = new CartService().findCartDetailByCartId(cart);
         List<CartDetailDTO> cartDetailDTOs = new ArrayList<>();
+        //for each CartDetails, create cartDetailDTOs
         for (CartDetail cartDetail: cartDetails
              ) {
             cartDetailDTOs.add(createCartDetailDTO(cartDetail));
@@ -31,6 +38,11 @@ public class CartAssembler {
         return result;
     }
 
+    /**
+     * create CartDetailDTO from cart
+     * @param cartDetails CartDetail
+     * @return CartDetailDTO
+     */
     private static CartDetailDTO createCartDetailDTO(CartDetail cartDetails){
         CartDetailDTO result = new CartDetailDTO();
         result.setCartDetailId(cartDetails.getId());
@@ -41,6 +53,11 @@ public class CartAssembler {
         return result;
     }
 
+    /**
+     * Add cart detail from remote call
+     * @param cartDTO CartDTO
+     * @return result
+     */
     public static boolean addCartDetail(CartDTO cartDTO){
         Cart cart = new Cart();
         cart.setCartId(cartDTO.getCartId());
@@ -62,6 +79,11 @@ public class CartAssembler {
         return result;
     }
 
+    /**
+     * update cart detail from remote call
+     * @param cartDTO CartDTO
+     * @return result
+     */
     public static boolean updateCartDetail(CartDTO cartDTO){
         Cart cart = new Cart();
         cart.setCartId(cartDTO.getCartId());

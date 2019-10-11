@@ -10,11 +10,16 @@ import util.Params;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description:Functions of StaffDTO
  * @author: DennyLee
  * @create: 2019-10-10 01:29
  **/
 public class StaffAssembler {
+    /**
+     * create StaffDTO from staff
+     * @param staff Staff
+     * @return StaffDTO
+     */
     public static StaffDTO createStaffDTO(Staff staff){
         StaffDTO staffDTO = new StaffDTO();
         if (staff instanceof Manager){

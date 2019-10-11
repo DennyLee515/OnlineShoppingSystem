@@ -11,11 +11,16 @@ import java.util.List;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description:Functions of OrderDTO
  * @author: DennyLee
  * @create: 2019-10-09 23:18
  **/
 public class OrderAssebler {
+    /**
+     * create OrderDTO from order
+     * @param order OrderDTO
+     * @return OrderDTO
+     */
     public static OrderDTO createOrderDTO(Order order) {
         OrderDTO result = new OrderDTO();
         result.setOrderId(order.getId());

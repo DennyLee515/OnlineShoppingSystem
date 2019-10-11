@@ -3,9 +3,19 @@ package dto;
 
 import domain.Category;
 import service.CategoryService;
-
+/**
+ * @program: CoffeeWeb
+ * @description: Functions of CategoryDTO
+ * @author: DennyLee
+ * @create: 2019-10-10 00:39
+ **/
 public class CategoryAssembler {
 
+    /**
+     * create CategoryDTO from category
+     * @param category Category
+     * @return CategoryDTO
+     */
     public static CategoryDTO createCategoryDTO(Category category){
         CategoryDTO result = new CategoryDTO();
         result.setCategoryId(category.getCategoryId());

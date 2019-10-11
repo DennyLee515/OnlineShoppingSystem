@@ -9,12 +9,17 @@ import java.text.SimpleDateFormat;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description:Functions of CustomerDTO
  * @author: DennyLee
  * @create: 2019-10-09 13:44
  **/
 public class CustomerAssembler {
 
+    /**
+     * create CustomerDTO from customer
+     * @param customer Customer
+     * @return CustomerDTO
+     */
     public static CustomerDTO createCustomerDTO(Customer customer){
         CustomerDTO result = new CustomerDTO();
         result.setCustomerId(customer.getId());

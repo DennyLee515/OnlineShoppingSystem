@@ -2,6 +2,7 @@ package dto;
 
 import com.google.gson.Gson;
 import domain.Cart;
+import domain.CartDetail;
 import domain.Category;
 
 /**
@@ -12,18 +13,18 @@ import domain.Category;
  **/
 public class CartDetailDTO {
 
+    //id
     private String cartDetailId;
-
+    //productDTO of the product in cart
     private ProductDTO productDTO;
-
+    //quantity of product in cart
     private int amount;
-
+    //total price of cart detail
     private double totalPrice;
-
-
-
+    //categoryDTO of category of product in cart
     private CategoryDTO categoryDTO;
 
+    //getter and setter method
     public String getCartDetailId() {
         return cartDetailId;
     }
@@ -64,14 +65,16 @@ public class CartDetailDTO {
         this.categoryDTO = categoryDTO;
     }
 
-    public static String serialize(CategoryDTO categoryDTO){
+    //serialize method
+    public static String serialize(CartDetailDTO cartDetailDTO){
         Gson gson = new Gson();
-        return gson.toJson(categoryDTO);
+        return gson.toJson(cartDetailDTO);
 
     }
 
-    public static CategoryDTO deserialize(String jsonString){
+    //serialize method
+    public static CartDetailDTO deserialize(String jsonString){
         Gson gson = new Gson();
-        return gson.fromJson(jsonString, CategoryDTO.class);
+        return gson.fromJson(jsonString, CartDetailDTO.class);
     }
 }

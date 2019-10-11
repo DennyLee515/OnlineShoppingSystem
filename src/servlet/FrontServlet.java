@@ -1,5 +1,7 @@
 package servlet;
 
+import security.InterceptingValidator;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +25,10 @@ public class FrontServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        if (!InterceptingValidator.SQLValidator(req.getRequestURI())){
+            resp.sendError(400,"Invalid URI.");
+            return;
+        }
         try {
             FrontCommand command = getCommand(req);
             command.init(getServletContext(), req, resp);

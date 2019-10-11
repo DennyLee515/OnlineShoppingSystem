@@ -13,12 +13,17 @@ import java.util.List;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description:Functions of ProductDTO
  * @author: DennyLee
  * @create: 2019-10-09 13:45
  **/
 public class ProductAssebler {
 
+    /**
+     * create ProductDTO from product
+     * @param product Product
+     * @return ProductDTO
+     */
     public static ProductDTO createProductDTO(Product product){
         ProductDTO result = new ProductDTO();
         result.setProductName(product.getProductName());

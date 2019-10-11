@@ -3,6 +3,7 @@ package dto;
 
 import domain.Category;
 import service.CategoryService;
+
 /**
  * @program: CoffeeWeb
  * @description: Functions of CategoryDTO
@@ -13,10 +14,11 @@ public class CategoryAssembler {
 
     /**
      * create CategoryDTO from category
+     *
      * @param category Category
      * @return CategoryDTO
      */
-    public static CategoryDTO createCategoryDTO(Category category){
+    public static CategoryDTO createCategoryDTO(Category category) {
         CategoryDTO result = new CategoryDTO();
         result.setCategoryId(category.getCategoryId());
         result.setCategoryName(category.getCategoryName());
@@ -24,7 +26,13 @@ public class CategoryAssembler {
     }
 
 
-    public static boolean createCategory(CategoryDTO categoryDTO){
+    /**
+     * Add category from remote call
+     *
+     * @param categoryDTO CategoryDTO
+     * @return result
+     */
+    public static boolean createCategory(CategoryDTO categoryDTO) {
         Category category = new Category();
 
         category.setCategoryId(categoryDTO.getCategoryId());
@@ -33,7 +41,13 @@ public class CategoryAssembler {
         return new CategoryService().newCategory(category);
     }
 
-    public static boolean updateCategory(CategoryDTO categoryDTO){
+    /**
+     * update category from remote call
+     *
+     * @param categoryDTO CategoryDTO
+     * @return result
+     */
+    public static boolean updateCategory(CategoryDTO categoryDTO) {
         Category category = new Category();
 
         category.setCategoryId(categoryDTO.getCategoryId());
@@ -42,7 +56,13 @@ public class CategoryAssembler {
         return new CategoryService().updateCategory(category);
     }
 
-    public static boolean deleteCategory(CategoryDTO categoryDTO){
+    /**
+     * delete category from remote call
+     *
+     * @param categoryDTO CategoryDTO
+     * @return result
+     */
+    public static boolean deleteCategory(CategoryDTO categoryDTO) {
         Category category = new Category();
 
         category.setCategoryId(categoryDTO.getCategoryId());

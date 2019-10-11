@@ -110,7 +110,8 @@ public class StaffMapper extends DataMapper {
         String username = staff.getStaffUName();
         Staff result = null;
         Manager manager = new Manager();
-        manager.setStaffUName(username);;
+        manager.setStaffUName(username);
+        ;
         Clerk clerk = new Clerk();
         clerk.setStaffUName(username);
         //find in manager table

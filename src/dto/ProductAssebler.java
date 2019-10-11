@@ -21,10 +21,11 @@ public class ProductAssebler {
 
     /**
      * create ProductDTO from product
+     *
      * @param product Product
      * @return ProductDTO
      */
-    public static ProductDTO createProductDTO(Product product){
+    public static ProductDTO createProductDTO(Product product) {
         ProductDTO result = new ProductDTO();
         result.setProductName(product.getProductName());
         result.setProductId(product.getProductId());
@@ -35,15 +36,21 @@ public class ProductAssebler {
         result.setInventory(product.getInventory());
         List<Category> categories = new CategoryService().findCategoryByProduct(product);
         List<CategoryDTO> categoryDTOs = new ArrayList<>();
-        for (Category category: categories
-             ) {
+        for (Category category : categories
+        ) {
             categoryDTOs.add(CategoryAssembler.createCategoryDTO(category));
         }
         result.setCategoryDTO(categoryDTOs);
         return result;
     }
 
-    public static boolean createProduct(ProductDTO productDTO){
+    /**
+     * create product form remote call
+     *
+     * @param productDTO ProductDTO
+     * @return result
+     */
+    public static boolean createProduct(ProductDTO productDTO) {
         Product product = new Product();
 
         product.setProductId(productDTO.getProductId());
@@ -57,7 +64,13 @@ public class ProductAssebler {
         return new ProductService().insertProduct(product);
     }
 
-    public static boolean updateProduct(ProductDTO productDTO){
+    /**
+     * update product form remote call
+     *
+     * @param productDTO ProductDTO
+     * @return result
+     */
+    public static boolean updateProduct(ProductDTO productDTO) {
         Product product = new Product();
 
         product.setProductId(productDTO.getProductId());
@@ -71,7 +84,13 @@ public class ProductAssebler {
         return new ProductService().updateProduct(product);
     }
 
-    public static boolean deleteProduct(ProductDTO productDTO){
+    /**
+     * delete product form remote call
+     *
+     * @param productDTO ProductDTO
+     * @return result
+     */
+    public static boolean deleteProduct(ProductDTO productDTO) {
         Product product = new Product();
 
         product.setProductId(productDTO.getProductId());

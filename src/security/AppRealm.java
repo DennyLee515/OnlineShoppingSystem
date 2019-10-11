@@ -23,6 +23,12 @@ import java.util.Set;
  * @create: 2019-10-01 22:14
  **/
 public class AppRealm extends JdbcRealm {
+    /**
+     * authentication method
+     * @param token username and password token
+     * @return Authentication info
+     * @throws AuthenticationException authentiacation fails
+     */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
@@ -40,14 +46,19 @@ public class AppRealm extends JdbcRealm {
 
         if (customer != null) {
             return new SimpleAuthenticationInfo(customer.getId(), customer.getuPassword(), getName());
-        }else if (manager != null){
+        } else if (manager != null) {
             return new SimpleAuthenticationInfo(manager.getId(), manager.getStaffPassword(), getName());
-        }else if (clerk != null){
+        } else if (clerk != null) {
             return new SimpleAuthenticationInfo(clerk.getId(), clerk.getStaffPassword(), getName());
         }
         return null;
     }
 
+    /**
+     * Authorization method
+     * @param principals authorization principals
+     * @return Authorization info
+     */
     @Override
     protected AuthorizationInfo getAuthorizationInfo(PrincipalCollection principals) {
         Set<String> roles = new HashSet<>();
@@ -55,8 +66,9 @@ public class AppRealm extends JdbcRealm {
             System.out.println("Given principals to authorize are empty");
             return null;
         }
-
+        //get primary principal (id)
         String id = (String) principals.getPrimaryPrincipal();
+        //find a user by id
         Customer customer = new Customer();
         customer.setUserId(id);
         customer = new CustomerService().findUserById(customer);
@@ -66,6 +78,8 @@ public class AppRealm extends JdbcRealm {
         Staff clerk = new Clerk();
         clerk.setStaffId(id);
         clerk = new StaffService().findStaffById(clerk);
+
+        //add role according to user type
         if (customer != null) {
             roles.add(Params.CUSTOMER_ROLE);
             return new SimpleAuthorizationInfo(roles);

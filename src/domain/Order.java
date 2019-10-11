@@ -32,7 +32,7 @@ public class Order extends DomainObject {
     }
 
     //constructor with customer, total price, order time
-    public Order(Customer customer, double totalPrice, String address, String status){
+    public Order(Customer customer, double totalPrice, String address, String status) {
         this.orderId = UUID.randomUUID().toString();
         this.customer = customer;
         this.totalPrice = totalPrice;
@@ -129,13 +129,13 @@ public class Order extends DomainObject {
         if (this.customer == null) {
             this.customer = record.getCustomer();
         }
-        if (this.address == null){
+        if (this.address == null) {
             this.address = record.getAddress();
         }
-        if (this.status == null){
+        if (this.status == null) {
             this.status = record.getStatus();
         }
-        if (this.updateTime == null){
+        if (this.updateTime == null) {
             this.updateTime = record.getUpdateTime();
         }
     }

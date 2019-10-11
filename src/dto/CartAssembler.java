@@ -20,18 +20,19 @@ public class CartAssembler {
 
     /**
      * create CartDTO from cart
+     *
      * @param cart Cart
      * @return CartDTO
      */
-    public static CartDTO createCartDTO(Cart cart){
+    public static CartDTO createCartDTO(Cart cart) {
         CartDTO result = new CartDTO();
         result.setCartId(cart.getId());
         result.setCustomerDTO(CustomerAssembler.createCustomerDTO(cart.getCustomer()));
         List<CartDetail> cartDetails = new CartService().findCartDetailByCartId(cart);
         List<CartDetailDTO> cartDetailDTOs = new ArrayList<>();
         //for each CartDetails, create cartDetailDTOs
-        for (CartDetail cartDetail: cartDetails
-             ) {
+        for (CartDetail cartDetail : cartDetails
+        ) {
             cartDetailDTOs.add(createCartDetailDTO(cartDetail));
         }
         result.setCartDetailDTOs(cartDetailDTOs);
@@ -40,10 +41,11 @@ public class CartAssembler {
 
     /**
      * create CartDetailDTO from cart
+     *
      * @param cartDetails CartDetail
      * @return CartDetailDTO
      */
-    private static CartDetailDTO createCartDetailDTO(CartDetail cartDetails){
+    private static CartDetailDTO createCartDetailDTO(CartDetail cartDetails) {
         CartDetailDTO result = new CartDetailDTO();
         result.setCartDetailId(cartDetails.getId());
         result.setProductDTO(ProductAssebler.createProductDTO(cartDetails.getProduct()));
@@ -55,16 +57,17 @@ public class CartAssembler {
 
     /**
      * Add cart detail from remote call
+     *
      * @param cartDTO CartDTO
      * @return result
      */
-    public static boolean addCartDetail(CartDTO cartDTO){
+    public static boolean addCartDetail(CartDTO cartDTO) {
         Cart cart = new Cart();
         cart.setCartId(cartDTO.getCartId());
         cart = new CartService().findCartById(cart);
         List<CartDetailDTO> cartDetailDTOs = cartDTO.getCartDetailDTOs();
-        boolean result= true;
-        for (CartDetailDTO cartDetailDTO: cartDetailDTOs
+        boolean result = true;
+        for (CartDetailDTO cartDetailDTO : cartDetailDTOs
         ) {
             CartDetail cartDetail = new CartDetail();
             cartDetail.setCartDetailId(cartDetailDTO.getCartDetailId());
@@ -81,17 +84,18 @@ public class CartAssembler {
 
     /**
      * update cart detail from remote call
+     *
      * @param cartDTO CartDTO
      * @return result
      */
-    public static boolean updateCartDetail(CartDTO cartDTO){
+    public static boolean updateCartDetail(CartDTO cartDTO) {
         Cart cart = new Cart();
         cart.setCartId(cartDTO.getCartId());
         CartService cartService = new CartService();
         cart = cartService.findCartById(cart);
-        boolean result= cartService.deleteAllCartDetails(cart);
+        boolean result = cartService.deleteAllCartDetails(cart);
         List<CartDetailDTO> cartDetailDTOs = cartDTO.getCartDetailDTOs();
-        for (CartDetailDTO cartDetailDTO: cartDetailDTOs
+        for (CartDetailDTO cartDetailDTO : cartDetailDTOs
         ) {
             CartDetail cartDetail = new CartDetail();
             cartDetail.setCartDetailId(cartDetailDTO.getCartDetailId());

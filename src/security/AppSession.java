@@ -13,35 +13,66 @@ import util.Params;
  **/
 public class AppSession {
 
-    public static boolean hasRole(String role){
+    /**
+     * verify if the user of current session has a particular role
+     *
+     * @param role a role
+     * @return true or false
+     */
+    public static boolean hasRole(String role) {
         return SecurityUtils.getSubject().hasRole(role);
     }
 
-    public static boolean isAuthenticated(){
+    /**
+     * check if the user of current session is authenticated
+     *
+     * @return true or false
+     */
+    public static boolean isAuthenticated() {
         return SecurityUtils.getSubject().isAuthenticated();
     }
 
-    public static void  init(Customer customer){
+    /**
+     * init a session
+     *
+     * @param customer Customer
+     */
+    public static void init(Customer customer) {
         SecurityUtils.getSubject().getSession().setAttribute(Params.USER_ATTRIBUTE_NAME, customer);
     }
 
-    public static Customer getUser(){
-        return (Customer)SecurityUtils.getSubject().getSession().getAttribute(Params.USER_ATTRIBUTE_NAME);
+    /**
+     * get the customer of current session
+     *
+     * @return
+     */
+    public static Customer getUser() {
+        return (Customer) SecurityUtils.getSubject().getSession().getAttribute(Params.USER_ATTRIBUTE_NAME);
     }
 
-    public static void  init(Staff staff){
-        SecurityUtils.getSubject().getSession().setAttribute(Params.STAFF_ATTRIBUTE_NAME,staff);
+    /**
+     * init a session
+     *
+     * @param staff
+     */
+    public static void init(Staff staff) {
+        SecurityUtils.getSubject().getSession().setAttribute(Params.STAFF_ATTRIBUTE_NAME, staff);
     }
 
-    public static Staff getStaff(){
+    /**
+     * get the staff of current session
+     *
+     * @return
+     */
+    public static Staff getStaff() {
         return (Staff) SecurityUtils.getSubject().getSession().getAttribute(Params.STAFF_ATTRIBUTE_NAME);
     }
 
-    public static void logout(){
-         SecurityUtils.getSubject().logout();
+    /**
+     * logout function
+     */
+    public static void logout() {
+        SecurityUtils.getSubject().logout();
     }
 
-    public static String getSessionId(){
-        return SecurityUtils.getSubject().getSession().getId().toString();
-    }
 }

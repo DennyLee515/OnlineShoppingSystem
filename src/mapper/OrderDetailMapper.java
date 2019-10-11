@@ -19,21 +19,26 @@ import java.util.List;
  * @create: 2019-09-02 23:56
  **/
 // TODO: implement in feature 2
-public class OrderDetailMapper extends DataMapper{
+public class OrderDetailMapper extends DataMapper {
+    /**
+     * insert an order detail
+     * @param domainObject OrderDetail
+     * @return order
+     */
     @Override
-    public boolean insert(DomainObject domainObject){
-        OrderDetail orderDetail = (OrderDetail)domainObject;
+    public boolean insert(DomainObject domainObject) {
+        OrderDetail orderDetail = (OrderDetail) domainObject;
         String insertOrderDetail = "INSERT INTO public.order_detail " +
                 "(order_id, product_id, product_amount, p_category_id) " +
                 "VALUES (?,?,?,?)";
         boolean result;
-        try{
+        try {
             PreparedStatement preparedStatement = DBConnection.prepare(insertOrderDetail);
-            preparedStatement.setString(1,orderDetail.getOrder().getId());
-            preparedStatement.setString(2,orderDetail.getProduct().getId());
-            preparedStatement.setInt(3,orderDetail.getProductAmount());
-            preparedStatement.setString(4,orderDetail.getProductCategory().getId());
-            result = preparedStatement.executeUpdate() ==1;
+            preparedStatement.setString(1, orderDetail.getOrder().getId());
+            preparedStatement.setString(2, orderDetail.getProduct().getId());
+            preparedStatement.setInt(3, orderDetail.getProductAmount());
+            preparedStatement.setString(4, orderDetail.getProductCategory().getId());
+            result = preparedStatement.executeUpdate() == 1;
 
             DBConnection.dbConnection.commit();
         } catch (SQLException e) {
@@ -54,17 +59,33 @@ public class OrderDetailMapper extends DataMapper{
         return result;
     }
 
+    /**
+     * delete an order detail(not allowed)
+     * @param domainObject OrderDetail
+     * @return false
+     */
     @Override
-    public boolean delete(DomainObject domainObject){
+    public boolean delete(DomainObject domainObject) {
         return false;
     }
 
+    /**
+     * update an order detail(not allowed)
+     * @param domainObject OrderDetail
+     * @return false
+     */
     @Override
     public boolean update(DomainObject domainObject) {
         return false;
     }
 
-    public List<OrderDetail> findOrderDetailByOrderId(DomainObject domainObject){
+    /**
+     * find order Details by order id
+     *
+     * @param domainObject order details
+     * @return a list of orderDetail object or null
+     */
+    public List<OrderDetail> findOrderDetailByOrderId(DomainObject domainObject) {
         Order order = (Order) domainObject;
         String findOrderById = "SELECT * FROM public.order_detail WHERE order_id = ?";
         try {
@@ -79,7 +100,7 @@ public class OrderDetailMapper extends DataMapper{
                 order1.setOrderId(resultSet.getString(1));
                 orderDetail1.setOrder(new OrderService().findOrderById(order1));
 
-                Product product=  new Product();
+                Product product = new Product();
                 product.setProductId(resultSet.getString(2));
                 orderDetail1.setProduct(new ProductService().findProductByID(product));
 

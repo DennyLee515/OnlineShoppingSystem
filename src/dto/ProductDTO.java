@@ -7,6 +7,12 @@ import domain.Product;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @program: CoffeeWeb
+ * @description: Product Data transfer object
+ * @author: DennyLee
+ * @create: 2019-10-10 00:35
+ **/
 public class ProductDTO {
 
     //product id
@@ -23,7 +29,7 @@ public class ProductDTO {
     private Date createdAt;
     //product inventory
     private int inventory;
-
+    //categoryDTOs of category the product has
     private List<CategoryDTO> categoryDTO;
 
 
@@ -92,13 +98,15 @@ public class ProductDTO {
         this.categoryDTO = categoryDTO;
     }
 
-    public static String serialize(ProductDTO productDTO){
+    //serialize method
+    public static String serialize(ProductDTO productDTO) {
         Gson gson = new Gson();
         return gson.toJson(productDTO);
 
     }
 
-    public static ProductDTO deserialize(String jsonString){
+    //deserialize method
+    public static ProductDTO deserialize(String jsonString) {
         Gson gson = new Gson();
         return gson.fromJson(jsonString, ProductDTO.class);
     }

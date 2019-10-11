@@ -7,7 +7,7 @@ import domain.Category;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: CartDetail Data transfer object
  * @author: DennyLee
  * @create: 2019-10-10 00:36
  **/

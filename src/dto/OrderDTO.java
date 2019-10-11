@@ -5,24 +5,32 @@ import com.google.gson.Gson;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @program: CoffeeWeb
+ * @description: Order Data transfer object
+ * @author: DennyLee
+ * @create: 2019-10-10 00:35
+ **/
 public class OrderDTO {
 
+    //id
     private String orderId;
-
-    private String orderedById;
-
+    //customer who ordered the id
+    private CustomerDTO orderedBy;
+    //total price
     private double totalPrice;
-
-    private Date time;
-
+    //order time
+    private Date orderTime;
+    //address
     private String address;
-
+    //status
     private String status;
-
+    //update time
     private Date updateTime;
-
+    //orderDetailDTOs of order details in the order
     private List<OrderDetailDTO> orderDetails;
 
+    //getter and setter method
     public String getOrderId() {
         return orderId;
     }
@@ -31,12 +39,12 @@ public class OrderDTO {
         this.orderId = orderId;
     }
 
-    public String getCustomer() {
-        return orderedById;
+    public CustomerDTO getCustomerDTO() {
+        return orderedBy;
     }
 
-    public void setCustomer(String customer) {
-        this.orderedById = customer;
+    public void setCustomerDTO(CustomerDTO customer) {
+        this.orderedBy = customer;
     }
 
     public double getTotalPrice() {
@@ -47,12 +55,12 @@ public class OrderDTO {
         this.totalPrice = totalPrice;
     }
 
-    public Date getTime() {
-        return time;
+    public Date getOrderTime() {
+        return orderTime;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setOrderTime(Date orderTime) {
+        this.orderTime = orderTime;
     }
 
     public String getAddress() {
@@ -87,13 +95,15 @@ public class OrderDTO {
         this.orderDetails = orderDetails;
     }
 
-    public static String serialize(OrderDTO orderDTO){
+    //serialize method
+    public static String serialize(OrderDTO orderDTO) {
         Gson gson = new Gson();
         return gson.toJson(orderDTO);
 
     }
 
-    public static OrderDTO deserialize(String jsonString){
+    //deserialize method
+    public static OrderDTO deserialize(String jsonString) {
         Gson gson = new Gson();
         return gson.fromJson(jsonString, OrderDTO.class);
     }

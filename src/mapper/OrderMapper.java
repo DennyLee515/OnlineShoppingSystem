@@ -22,8 +22,13 @@ import java.util.List;
  * @create: 2019-09-02 23:55
  **/
 
-// TODO: Implement in feature 2
 public class OrderMapper extends DataMapper {
+    /**
+     * insert an order
+     *
+     * @param domainObject Order
+     * @return result
+     */
     @Override
     public boolean insert(DomainObject domainObject) {
         Order order = (Order) domainObject;
@@ -60,6 +65,12 @@ public class OrderMapper extends DataMapper {
         return result;
     }
 
+    /**
+     * delete an order
+     *
+     * @param domainObject Order
+     * @return result
+     */
     @Override
     public boolean delete(DomainObject domainObject) {
         Order order = (Order) domainObject;
@@ -88,6 +99,12 @@ public class OrderMapper extends DataMapper {
         return result;
     }
 
+    /**
+     * update an order
+     *
+     * @param domainObject Order
+     * @return result
+     */
     @Override
     public boolean update(DomainObject domainObject) {
         Order order = (Order) domainObject;
@@ -125,6 +142,12 @@ public class OrderMapper extends DataMapper {
         return result;
     }
 
+    /**
+     * find a order by order ID
+     *
+     * @param domainObject Order
+     * @return Order object or null
+     */
     public Order findOrderById(DomainObject domainObject) {
         Order order = (Order) domainObject;
         String findOrderById = "SELECT * FROM public.order WHERE order_id = ?";
@@ -155,6 +178,12 @@ public class OrderMapper extends DataMapper {
         return null;
     }
 
+    /**
+     * find a order by user Id
+     *
+     * @param domainObject Order
+     * @return Order object or null
+     */
     public List<Order> findOrderByUser(DomainObject domainObject) {
         Customer customer = (Customer) domainObject;
         String findOrderById = "SELECT * FROM public.order WHERE user_id = ?";
@@ -187,6 +216,11 @@ public class OrderMapper extends DataMapper {
         return null;
     }
 
+    /**
+     * get all orders
+     *
+     * @return a list of order object or null
+     */
     public List<Order> getAllOrders() {
         String findOrderById = "SELECT * FROM public.order";
         List<Order> result = new ArrayList<>();

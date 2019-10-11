@@ -17,10 +17,11 @@ public class CustomerAssembler {
 
     /**
      * create CustomerDTO from customer
+     *
      * @param customer Customer
      * @return CustomerDTO
      */
-    public static CustomerDTO createCustomerDTO(Customer customer){
+    public static CustomerDTO createCustomerDTO(Customer customer) {
         CustomerDTO result = new CustomerDTO();
         result.setCustomerId(customer.getId());
         result.setUsername(customer.getUsername());
@@ -33,7 +34,13 @@ public class CustomerAssembler {
         return result;
     }
 
-    public static boolean createCustomer(CustomerDTO customerDTO){
+    /**
+     * add customer from remote call
+     *
+     * @param customerDTO Customer DTO
+     * @return result
+     */
+    public static boolean createCustomer(CustomerDTO customerDTO) {
         Customer customer = new Customer();
 
         customer.setUserId(customerDTO.getCustomerId());
@@ -48,7 +55,13 @@ public class CustomerAssembler {
         return new CustomerService().insertUser(customer);
     }
 
-    public static boolean updateCustomer(CustomerDTO customerDTO){
+    /**
+     * update customer from remote call
+     *
+     * @param customerDTO Customer DTO
+     * @return result
+     */
+    public static boolean updateCustomer(CustomerDTO customerDTO) {
         Customer customer = new Customer();
 
         customer.setUserId(customerDTO.getCustomerId());
@@ -60,10 +73,16 @@ public class CustomerAssembler {
         customer.setUserEmail(customerDTO.getUserEmail());
         customer.setAddress(customerDTO.getAddress());
 
-       return new CustomerService().updateUser(customer);
+        return new CustomerService().updateUser(customer);
     }
 
-    public static boolean deleteCustomer(CustomerDTO customerDTO){
+    /**
+     * delete customer from remote call
+     *
+     * @param customerDTO Customer DTO
+     * @return result
+     */
+    public static boolean deleteCustomer(CustomerDTO customerDTO) {
         Customer customer = new Customer();
 
         customer.setUserId(customerDTO.getCustomerId());
@@ -75,7 +94,7 @@ public class CustomerAssembler {
         customer.setUserEmail(customerDTO.getUserEmail());
         customer.setAddress(customerDTO.getAddress());
 
-       return new CustomerService().deleteUser(customer);
+        return new CustomerService().deleteUser(customer);
     }
 
 }

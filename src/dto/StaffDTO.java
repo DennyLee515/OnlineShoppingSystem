@@ -7,21 +7,31 @@ import java.util.Date;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Staff Data transfer object
  * @author: DennyLee
- * @create: 2019-10-10 01:25
+ * @create: 2019-10-10 00:35
  **/
 public class StaffDTO {
+    //username
     private String username;
+    //password
     private String password;
+    //id
     private String id;
+    //start date
     private Date startDate;
+    //end date
     private Date endDate;
+    //manager email
     private String managerEmail;
+    //clerk first name
     private String clerkFirstname;
+    //clerk last name
     private String clerkLastname;
+    //staff type
     private String type;
 
+    //getter and setter methods
     public String getUsername() {
         return username;
     }
@@ -94,13 +104,15 @@ public class StaffDTO {
         this.type = type;
     }
 
-    public static String serialize(StaffDTO staffDTO){
+    //serialize method
+    public static String serialize(StaffDTO staffDTO) {
         Gson gson = new Gson();
         return gson.toJson(staffDTO);
 
     }
 
-    public static StaffDTO deserialize(String jsonString){
+    //deserialize method
+    public static StaffDTO deserialize(String jsonString) {
         Gson gson = new Gson();
         return gson.fromJson(jsonString, StaffDTO.class);
     }

@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * @program: CoffeeWeb
- * @description: Customer object
+ * @description: Customer data transfer object
  * @author: DennyLee
  * @create: 2019-09-01 19:31
  **/
@@ -30,6 +30,7 @@ public class CustomerDTO {
     //user address
     private String address;
 
+    //getter and setter method
     public String getCustomerId() {
         return customerId;
     }
@@ -94,13 +95,15 @@ public class CustomerDTO {
         this.address = address;
     }
 
-    public static String serialize(CustomerDTO customerDTO){
+    //serialize method
+    public static String serialize(CustomerDTO customerDTO) {
         Gson gson = new Gson();
         return gson.toJson(customerDTO);
 
     }
 
-    public static CustomerDTO deserialize(String jsonString){
+    //deserialize method
+    public static CustomerDTO deserialize(String jsonString) {
         Gson gson = new Gson();
         return gson.fromJson(jsonString, CustomerDTO.class);
     }

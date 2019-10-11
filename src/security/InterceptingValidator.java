@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
  **/
 public class InterceptingValidator {
 
+    //regular expression
+    //check common sql keyword
     private static String reg = "(?:')|(?:--)|(/\\*(?:.|[\\n\\r])*?\\*/)|"
             + "(\\b(select|update|union|and|or|delete|insert|trancate|char|substr|ascii|declare|exec|count|master|into|drop|execute)\\b)";
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: Cart Data transfer object
  * @author: DennyLee
  * @create: 2019-10-10 00:35
  **/
@@ -46,14 +46,14 @@ public class CartDTO {
     }
 
     //serialize method
-    public static String serialize(CartDTO cartDTO){
+    public static String serialize(CartDTO cartDTO) {
         Gson gson = new Gson();
         return gson.toJson(cartDTO);
 
     }
 
     //deserialize method
-    public static CartDTO deserialize(String jsonString){
+    public static CartDTO deserialize(String jsonString) {
         Gson gson = new Gson();
         return gson.fromJson(jsonString, CartDTO.class);
     }

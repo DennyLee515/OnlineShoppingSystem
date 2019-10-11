@@ -4,19 +4,22 @@ import com.google.gson.Gson;
 
 /**
  * @program: CoffeeWeb
- * @description:
+ * @description: OrderDetail data transfer object
  * @author: DennyLee
  * @create: 2019-10-09 23:04
  **/
 public class OrderDetailDTO {
 
-
+    //product dto of product in order detail
     private ProductDTO product;
 
-    private  int amount;
+    //quantity
+    private int amount;
 
+    //category dto of product in order detail
     private CategoryDTO category;
 
+    //setter and getter methods
     public ProductDTO getProduct() {
         return product;
     }
@@ -41,13 +44,15 @@ public class OrderDetailDTO {
         this.category = category;
     }
 
-    public static String serialize(OrderDetailDTO orderDetailDTO){
+    //serialize method
+    public static String serialize(OrderDetailDTO orderDetailDTO) {
         Gson gson = new Gson();
         return gson.toJson(orderDetailDTO);
 
     }
 
-    public static OrderDetailDTO deserialize(String jsonString){
+    //deserialize method
+    public static OrderDetailDTO deserialize(String jsonString) {
         Gson gson = new Gson();
         return gson.fromJson(jsonString, OrderDetailDTO.class);
     }

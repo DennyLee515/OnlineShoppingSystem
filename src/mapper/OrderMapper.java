@@ -186,7 +186,7 @@ public class OrderMapper extends DataMapper {
      */
     public List<Order> findOrderByUser(DomainObject domainObject) {
         Customer customer = (Customer) domainObject;
-        String findOrderById = "SELECT * FROM public.order WHERE user_id = ?";
+        String findOrderById = "SELECT * FROM public.order WHERE user_id = ? ORDER BY update_time DESC";
         List<Order> result = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(findOrderById);
@@ -222,7 +222,7 @@ public class OrderMapper extends DataMapper {
      * @return a list of order object or null
      */
     public List<Order> getAllOrders() {
-        String findOrderById = "SELECT * FROM public.order";
+        String findOrderById = "SELECT * FROM public.order ORDER BY update_time DESC";
         List<Order> result = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = DBConnection.prepare(findOrderById);

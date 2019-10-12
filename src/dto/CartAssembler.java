@@ -75,6 +75,9 @@ public class CartAssembler {
             Product product = new Product();
             product.setProductId(cartDetailDTO.getProductDTO().getProductId());
             cartDetail.setProduct(new ProductService().findProductByID(product));
+            Category category = new Category();
+            category.setCategoryId(cartDetailDTO.getCategoryDTO().getCategoryId());
+            cartDetail.setCategory(category);
             cartDetail.setProductAmount(cartDetailDTO.getAmount());
             cartDetail.setTotalPrice(cartDetailDTO.getTotalPrice());
             result = result && new CartService().insertCartDetail(cartDetail);

@@ -3,6 +3,8 @@ package domain;/**
  */
 
 import mapper.CustomerMapper;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 
 import java.util.Date;
 import java.util.UUID;
@@ -42,7 +44,9 @@ public class Customer extends DomainObject {
         this.uFname = uFname;
         this.uLname = uLname;
         this.username = username;
-        this.uPassword = uPassword;
+        ByteSource salt = ByteSource.Util.bytes(username);
+        String encryptedPassword = new SimpleHash("MD5", uPassword, salt, 1024).toHex();
+        this.uPassword = encryptedPassword;
         this.birthday = birthday;
         this.userEmail = userEmail;
         this.address = address;

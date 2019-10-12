@@ -62,12 +62,12 @@ public class test {
 
 //            Category category =new Category();
 //            category.setCategoryId("d40a490e-c242-441a-8a44-e1b4550c15ca");
-String username = "manager";
-String password = "password";
-            ByteSource salt = ByteSource.Util.bytes(username);
-            String encryptedPassword = new SimpleHash("MD5", password, salt, 1024).toHex();
-            Manager manager = new Manager(username,encryptedPassword,"manager@email.com");
-            new StaffService().insert(manager);
+//String username = "manager";
+//String password = "password";
+//            ByteSource salt = ByteSource.Util.bytes(username);
+//            String encryptedPassword = new SimpleHash("MD5", password, salt, 1024).toHex();
+//            Manager manager = new Manager(username,encryptedPassword,"manager@email.com");
+//            new StaffService().insert(manager);
 //            CategoryService categoryService = new CategoryService();
 //            System.out.println(categoryService.findCategroyById(category));
 
@@ -99,7 +99,7 @@ String password = "password";
 //            System.out.println(staff2);
 //            staffMapper.insert(manager);
 //            staffMapper.insert(clerk);
-//            System.out.println(new OrderServiceBean().findOrderById("bde2e64a-8907-4831-a368-4427f5975fcb"));
+            System.out.println(new OrderServiceBean().findOrderById("d147ea0b-cb03-420a-b6d6-52058b4a8a3e"));
 //            Category category = new Category("Medium Roast");
 //            System.out.println(new CategoryService().newCategory(category));
 //            System.out.println(staffMapper.delete(staff));

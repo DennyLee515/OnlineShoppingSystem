@@ -37,10 +37,7 @@ public class RegisterCommand extends FrontCommand {
             e.printStackTrace();
         }
 
-        ByteSource salt = ByteSource.Util.bytes(username);
-        String encryptedPassword = new SimpleHash("MD5", password, salt, 1024).toHex();
-
-        Customer customer = new Customer(firstname, lastname, username, encryptedPassword, birthday, email,
+        Customer customer = new Customer(firstname, lastname, username, password, birthday, email,
                 address);
         CustomerService userService = new CustomerService();
         userService.insertUser(customer);

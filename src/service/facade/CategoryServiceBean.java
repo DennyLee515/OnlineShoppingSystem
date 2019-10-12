@@ -15,15 +15,6 @@ public class CategoryServiceBean {
 
     //decide granularity: getAll, find, update???
 
-    //remote call findCategoryByName service
-    public String findCategoryByName(String name) throws RemoteException {
-        Category category = new Category();
-        category.setCategoryName(name);
-        CategoryDTO categoryDTO =
-                CategoryAssembler.createCategoryDTO(new CategoryService().findCategoryByName(category));
-        return CategoryDTO.serialize(categoryDTO);
-    }
-
     //remote call findCategoryById service
     public String findCategoryByID(String id) throws RemoteException {
         Category category = new Category();

@@ -60,8 +60,11 @@ public class ProductAssebler {
         product.setWeight(productDTO.getWeight());
         product.setCreatedAt(new Date());
         product.setInventory(productDTO.getInventory());
-
-        return new ProductService().insertProduct(product);
+        boolean result = updateProductCategoryRelation(product, productDTO.getCategoryDTO());
+        if (result)
+            return new ProductService().insertProduct(product);
+        else
+            return false;
     }
 
     /**
@@ -80,8 +83,11 @@ public class ProductAssebler {
         product.setWeight(productDTO.getWeight());
         product.setCreatedAt(new Date());
         product.setInventory(productDTO.getInventory());
-
-        return new ProductService().updateProduct(product);
+        boolean result = updateProductCategoryRelation(product, productDTO.getCategoryDTO());
+        if (result)
+            return new ProductService().updateProduct(product);
+        else
+            return false;
     }
 
     /**
@@ -102,5 +108,22 @@ public class ProductAssebler {
         product.setInventory(productDTO.getInventory());
 
         return new ProductService().deleteProduct(product);
+    }
+
+    /**
+     * update product and category relations by remote call
+     * @param product Product
+     * @param categoryDTOs list of category dto
+     * @return result
+     */
+    private static boolean updateProductCategoryRelation(Product product, List<CategoryDTO> categoryDTOs) {
+        ProductService productService = new ProductService();
+        boolean result = productService.deleteAllRelations(product);
+        for (CategoryDTO categoryDTO : categoryDTOs) {
+            Category category = new Category();
+            category.setCategoryId(categoryDTO.getCategoryId());
+            result = result && productService.addRelation(product, category);
+        }
+        return result;
     }
 }
